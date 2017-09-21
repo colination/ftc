@@ -168,5 +168,7 @@ public class ProtoOpMode_Linear extends LinearOpMode {
             telemetry.addData("Back Motors ", "left (%.2f), right (%.2f)", bLPower, bRPower);
             telemetry.update();
         }
+        telemetry.addData("Status", "STOPPED Time: " + runtime.toString());
+        telemetry.update();
     }
 }
