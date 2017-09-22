@@ -139,16 +139,16 @@ public class ProtoOpMode_Linear extends LinearOpMode {
             else {
                 //tank mode
                 if(Math.abs(stickLY) > stickCenterThreshold){
-                    fLPower = speed;
-                    bLPower = speed;
+                    fLPower = stickLY;
+                    bLPower = stickLY;
                 }
                 else{
                     fLPower = 0;
                     bLPower = 0;
                 }
                 if(Math.abs(stickRY) > stickCenterThreshold){
-                    fRPower = speed;
-                    bRPower = speed;
+                    fRPower = stickRY;
+                    bRPower = stickRY;
                 }
                 else{
                     fRPower = 0;
