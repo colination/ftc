@@ -53,13 +53,15 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="Proto: Linear OpMode", group="Linear Opmode")
 //@Disabled
 public class ProtoOpMode_Linear extends LinearOpMode {
-
+//ideas: variable strafe speed on other joystick, lock in tread speed in tank mode
     // Declare OpMode members.
+    HardwareProtobot   robot   = new HardwareProtobot();   // Use a Pushbot's hardware
+
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor fLMotor = null;
-    private DcMotor bLMotor = null;
-    private DcMotor fRMotor = null;
-    private DcMotor bRMotor = null;
+    //private DcMotor fLMotor = null;
+    //private DcMotor bLMotor = null;
+    //private DcMotor fRMotor = null;
+    //private DcMotor bRMotor = null;
 
     private double speed = .5;
     private double stickCenterThreshold = .1;
@@ -70,21 +72,21 @@ public class ProtoOpMode_Linear extends LinearOpMode {
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
+        robot.init(hardwareMap);
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        fLMotor  = hardwareMap.get(DcMotor.class, "FLdrive");
-        bLMotor = hardwareMap.get(DcMotor.class, "BLdrive");
-        fRMotor  = hardwareMap.get(DcMotor.class, "FRdrive");
-        bRMotor = hardwareMap.get(DcMotor.class, "BRdrive");
+        //fLMotor  = hardwareMap.get(DcMotor.class, "FLdrive");
+        //bLMotor = hardwareMap.get(DcMotor.class, "BLdrive");
+        //fRMotor  = hardwareMap.get(DcMotor.class, "FRdrive");
+        //bRMotor = hardwareMap.get(DcMotor.class, "BRdrive");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        fLMotor.setDirection(DcMotor.Direction.FORWARD);
-        bLMotor.setDirection(DcMotor.Direction.FORWARD);
-        fRMotor.setDirection(DcMotor.Direction.REVERSE);
-        bRMotor.setDirection(DcMotor.Direction.REVERSE);
+        //fLMotor.setDirection(DcMotor.Direction.FORWARD);
+        //bLMotor.setDirection(DcMotor.Direction.FORWARD);
+        //fRMotor.setDirection(DcMotor.Direction.REVERSE);
+        //bRMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -123,49 +125,50 @@ public class ProtoOpMode_Linear extends LinearOpMode {
             if(stickLX <= -stickPushLarge && stickRX <= -stickPushLarge
                     && Math.abs(stickLY) <= stickPushSmall && Math.abs(stickRY) <= stickPushSmall){
                 //strafe left
-                fLPower = speed;
+                robot.navStrafe(speed, true);
+                /*fLPower = speed;
                 bRPower = speed;
                 bLPower = -speed;
-                fRPower = -speed;
+                fRPower = -speed;*/
             }
             else if(stickLX >= stickPushLarge && stickRX >= stickPushLarge
                     && Math.abs(stickLY) <= stickPushSmall && Math.abs(stickRY) <= stickPushSmall){
                 //strafe right
-                fLPower = -speed;
+                robot.navStrafe(speed, false);
+                /*fLPower = -speed;
                 bRPower = -speed;
                 bLPower = speed;
-                fRPower = speed;
+                fRPower = speed;*/
             }
             else {
                 //tank mode
+                double leftSpeed = 0;
+                double rightSpeed = 0;
+
                 if(Math.abs(stickLY) > stickCenterThreshold){
-                    fLPower = stickLY;
-                    bLPower = stickLY;
-                }
-                else{
-                    fLPower = 0;
-                    bLPower = 0;
+                    leftSpeed = stickLY;
+                    //fLPower = stickLY;
+                    //bLPower = stickLY;
                 }
                 if(Math.abs(stickRY) > stickCenterThreshold){
-                    fRPower = stickRY;
-                    bRPower = stickRY;
+                    //fRPower = stickRY;
+                    //bRPower = stickRY;
+                    rightSpeed = stickRY;
                 }
-                else{
-                    fRPower = 0;
-                    bRPower = 0;
-                }
+                robot.navTank(leftSpeed, rightSpeed);
             }
 
             // Send calculated power to wheels
-            fLMotor.setPower(fLPower);
+            /*fLMotor.setPower(fLPower);
             fRMotor.setPower(fRPower);
             bLMotor.setPower(bLPower);
-            bRMotor.setPower(bRPower);
+            bRMotor.setPower(bRPower);*/
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Front Motors", "left (%.2f), right (%.2f)", fLPower, fRPower);
-            telemetry.addData("Back Motors ", "left (%.2f), right (%.2f)", bLPower, bRPower);
+            //robot.navTelemetry();
+            telemetry.addData("Front Motors", "left (%.2f), right (%.2f)", robot.fLPower, robot.fRPower);
+            telemetry.addData("Back Motors ", "left (%.2f), right (%.2f)", robot.bLPower, robot.bRPower);
             telemetry.update();
         }
         telemetry.addData("Status", "STOPPED Time: " + runtime.toString());

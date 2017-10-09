@@ -54,18 +54,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class HardwareProtobot
 {
-    /* Public OpMode members. */
-    public DcMotor  leftDrive   = null;//bl 3 fl 1 br 2 ft0
-    public DcMotor  rightDrive  = null;
-    public Servo    arm         = null;
-    public Servo    claw        = null;
-
-    public final static double ARM_HOME = 0.2;
-    public final static double CLAW_HOME = 0.2;
-    public final static double ARM_MIN_RANGE  = 0.20;
-    public final static double ARM_MAX_RANGE  = 0.90;
-    public final static double CLAW_MIN_RANGE  = 0.20;
-    public final static double CLAW_MAX_RANGE  = 0.7;
+    /* Navigation related members */
+    /* Motors to each wheel - even though these are public accessible, there are higher level methods to control them */
+    public DcMotor fLMotor = null;
+    public DcMotor bLMotor = null;
+    public DcMotor fRMotor = null;
+    public DcMotor bRMotor = null;
+    public double fLPower = 0.0;
+    public double bLPower = 0.0;
+    public double fRPower = 0.0;
+    public double bRPower = 0.0;
 
     /* Local OpMode members. */
     HardwareMap hwMap  = null;
@@ -81,23 +79,62 @@ public class HardwareProtobot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftDrive  = hwMap.get(DcMotor.class, "left_drive");
-        rightDrive = hwMap.get(DcMotor.class, "right_drive");
-        leftDrive.setDirection(DcMotor.Direction.REVERSE);
+        fLMotor = hwMap.get(DcMotor.class, "FLdrive");
+        bLMotor = hwMap.get(DcMotor.class, "BLdrive");
+        fRMotor = hwMap.get(DcMotor.class, "FRdrive");
+        bRMotor = hwMap.get(DcMotor.class, "BRdrive");
+
+        fLMotor.setDirection(DcMotor.Direction.FORWARD);
+        bLMotor.setDirection(DcMotor.Direction.FORWARD);
+        fRMotor.setDirection(DcMotor.Direction.REVERSE);
+        bRMotor.setDirection(DcMotor.Direction.REVERSE);
+
 
         // Set all motors to zero power
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
+        fLMotor.setPower(fLPower);
+        fRMotor.setPower(fRPower);
+        bLMotor.setPower(bLPower);
+        bRMotor.setPower(bRPower);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Define and initialize ALL installed servos.
-        arm  = hwMap.get(Servo.class, "arm");
-        claw = hwMap.get(Servo.class, "claw");
-        arm.setPosition(ARM_HOME);
-        claw.setPosition(CLAW_HOME);
+        //arm  = hwMap.get(Servo.class, "arm");
+        //claw = hwMap.get(Servo.class, "claw");
+        //arm.setPosition(ARM_HOME);
+        //claw.setPosition(CLAW_HOME);
     }
+    /*public void encoderTank(int ticks, double timeOut) {
+        fLMotor.
+    }*/
+
+    public void navSetPower() {
+        fLMotor.setPower(fLPower);
+        fRMotor.setPower(fRPower);
+        bLMotor.setPower(bLPower);
+        bRMotor.setPower(bRPower);
+    }
+    public void navTank(double leftSpeed, double rightSpeed) {
+        fLPower = bLPower = leftSpeed;
+        fRPower = bRPower = rightSpeed;
+        navSetPower();
+    }
+    public void navStrafe(double speed, boolean isLeft){
+        if(isLeft == false){
+            speed = -speed;     // strafe right
+        }
+        fLPower = speed;
+        bRPower = speed;
+        bLPower = -speed;
+        fRPower = -speed;
+        navSetPower();
+    }
+    /*public void navTelemetry(){
+        telemetry.addData("Front Motors", "left (%.2f), right (%.2f)", fLPower, fRPower);
+        telemetry.addData("Back Motors ", "left (%.2f), right (%.2f)", bLPower, bRPower);
+        telemetry.update();
+    }*/
 }
