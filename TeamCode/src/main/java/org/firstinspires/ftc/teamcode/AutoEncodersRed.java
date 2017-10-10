@@ -121,8 +121,8 @@ public class AutoEncodersRed extends LinearOpMode {
         //encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
         //encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
 
-        // robot.navStrafe(.5, false);
-       // robot.
+        encoderDrive(DRIVE_SPEED,-11.0 ,11.0 ,11.0 ,-11.0 ,10.0);
+
 
         //robot.leftClaw.setPosition(1.0);            // S4: Stop and close the claw.
         //robot.rightClaw.setPosition(0.0);
@@ -141,28 +141,38 @@ public class AutoEncodersRed extends LinearOpMode {
      *  3) Driver stops the opmode running.
      */
     public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
+                             double fLInches, double fRInches, double bLInches, double bRInches,
                              double timeoutS) {
-        int newLeftTarget;
-        int newRightTarget;
+        int newFLTarget;
+        int newFRTarget;
+        int newBLTarget;
+        int newBRTarget;
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = robot.leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = robot.rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            robot.leftDrive.setTargetPosition(newLeftTarget);
-            robot.rightDrive.setTargetPosition(newRightTarget);
+            newFLTarget = robot.fLMotor.getCurrentPosition() + (int)(fLInches * COUNTS_PER_INCH);
+            newFRTarget = robot.fRMotor.getCurrentPosition() + (int)(fRInches * COUNTS_PER_INCH);
+            newBLTarget = robot.bLMotor.getCurrentPosition() + (int)(bLInches * COUNTS_PER_INCH);
+            newBRTarget = robot.bRMotor.getCurrentPosition() + (int)(bRInches * COUNTS_PER_INCH);
+            robot.fLMotor.setTargetPosition(newFLTarget);
+            robot.fRMotor.setTargetPosition(newFRTarget);
+            robot.bLMotor.setTargetPosition(newBLTarget);
+            robot.bRMotor.setTargetPosition(newBRTarget);
 
             // Turn On RUN_TO_POSITION
-            robot.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.fLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.fRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.bLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.bRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
-            robot.leftDrive.setPower(Math.abs(speed));
-            robot.rightDrive.setPower(Math.abs(speed));
+            robot.fLMotor.setPower(Math.abs(speed));
+            robot.fRMotor.setPower(Math.abs(speed));
+            robot.bLMotor.setPower(Math.abs(speed));
+            robot.bRMotor.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -172,23 +182,29 @@ public class AutoEncodersRed extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                    (runtime.seconds() < timeoutS) &&
-                   (robot.leftDrive.isBusy() && robot.rightDrive.isBusy())) {
+                   (robot.fLMotor.isBusy() && robot.fRMotor.isBusy() && robot.bLMotor.isBusy() && robot.bRMotor.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+                telemetry.addData("Path1",  "Running to %7d :%7d", newFLTarget,  newFRTarget, newBLTarget, newBRTarget);
                 telemetry.addData("Path2",  "Running at %7d :%7d",
-                                            robot.leftDrive.getCurrentPosition(),
-                                            robot.rightDrive.getCurrentPosition());
+                                            robot.fLMotor.getCurrentPosition(),
+                                            robot.fRMotor.getCurrentPosition(),
+                                            robot.bLMotor.getCurrentPosition(),
+                                            robot.bRMotor.getCurrentPosition());
                 telemetry.update();
             }
 
             // Stop all motion;
-            robot.leftDrive.setPower(0);
-            robot.rightDrive.setPower(0);
+            robot.fLMotor.setPower(0);
+            robot.fRMotor.setPower(0);
+            robot.bLMotor.setPower(0);
+            robot.bRMotor.setPower(0);
 
             // Turn off RUN_TO_POSITION
-            robot.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.fLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.fRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.bLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.bRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move
         }
