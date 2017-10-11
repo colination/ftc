@@ -38,6 +38,14 @@ public class BlueAuto extends LinearOpMode {
 
     VuforiaLocalizer vuforia;
 
+
+    static final double     COUNTS_PER_MOTOR_REV    = 2240 ;     //REV 41 1301 Encoders
+    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     DRIVE_SPEED             = 0.5;
+    static final double     TURN_SPEED              = 0.5;
+
     static final double COUNTS_PER_MOTOR_REV = 2240;
 
     public void runOpMode(){
@@ -156,11 +164,33 @@ public class BlueAuto extends LinearOpMode {
 
     }
 
-    public void motorMove(double speed){
-        motorFR.setPower(speed);
-        motorFL.setPower(speed);
-        motorBR.setPower(speed);
-        motorBL.setPower(speed);
+    public void motorEncoder(double speed, double inchesFR, double inchesFL, double inchesBR, double inchesBL){
+
+        int newFLTarget;
+        int newFRTarget;
+        int newBLTarget;
+        int newBRTarget;
+
+        newFLTarget = motorFL.getCurrentPosition() + (int)(inchesFL * COUNTS_PER_INCH);
+        newFRTarget = motorFR.getCurrentPosition() + (int)(inchesFR * COUNTS_PER_INCH);
+        newBLTarget = motorBL.getCurrentPosition() + (int)(inchesBL * COUNTS_PER_INCH);
+        newBRTarget = motorFR.getCurrentPosition() + (int)(inchesBR * COUNTS_PER_INCH);
+        motorFL.setTargetPosition(newFLTarget);
+        motorFR.setTargetPosition(newFRTarget);
+        motorBL.setTargetPosition(newBLTarget);
+        motorBR.setTargetPosition(newBRTarget);
+
+        // Turn On RUN_TO_POSITION
+        motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        motorFL.setPower(Math.abs(speed));
+        motorFR.setPower(Math.abs(speed));
+        motorBL.setPower(Math.abs(speed));
+        motorBR.setPower(Math.abs(speed));
+
 
     }
 

@@ -123,7 +123,6 @@ public class AutoEncodersRed extends LinearOpMode {
 
         encoderDrive(DRIVE_SPEED,-11.0 ,11.0 ,11.0 ,-11.0 ,10.0);
 
-
         //robot.leftClaw.setPosition(1.0);            // S4: Stop and close the claw.
         //robot.rightClaw.setPosition(0.0);
         sleep(1000);     // pause for servos to move
