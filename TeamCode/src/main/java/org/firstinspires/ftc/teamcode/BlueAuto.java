@@ -46,8 +46,6 @@ public class BlueAuto extends LinearOpMode {
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.5;
 
-    static final double COUNTS_PER_MOTOR_REV = 2240;
-
     public void runOpMode(){
 
         time.reset();
@@ -108,18 +106,18 @@ public class BlueAuto extends LinearOpMode {
 
             if ((jewelColor.red() < 10 || jewelColor.red() > 25)) // replace 0 with value when color sensor reads a jewel (senses blue)
             {
-               motorMove(0);
+               motorStop();
 
             }
 
             // color sense one jewel and knock off the opposite color (SensorTest.java)
             if (jewelColor.red() < 10) // blue value
             {   // insert while(time < 0.5 seconds)
-                motorMove(0.5);
+                motorEncoder(0.5, 5, 5, 5, 5);
             }
 
             else {
-                motorMove(0.5);
+                motorEncoder(0.5, 5, 5, 5, 5);
             }
 
             // put arm back in
@@ -129,27 +127,27 @@ public class BlueAuto extends LinearOpMode {
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
             while (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-                motorMove(0.5);
+                motorEncoder(0.5, 5, 5, 5, 5);
             }
 
-            motorMove(0);
+            motorStop();
 
             // get to the square based on the distance values
             if (vuMark.equals("LEFT")){
-                motorMove(0);
+                motorStop();
             }
 
             else if (vuMark.equals("RIGHT")) {
-                motorMove(0);
+                motorStop();
             }
 
             else if (vuMark.equals("CENTER"))
             {
-                motorMove(0);
+                motorStop();
             }
 
             // move forward
-            motorMove(0.5); // measure distance later based on encoder tickets or use time value
+            motorEncoder(0.5, 5, 5, 5, 5); // measure distance later based on encoder tickets or use time value
 
 
             // place glyph in correct section
@@ -192,6 +190,13 @@ public class BlueAuto extends LinearOpMode {
         motorBR.setPower(Math.abs(speed));
 
 
+    }
+
+    public void motorStop() {
+        motorFR.setPower(0);
+        motorBR.setPower(0);
+        motorFL.setPower(0);
+        motorBL.setPower(0);
     }
 
     public void manipMove(double speed){

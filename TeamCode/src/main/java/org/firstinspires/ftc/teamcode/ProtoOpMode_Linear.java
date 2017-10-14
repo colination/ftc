@@ -51,7 +51,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="Proto: Linear OpMode", group="Linear Opmode")
-//@Disabled
+@Disabled
 public class ProtoOpMode_Linear extends LinearOpMode {
 //ideas: variable strafe speed on other joystick, lock in tread speed in tank mode
     // Declare OpMode members.

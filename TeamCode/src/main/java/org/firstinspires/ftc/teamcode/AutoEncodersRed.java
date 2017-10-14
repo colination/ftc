@@ -29,7 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+/*import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -64,12 +64,14 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
+/*
 @Autonomous(name="Pushbot: Auto Drive By Encoder", group="Pushbot")
 @Disabled
 public class AutoEncodersRed extends LinearOpMode {
 
     /* Declare OpMode members. */
     //HardwarePushbot         robot   = new HardwarePushbot();   // Use a Pushbot's hardware
+/*
     HardwareProtobot    robot = new HardwareProtobot();
     private ElapsedTime     runtime = new ElapsedTime();
 
@@ -88,6 +90,7 @@ public class AutoEncodersRed extends LinearOpMode {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
+/*
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
@@ -139,6 +142,8 @@ public class AutoEncodersRed extends LinearOpMode {
      *  2) Move runs out of time
      *  3) Driver stops the opmode running.
      */
+
+/*
     public void encoderDrive(double speed,
                              double fLInches, double fRInches, double bLInches, double bRInches,
                              double timeoutS) {
@@ -209,3 +214,4 @@ public class AutoEncodersRed extends LinearOpMode {
         }
     }
 }
+*/

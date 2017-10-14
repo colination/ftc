@@ -56,10 +56,10 @@ public class HardwareProtobot
 {
     /* Navigation related members */
     /* Motors to each wheel - even though these are public accessible, there are higher level methods to control them */
-    public DcMotor fLMotor = null;
-    public DcMotor bLMotor = null;
-    public DcMotor fRMotor = null;
-    public DcMotor bRMotor = null;
+    public DcMotor motorFL = null;
+    public DcMotor motorBL = null;
+    public DcMotor motorFR = null;
+    public DcMotor motorBR = null;
     public double fLPower = 0.0;
     public double bLPower = 0.0;
     public double fRPower = 0.0;
@@ -79,22 +79,22 @@ public class HardwareProtobot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        fLMotor = hwMap.get(DcMotor.class, "FLdrive");
-        bLMotor = hwMap.get(DcMotor.class, "BLdrive");
-        fRMotor = hwMap.get(DcMotor.class, "FRdrive");
-        bRMotor = hwMap.get(DcMotor.class, "BRdrive");
+        motorFL = hwMap.get(DcMotor.class, "FLdrive");
+        motorBL = hwMap.get(DcMotor.class, "BLdrive");
+        motorFR = hwMap.get(DcMotor.class, "FRdrive");
+        motorBR = hwMap.get(DcMotor.class, "BRdrive");
 
-        fLMotor.setDirection(DcMotor.Direction.FORWARD);
-        bLMotor.setDirection(DcMotor.Direction.FORWARD);
-        fRMotor.setDirection(DcMotor.Direction.REVERSE);
-        bRMotor.setDirection(DcMotor.Direction.REVERSE);
+        motorFL.setDirection(DcMotor.Direction.FORWARD);
+        motorBL.setDirection(DcMotor.Direction.FORWARD);
+        motorFR.setDirection(DcMotor.Direction.REVERSE);
+        motorBR.setDirection(DcMotor.Direction.REVERSE);
 
 
         // Set all motors to zero power
-        fLMotor.setPower(fLPower);
-        fRMotor.setPower(fRPower);
-        bLMotor.setPower(bLPower);
-        bRMotor.setPower(bRPower);
+        motorFL.setPower(fLPower);
+        motorFR.setPower(fRPower);
+        motorBL.setPower(bLPower);
+        motorBR.setPower(bRPower);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
@@ -108,14 +108,14 @@ public class HardwareProtobot
         //claw.setPosition(CLAW_HOME);
     }
     /*public void encoderTank(int ticks, double timeOut) {
-        fLMotor.
+        motorFL.
     }*/
 
     public void navSetPower() {
-        fLMotor.setPower(fLPower);
-        fRMotor.setPower(fRPower);
-        bLMotor.setPower(bLPower);
-        bRMotor.setPower(bRPower);
+        motorFL.setPower(fLPower);
+        motorFR.setPower(fRPower);
+        motorBL.setPower(bLPower);
+        motorBR.setPower(bRPower);
     }
     public void navTank(double leftSpeed, double rightSpeed) {
         fLPower = bLPower = leftSpeed;
