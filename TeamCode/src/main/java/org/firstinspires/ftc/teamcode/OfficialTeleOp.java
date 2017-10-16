@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -18,6 +19,9 @@ public class OfficialTeleOp extends LinearOpMode {
     public DcMotor motorBL;
     public DcMotor motorFR;
     public DcMotor motorBR;
+
+    public Servo collectLeft;
+    public Servo collectRight;
 
     public double fLPower = 0.0;
     public double bLPower = 0.0;
@@ -39,10 +43,16 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
 
+        collectLeft = hardwareMap.get(Servo.class, "collectLeft");
+        collectRight = hardwareMap.get(Servo.class, "collectRight");
+
         motorFL.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.FORWARD);
         motorFR.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
+
+        collectLeft.setDirection(Servo.Direction.FORWARD);
+        collectRight.setDirection(Servo.Direction.REVERSE);
 
 
         // Set all motors to zero power
@@ -50,6 +60,8 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR.setPower(fRPower);
         motorBL.setPower(bLPower);
         motorBR.setPower(bRPower);
+
+
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -118,6 +130,22 @@ public class OfficialTeleOp extends LinearOpMode {
                     rightSpeed = stickRY;
                 }
                 navTank(leftSpeed, rightSpeed);
+
+            }
+            //Joystick collection logic
+            double stickLX2 = gamepad2.left_stick_x;
+            double stickLY2 = gamepad2.left_stick_y;
+            double stickRX2 = gamepad2.right_stick_x;
+            double stickRY2 = gamepad2.right_stick_y;
+            if (Math.abs(stickLY2) > stickCenterThreshold) {
+                collectLeft.setPosition(collectLeft.getPosition() + .1);
+                //fLPower = stickLY;
+                //bLPower = stickLY;
+            }
+            if (Math.abs(stickRY) > stickCenterThreshold) {
+                //fRPower = stickRY;
+                //bRPower = stickRY;
+                collectRight.setPosition(collectRight.getPosition() + .1);
             }
 
             // Send calculated power to wheels
@@ -132,6 +160,8 @@ public class OfficialTeleOp extends LinearOpMode {
             //telemetry.addData("Front Motors", "left (%.2f), right (%.2f)", fLPower, fRPower);
             //telemetry.addData("Back Motors ", "left (%.2f), right (%.2f)", bLPower, bRPower);
             telemetry.update();
+
+
         }
         telemetry.addData("Status", "STOPPED Time: " + runtime.toString());
         telemetry.update();
@@ -143,6 +173,9 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR.setPower(fRPower);
         motorBL.setPower(bLPower);
         motorBR.setPower(bRPower);
+
+
+
     }
 
     public void navTank(double leftSpeed, double rightSpeed) {
