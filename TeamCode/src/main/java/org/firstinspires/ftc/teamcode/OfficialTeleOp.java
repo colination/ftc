@@ -23,6 +23,9 @@ public class OfficialTeleOp extends LinearOpMode {
     public Servo collectLeft;
     public Servo collectRight;
 
+    public Servo clawLeft;
+    public Servo clawRight;
+
     public double fLPower = 0.0;
     public double bLPower = 0.0;
     public double fRPower = 0.0;
@@ -46,13 +49,19 @@ public class OfficialTeleOp extends LinearOpMode {
         collectLeft = hardwareMap.get(Servo.class, "collectLeft");
         collectRight = hardwareMap.get(Servo.class, "collectRight");
 
+        clawRight = hardwareMap.get(Servo.class, "clawRight");
+        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
+
         motorFL.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.FORWARD);
         motorFR.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
 
         collectLeft.setDirection(Servo.Direction.FORWARD);
-        collectRight.setDirection(Servo.Direction.REVERSE);
+        collectRight.setDirection(Servo.Direction.FORWARD);
+
+        clawLeft.setDirection(Servo.Direction.FORWARD);
+        clawRight.setDirection(Servo.Direction.FORWARD);
 
 
         // Set all motors to zero power
@@ -60,6 +69,9 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR.setPower(fRPower);
         motorBL.setPower(bLPower);
         motorBR.setPower(bRPower);
+
+        clawLeft.setPosition(0);
+        clawRight.setPosition(0);
 
 
 
@@ -142,11 +154,24 @@ public class OfficialTeleOp extends LinearOpMode {
                 //fLPower = stickLY;
                 //bLPower = stickLY;
             }
-            if (Math.abs(stickRY) > stickCenterThreshold) {
+            if (Math.abs(stickRY2) > stickCenterThreshold) {
                 //fRPower = stickRY;
                 //bRPower = stickRY;
                 collectRight.setPosition(collectRight.getPosition() + .1);
             }
+            clawLeft.setPosition(0);
+            clawRight.setPosition(0);
+            if (gamepad2.a)
+            {
+                if (clawLeft.getPosition() == 0) {
+                    clawLeft.setPosition(1);
+                    clawRight.setPosition(1);
+                } else {
+                    clawLeft.setPosition(0);
+                    clawRight.setPosition(0);
+                }
+            }
+
 
             // Send calculated power to wheels
             /*fLMotor.setPower(fLPower);
