@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -19,6 +20,8 @@ public class OfficialTeleOp extends LinearOpMode {
     public DcMotor motorBL;
     public DcMotor motorFR;
     public DcMotor motorBR;
+    public DcMotor omniLeft;
+    public DcMotor omniRight;
 
     public Servo collectLeft;
     public Servo collectRight;
@@ -27,6 +30,8 @@ public class OfficialTeleOp extends LinearOpMode {
     public double bLPower = 0.0;
     public double fRPower = 0.0;
     public double bRPower = 0.0;
+    public double oLPower = 0.0;
+    public double oRPower = 0.0;
 
     private double speed = .5;
     private double stickCenterThreshold = .1;
@@ -42,6 +47,8 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBL = hardwareMap.get(DcMotor.class, "motorBL");
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
+        omniLeft = hardwareMap.get(DcMotor.class, "omniLeft");
+        omniRight = hardwareMap.get(DcMotor.class, "omniRight");
 
         collectLeft = hardwareMap.get(Servo.class, "collectLeft");
         collectRight = hardwareMap.get(Servo.class, "collectRight");
@@ -50,6 +57,8 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBL.setDirection(DcMotor.Direction.FORWARD);
         motorFR.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
+        omniLeft.setDirection(DcMotor.Direction.FORWARD);
+        omniRight.setDirection(DcMotor.Direction.REVERSE);
 
         collectLeft.setDirection(Servo.Direction.FORWARD);
         collectRight.setDirection(Servo.Direction.REVERSE);
@@ -60,9 +69,8 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR.setPower(fRPower);
         motorBL.setPower(bLPower);
         motorBR.setPower(bRPower);
-
-
-
+        omniLeft.setPower(oLPower);
+        omniRight.setPower(oRPower);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -133,9 +141,9 @@ public class OfficialTeleOp extends LinearOpMode {
 
             }
             //Joystick collection logic
-            double stickLX2 = gamepad2.left_stick_x;
+            //double stickLX2 = gamepad2.left_stick_x;
             double stickLY2 = gamepad2.left_stick_y;
-            double stickRX2 = gamepad2.right_stick_x;
+            //double stickRX2 = gamepad2.right_stick_x;
             double stickRY2 = gamepad2.right_stick_y;
             if (Math.abs(stickLY2) > stickCenterThreshold) {
                 collectLeft.setPosition(collectLeft.getPosition() + .1);
@@ -146,6 +154,19 @@ public class OfficialTeleOp extends LinearOpMode {
                 //fRPower = stickRY;
                 //bRPower = stickRY;
                 collectRight.setPosition(collectRight.getPosition() + .1);
+            }
+            //Omni wheel motor moves based on amount the trigger pressed
+            oLPower = 0.0;
+            oRPower = 0.0;
+            double triggerLeft = gamepad1.left_trigger;
+            double triggerRight = gamepad1.right_trigger;
+            if (triggerLeft > stickCenterThreshold) {
+                oLPower = triggerLeft;
+                navSetPower();
+            }
+            if (triggerRight > stickCenterThreshold) {
+                oRPower = triggerRight;
+                navSetPower();
             }
 
             // Send calculated power to wheels
@@ -173,8 +194,8 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR.setPower(fRPower);
         motorBL.setPower(bLPower);
         motorBR.setPower(bRPower);
-
-
+        omniLeft.setPower(oLPower);
+        omniRight.setPower(oRPower);
 
     }
 
