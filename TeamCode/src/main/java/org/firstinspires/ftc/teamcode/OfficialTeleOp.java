@@ -158,14 +158,14 @@ public class OfficialTeleOp extends LinearOpMode {
             //Omni wheel motor moves based on amount the trigger pressed
             oLPower = 0.0;
             oRPower = 0.0;
-            double triggerLeft = gamepad1.left_trigger;
-            double triggerRight = gamepad1.right_trigger;
-            if (triggerLeft > stickCenterThreshold) {
-                oLPower = triggerLeft;
+            //double triggerLeft = gamepad1.left_trigger;
+            //double triggerRight = gamepad1.right_trigger;
+            if (stickLY2 > stickCenterThreshold) {
+                oLPower = stickLY2;
                 navSetPower();
             }
-            if (triggerRight > stickCenterThreshold) {
-                oRPower = triggerRight;
+            if (stickRY2 > stickCenterThreshold) {
+                oRPower = stickRY2;
                 navSetPower();
             }
 
