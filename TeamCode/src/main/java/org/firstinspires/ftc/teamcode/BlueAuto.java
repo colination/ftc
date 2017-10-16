@@ -19,12 +19,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 
 @Autonomous
-@Disabled
+//@Disabled
 public class BlueAuto extends LinearOpMode {
 
     ElapsedTime time;
 
-    DcMotor motorFR;//my code maps it as fRMotor
+    DcMotor motorFR;
     DcMotor motorFL;
     DcMotor motorBR;
     DcMotor motorBL;
@@ -98,11 +98,7 @@ public class BlueAuto extends LinearOpMode {
 
             // move robot sideways until it senses the jewel
 
-            motorFR.setPower(0.5);
-            motorBR.setPower(-0.5);
-
-            motorFL.setPower(-0.5);
-            motorBL.setPower(0.5);
+            motorEncoder(0.5, -11, 11, 11, -11); // strafe
 
             if ((jewelColor.red() < 10 || jewelColor.red() > 25)) // replace 0 with value when color sensor reads a jewel (senses blue)
             {
@@ -110,10 +106,10 @@ public class BlueAuto extends LinearOpMode {
 
             }
 
-            // color sense one jewel and knock off the opposite color (SensorTest.java)
+            // color sense one jewel and knock off the opposite color
             if (jewelColor.red() < 10) // blue value
-            {   // insert while(time < 0.5 seconds)
-                motorEncoder(0.5, 5, 5, 5, 5);
+            {
+                motorEncoder(0.5, 20, 20, 20, 20);
             }
 
             else {
@@ -133,21 +129,24 @@ public class BlueAuto extends LinearOpMode {
             motorStop();
 
             // get to the square based on the distance values
-            if (vuMark.equals("LEFT")){
-                motorStop();
+            if (("" + vuMark).equals("LEFT")){
+                //motorEncoder(0.5, -14, 14, 14, -14);
+                telemetry.addData(" ", "left") ;
             }
 
-            else if (vuMark.equals("RIGHT")) {
-                motorStop();
+            else if (("" + vuMark).equals("RIGHT")) {
+                //motorEncoder(0.5, -22.5, 22.5, 22.5, -22.5);
+                telemetry.addData(" ", "right");
             }
 
-            else if (vuMark.equals("CENTER"))
+            else if (("" + vuMark).equals("CENTER"))
             {
-                motorStop();
+                //motorEncoder(0.5, -30.4, 30.4, 30.4, -30.4);
+                telemetry.addData(" ", "center");
             }
 
             // move forward
-            motorEncoder(0.5, 5, 5, 5, 5); // measure distance later based on encoder tickets or use time value
+           motorEncoder(0.5, 24, 24, 24, 24); // measure distance later based on encoder tickets or use time value
 
 
             // place glyph in correct section
@@ -162,7 +161,7 @@ public class BlueAuto extends LinearOpMode {
 
     }
 
-    public void motorEncoder(double speed, double inchesFR, double inchesFL, double inchesBR, double inchesBL){
+   public void motorEncoder(double speed, double inchesFR, double inchesFL, double inchesBR, double inchesBL){
 
         int newFLTarget;
         int newFRTarget;
