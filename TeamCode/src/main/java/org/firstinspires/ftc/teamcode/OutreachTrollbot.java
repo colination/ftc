@@ -9,9 +9,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="OfficialTeleOp", group="Linear Opmode")
-@Disabled
-public class OfficialTeleOp extends LinearOpMode {
+@TeleOp(name="OutreachTrollbot", group="Linear Opmode")
+//@Disabled
+public class OutreachTrollbot extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -20,11 +20,6 @@ public class OfficialTeleOp extends LinearOpMode {
     public DcMotor motorFR;
     public DcMotor motorBR;
 
-    public Servo collectLeft;
-    public Servo collectRight;
-
-    public Servo clawLeft;
-    public Servo clawRight;
 
     public double fLPower = 0.0;
     public double bLPower = 0.0;
@@ -46,22 +41,11 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
 
-        collectLeft = hardwareMap.get(Servo.class, "collectLeft");
-        collectRight = hardwareMap.get(Servo.class, "collectRight");
-
-        clawRight = hardwareMap.get(Servo.class, "clawRight");
-        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
 
         motorFL.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.FORWARD);
         motorFR.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
-
-        collectLeft.setDirection(Servo.Direction.FORWARD);
-        collectRight.setDirection(Servo.Direction.FORWARD);
-
-        clawLeft.setDirection(Servo.Direction.FORWARD);
-        clawRight.setDirection(Servo.Direction.FORWARD);
 
 
         // Set all motors to zero power
@@ -70,8 +54,6 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBL.setPower(bLPower);
         motorBR.setPower(bRPower);
 
-        clawLeft.setPosition(0);
-        clawRight.setPosition(0);
 
 
 
@@ -143,33 +125,6 @@ public class OfficialTeleOp extends LinearOpMode {
                 }
                 navTank(leftSpeed, rightSpeed);
 
-            }
-            //Joystick collection logic
-            double stickLX2 = gamepad2.left_stick_x;
-            double stickLY2 = gamepad2.left_stick_y;
-            double stickRX2 = gamepad2.right_stick_x;
-            double stickRY2 = gamepad2.right_stick_y;
-            if (Math.abs(stickLY2) > stickCenterThreshold) {
-                collectLeft.setPosition(collectLeft.getPosition() + .1);
-                //fLPower = stickLY;
-                //bLPower = stickLY;
-            }
-            if (Math.abs(stickRY2) > stickCenterThreshold) {
-                //fRPower = stickRY;
-                //bRPower = stickRY;
-                collectRight.setPosition(collectRight.getPosition() + .1);
-            }
-            clawLeft.setPosition(0);
-            clawRight.setPosition(0);
-            if (gamepad2.a)
-            {
-                if (clawLeft.getPosition() == 0) {
-                    clawLeft.setPosition(1);
-                    clawRight.setPosition(1);
-                } else {
-                    clawLeft.setPosition(0);
-                    clawRight.setPosition(0);
-                }
             }
 
 
