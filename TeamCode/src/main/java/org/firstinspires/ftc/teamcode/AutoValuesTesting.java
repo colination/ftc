@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -7,18 +9,23 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 /**
  * Created by Navya Janga on 10/21/2017.
  */
 
 @Autonomous
 @Disabled
-public class AutoValuesTesting extends LinearOpMode {
+public class AutoValuesTesting {
 
     DcMotor motorFR;
     DcMotor motorFL;
     DcMotor motorBR;
     DcMotor motorBL;
+
+    BNO055IMU imu;
+    Orientation angles;
 
     Servo jewelHit;
 
@@ -49,17 +56,25 @@ public class AutoValuesTesting extends LinearOpMode {
         motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
         jewelColor = hardwareMap.colorSensor.get("jewelColor");
 
         jewelHit = hardwareMap.servo.get("jewelHit");
         // Testing for distance
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        imu.initialize(parameters);
+
 
         while (opModeIsActive()) {
 
             // testing for distance and power values
             motorEncoder(0.5, 11, 11, 11, 11);
 
-
+            // testing for jewelCode : do this after we find the correct distance values
+            // hitJewel;
 
         }
 
@@ -133,6 +148,10 @@ public class AutoValuesTesting extends LinearOpMode {
         motorBL.setPower(power);
     }
 
+    public void imu(){
+        formatAngle(angles.angleUnit, angles.firstAngle;
+
+    }
 
 
 }

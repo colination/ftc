@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -24,6 +26,8 @@ public class BlueDiagAuto extends LinearOpMode {
 
     ElapsedTime time;
 
+
+
     DcMotor motorFR;
     DcMotor motorFL;
     DcMotor motorBR;
@@ -37,7 +41,6 @@ public class BlueDiagAuto extends LinearOpMode {
     Servo jewelHit;
 
     VuforiaLocalizer vuforia;
-
 
     static final double     COUNTS_PER_MOTOR_REV    = 2240 ;     //REV 41 1301 Encoders
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
@@ -72,6 +75,7 @@ public class BlueDiagAuto extends LinearOpMode {
         jewelColor = hardwareMap.colorSensor.get("jewelColor");
 
         jewelHit = hardwareMap.servo.get("jewelHit");
+
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -169,7 +173,7 @@ public class BlueDiagAuto extends LinearOpMode {
         // Turn On RUN_TO_POSITION
         motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBL.setMode(DcMotor.RunMode .RUN_TO_POSITION);
         motorBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         motorFL.setPower(Math.abs(speed));
