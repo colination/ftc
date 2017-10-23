@@ -17,15 +17,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous
 @Disabled
-public class AutoValuesTesting {
+public class AutoValuesTesting extends LinearOpMode {
 
     DcMotor motorFR;
     DcMotor motorFL;
     DcMotor motorBR;
     DcMotor motorBL;
-
-    BNO055IMU imu;
-    Orientation angles;
 
     Servo jewelHit;
 
@@ -56,17 +53,10 @@ public class AutoValuesTesting {
         motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-
         jewelColor = hardwareMap.colorSensor.get("jewelColor");
 
         jewelHit = hardwareMap.servo.get("jewelHit");
         // Testing for distance
-
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        imu.initialize(parameters);
-
 
         while (opModeIsActive()) {
 
@@ -148,10 +138,6 @@ public class AutoValuesTesting {
         motorBL.setPower(power);
     }
 
-    public void imu(){
-        formatAngle(angles.angleUnit, angles.firstAngle;
-
-    }
 
 
 }
