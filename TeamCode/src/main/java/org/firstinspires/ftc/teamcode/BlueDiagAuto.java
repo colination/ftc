@@ -25,8 +25,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 public class BlueDiagAuto extends LinearOpMode {
 
     ElapsedTime time;
-
-
+    IMUSensors imu = new IMUSensors();
+    imu.initIMU(HardwareMap map);
+//init
+    //use for all
 
     DcMotor motorFR;
     DcMotor motorFL;

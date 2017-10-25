@@ -9,6 +9,10 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
@@ -17,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @Autonomous
 @Disabled
-public class AutoValuesTesting extends LinearOpMode {
+public class AutoValuesTesting extends OfficialTeleOp {
 
     DcMotor motorFR;
     DcMotor motorFL;
@@ -27,6 +31,16 @@ public class AutoValuesTesting extends LinearOpMode {
     Servo jewelHit;
 
     ColorSensor jewelColor;
+
+    /*Orientation angles;
+    angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+    telemetry.addLine()
+            .addData("heading", new Func<String>() {
+        @Override public String value() {
+            return formatAngle(angles.angleUnit, angles.firstAngle);
+        }
+    })*/
 
     static final double     COUNTS_PER_MOTOR_REV    = 2240 ;     //REV 41 1301 Encoders
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
@@ -69,6 +83,7 @@ public class AutoValuesTesting extends LinearOpMode {
         }
 
     }
+
 
     public void motorEncoder(double speed, double inchesFR, double inchesFL, double inchesBR, double inchesBL){
 
