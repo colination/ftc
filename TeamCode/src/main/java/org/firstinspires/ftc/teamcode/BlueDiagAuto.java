@@ -22,8 +22,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 @Autonomous
 @Disabled
-public class BlueDiagAuto extends LinearOpMode {
+public class BlueDiagAuto extends AutoMethods {
 
+<<<<<<< HEAD
     ElapsedTime time;
     IMUSensors imu = new IMUSensors();
     imu.initIMU(HardwareMap map);
@@ -86,17 +87,16 @@ public class BlueDiagAuto extends LinearOpMode {
 
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+=======
+    public void runOpMode() {
+>>>>>>> origin/master
 
+        initVariables();
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
-
-        telemetry.addData(">", "Press Play to start");
-        telemetry.update();
-        waitForStart();
-
         relicTrackables.activate();
 
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
             // open jewel servo
             jewelHit.setPosition(0.5); // value of servo to be open
 
@@ -112,9 +112,7 @@ public class BlueDiagAuto extends LinearOpMode {
             if (jewelColor.red() < 10) // blue value
             {
                 motorEncoder(0.5, 20, 20, 20, 20);
-            }
-
-            else {
+            } else {
                 motorEncoder(0.5, -20, -20, -20, -20);
             }
 
@@ -131,17 +129,17 @@ public class BlueDiagAuto extends LinearOpMode {
             motorStop();
 
             // get to the square based on the distance values
-            switch(vuMark) {
-                case LEFT :
+            switch (vuMark) {
+                case LEFT:
                     motorEncoder(0.5, -14, 14, 14, -14);
-                case CENTER :
+                case CENTER:
                     motorEncoder(0.5, -22.5, 22.5, 22.5, -22.5);
-                case RIGHT :
+                case RIGHT:
                     motorEncoder(0.5, -30.4, 30.4, 30.4, -30.4);
             }
 
             // move forward
-           motorEncoder(0.5, 24, 24, 24, 24); // measure distance later based on encoder tickets or use time value
+            motorEncoder(0.5, 24, 24, 24, 24); // measure distance later based on encoder tickets or use time value
 
 
             // place glyph in correct section
@@ -153,56 +151,6 @@ public class BlueDiagAuto extends LinearOpMode {
 
         }
 
-
-    }
-
-   public void motorEncoder(double speed, double inchesFR, double inchesFL, double inchesBR, double inchesBL){
-
-        int newFLTarget;
-        int newFRTarget;
-        int newBLTarget;
-        int newBRTarget;
-
-        newFLTarget = motorFL.getCurrentPosition() + (int)(inchesFL * COUNTS_PER_INCH);
-        newFRTarget = motorFR.getCurrentPosition() + (int)(inchesFR * COUNTS_PER_INCH);
-        newBLTarget = motorBL.getCurrentPosition() + (int)(inchesBL * COUNTS_PER_INCH);
-        newBRTarget = motorFR.getCurrentPosition() + (int)(inchesBR * COUNTS_PER_INCH);
-        motorFL.setTargetPosition(newFLTarget);
-        motorFR.setTargetPosition(newFRTarget);
-        motorBL.setTargetPosition(newBLTarget);
-        motorBR.setTargetPosition(newBRTarget);
-
-        // Turn On RUN_TO_POSITION
-        motorFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBL.setMode(DcMotor.RunMode .RUN_TO_POSITION);
-        motorBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        motorFL.setPower(Math.abs(speed));
-        motorFR.setPower(Math.abs(speed));
-        motorBL.setPower(Math.abs(speed));
-        motorBR.setPower(Math.abs(speed));
-
-
-    }
-
-    public void motorPower(double speed) {
-        motorFR.setPower(speed);
-        motorFL.setPower(speed);
-        motorBR.setPower(speed);
-        motorBL.setPower(speed);
-    }
-
-    public void motorStop() {
-        motorFR.setPower(0);
-        motorBR.setPower(0);
-        motorFL.setPower(0);
-        motorBL.setPower(0);
-    }
-
-    public void manipMove(double speed){
-        leftManip.setPower(speed);
-        rightManip.setPower(speed);
     }
 
 }

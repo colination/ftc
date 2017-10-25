@@ -78,17 +78,13 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR.setPower(fRPower);
         motorBL.setPower(bLPower);
         motorBR.setPower(bRPower);
-<<<<<<< HEAD
+
         omniLeft.setPower(oLPower);
         omniRight.setPower(oRPower);
-=======
 
         clawLeft.setPosition(0);
         clawRight.setPosition(0);
 
-
-
->>>>>>> 25824f9729091713752bfc90cb323416590d42d5
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -173,7 +169,7 @@ public class OfficialTeleOp extends LinearOpMode {
                 //bRPower = stickRY;
                 collectRight.setPosition(collectRight.getPosition() + .1);
             }
-<<<<<<< HEAD
+
             //Omni wheel motor moves based on amount the trigger pressed
             oLPower = 0.0;
             oRPower = 0.0;
@@ -187,7 +183,7 @@ public class OfficialTeleOp extends LinearOpMode {
                 oRPower = stickRY2;
                 navSetPower();
             }
-=======
+
             clawLeft.setPosition(0);
             clawRight.setPosition(0);
             if (gamepad2.a)
@@ -200,8 +196,6 @@ public class OfficialTeleOp extends LinearOpMode {
                     clawRight.setPosition(0);
                 }
             }
-
->>>>>>> 25824f9729091713752bfc90cb323416590d42d5
 
             // Send calculated power to wheels
             /*fLMotor.setPower(fLPower);
