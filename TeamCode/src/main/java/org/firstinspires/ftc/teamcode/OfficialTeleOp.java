@@ -17,22 +17,11 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-<<<<<<< HEAD
     // BASE
     DcMotor motorFL;
     DcMotor motorBL;
     DcMotor motorFR;
     DcMotor motorBR;
-=======
-    public DcMotor motorFL;
-    public DcMotor motorBL;
-    public DcMotor motorFR;
-    public DcMotor motorBR;
-    public DcMotor omniLeft;
-    public DcMotor omniRight;
-    public DcMotor liftLeft;
-    public DcMotor liftRight;
->>>>>>> origin/master
 
     // MANIPULATOR
     DcMotor manipulator;
@@ -42,8 +31,8 @@ public class OfficialTeleOp extends LinearOpMode {
     DcMotor collectRight;
 
     // BALANCE BEAM CLAWS
-    public Servo clawLeft;
-    public Servo clawRight;
+    Servo clawLeft;
+    Servo clawRight;
 
     // LIFT
     DcMotor lift;
@@ -52,12 +41,8 @@ public class OfficialTeleOp extends LinearOpMode {
     public double bLPower = 0.0;
     public double fRPower = 0.0;
     public double bRPower = 0.0;
-    public double oLPower = 0.0;
-    public double oRPower = 0.0;
-
 
     private double speed = .5;
-    private double liftSpeed = 0.0;
     private double stickCenterThreshold = .1;
     private double stickPushSmall = .2;
     private double stickPushLarge = .8;
@@ -71,15 +56,8 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBL = hardwareMap.get(DcMotor.class, "motorBL");
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
-<<<<<<< HEAD
 
         lift = hardwareMap.get(DcMotor.class, "lift");
-=======
-        omniLeft = hardwareMap.get(DcMotor.class, "omniLeft");
-        omniRight = hardwareMap.get(DcMotor.class, "omniRight");
-        liftLeft = hardwareMap.get(DcMotor.class, "liftLeft");
-        liftRight = hardwareMap.get(DcMotor.class, "liftRight");
->>>>>>> origin/master
 
         collectLeft = hardwareMap.get(DcMotor.class, "collectLeft");
         collectRight = hardwareMap.get(DcMotor.class, "collectRight");
@@ -93,13 +71,6 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBL.setDirection(DcMotor.Direction.FORWARD);
         motorFR.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
-<<<<<<< HEAD
-=======
-        omniLeft.setDirection(DcMotor.Direction.FORWARD);
-        omniRight.setDirection(DcMotor.Direction.REVERSE);
-        liftLeft.setDirection(DcMotor.Direction.FORWARD);
-        liftRight.setDirection(DcMotor.Direction.REVERSE);
->>>>>>> origin/master
 
         clawLeft.setDirection(Servo.Direction.FORWARD);
         clawRight.setDirection(Servo.Direction.FORWARD);
@@ -115,10 +86,6 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR.setPower(fRPower);
         motorBL.setPower(bLPower);
         motorBR.setPower(bRPower);
-        liftLeft.setPower(liftSpeed);
-        liftRight.setPower(liftSpeed);
-
-
 
         clawLeft.setPosition(0);
         clawRight.setPosition(0);
@@ -131,13 +98,7 @@ public class OfficialTeleOp extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Setup a variable for each drive wheel to save power level for telemetry
-            double fLPower;
-            double bLPower;
-            double fRPower;
-            double bRPower;
-
-            // Tank with Strafe mode : Uses joysticks on Gamepad 1
+            // BASE : Gamepad 1, Joysticks
             double stickLX = gamepad1.left_stick_x;
             double stickLY = gamepad1.left_stick_y;
             double stickRX = gamepad1.right_stick_x;
@@ -146,18 +107,11 @@ public class OfficialTeleOp extends LinearOpMode {
                     && Math.abs(stickLY) <= stickPushSmall && Math.abs(stickRY) <= stickPushSmall) {
                 //strafe left
                 navStrafe(speed, true);
-                /*fLPower = speed;
-                bRPower = speed;
-                bLPower = -speed;
-                fRPower = -speed;*/
             } else if (stickLX >= stickPushLarge && stickRX >= stickPushLarge
                     && Math.abs(stickLY) <= stickPushSmall && Math.abs(stickRY) <= stickPushSmall) {
                 //strafe right
                 navStrafe(speed, false);
-                /*fLPower = -speed;
-                bRPower = -speed;
-                bLPower = speed;
-                fRPower = speed;*/
+
             } else {
                 //tank mode
                 double leftSpeed = 0;
@@ -165,70 +119,20 @@ public class OfficialTeleOp extends LinearOpMode {
 
                 if (Math.abs(stickLY) > stickCenterThreshold) {
                     leftSpeed = stickLY;
-                    //fLPower = stickLY;
-                    //bLPower = stickLY;
+
                 }
                 if (Math.abs(stickRY) > stickCenterThreshold) {
-                    //fRPower = stickRY;
-                    //bRPower = stickRY;
                     rightSpeed = stickRY;
                 }
                 navTank(leftSpeed, rightSpeed);
 
             }
 
-            //Joystick collection logic
-<<<<<<< HEAD
-=======
-            //moved both collections for each side to make room for lift
-            //double stickLX2 = gamepad2.left_stick_x;
->>>>>>> origin/master
-            double stickLY2 = gamepad2.left_stick_y;
-            double stickRY2 = gamepad2.right_stick_y;
-<<<<<<< HEAD
-            if (Math.abs(stickLY2) > stickCenterThreshold) {
-                collectLeft.setPosition(collectLeft.getPosition() + .1);
-                oLPower = stickLY2;
-                oRPower = stickLY2;
-                navSetPower();
-                collectRight.setPosition(collectRight.getPosition() + .1);
-                //fLPower = stickLY;
-                //bLPower = stickLY;
-            }
-            /*if (Math.abs(stickRY2) > stickCenterThreshold) {
-                //fRPower = stickRY;
-                //bRPower = stickRY;
-                collectRight.setPosition(collectRight.getPosition() + .1);
-            }
-=======
->>>>>>> origin/master
 
-            //double triggerLeft = gamepad1.left_trigger;
-            //double triggerRight = gamepad1.right_trigger;
-            if (stickLY2 > stickCenterThreshold) {
-                oLPower = stickLY2;
-                oRPower = stickLY2;
-                navSetPower();
-            }*/
-
-
-            /*if (stickRY2 > stickCenterThreshold) {
-                oRPower = stickRY2;
-                navSetPower();
-            }*/
-
-            //lift controls
-            if(Math.abs(stickRY2) > stickCenterThreshold) {
-                liftSpeed = .5;//future note to add variable for speed if that wants to be changed
-                navSetPower();
-            }
-            else {
-                liftSpeed = 0.0;
-                navSetPower();
-            }
-
+            // BALANCE BEAM CLAWS
             clawLeft.setPosition(0);
             clawRight.setPosition(0);
+
             if (gamepad2.a)
             {
                 if (clawLeft.getPosition() == 0) {
@@ -240,53 +144,48 @@ public class OfficialTeleOp extends LinearOpMode {
                 }
             }
 
-<<<<<<< HEAD
-=======
-            //Collector
+            double stickLY2 = gamepad2.left_stick_y;
+            double stickRY2 = gamepad2.right_stick_y;
+
+            // COLLECTION : Left and Right Trigger
             if (gamepad1.left_trigger >= .5)
             {
                 collectLeft.setPower(1);
 
             }
 
+            else {
+                collectLeft.setPower(0);
+            }
+
 
             if ((gamepad1.right_trigger >= .5)) {
 
+                collectRight.setPower(1);
+            }
+
+            else {
                 collectRight.setPower(0);
             }
 
 
-            //manipulator
+            // MANIPULATOR : Gamepad 2, Right Joystick
             if (Math.abs(stickRY2) >= stickPushSmall)
                 manipulator.setPower(gamepad2.right_stick_y);
             else{
                 manipulator.setPower(0);
             }
 
-<<<<<<< HEAD
-            //lift
+
+            // LIFT CODE : Gamepad 2, Left Joystick
             if (Math.abs(stickLY2) >= stickPushSmall)
                 lift.setPower(gamepad2.left_stick_y);
             else{
                 lift.setPower(0);
             }
 
-=======
->>>>>>> origin/master
->>>>>>> origin/master
-
-
-            // Send calculated power to wheels
-            /*fLMotor.setPower(fLPower);
-            fRMotor.setPower(fRPower);
-            bLMotor.setPower(bLPower);
-            bRMotor.setPower(bRPower);*/
-
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            //robot.navTelemetry();
-            //telemetry.addData("Front Motors", "left (%.2f), right (%.2f)", fLPower, fRPower);
-            //telemetry.addData("Back Motors ", "left (%.2f), right (%.2f)", bLPower, bRPower);
             telemetry.update();
 
 
@@ -301,14 +200,7 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR.setPower(fRPower);
         motorBL.setPower(bLPower);
         motorBR.setPower(bRPower);
-<<<<<<< HEAD
 
-=======
-        omniLeft.setPower(oLPower);
-        omniRight.setPower(oRPower);
-        liftLeft.setPower(liftSpeed);
-        liftRight.setPower(liftSpeed);
->>>>>>> origin/master
 
     }
 
