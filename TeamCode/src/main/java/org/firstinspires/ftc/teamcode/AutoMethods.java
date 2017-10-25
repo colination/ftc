@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Created by Navya Janga on 10/23/2017.
  */
 
-public abstract class AutoMethods extends Init {
+public abstract class AutoMethods extends AutoInit {
 
     public void motorEncoder(double speed, double inchesFR, double inchesFL, double inchesBR, double inchesBL) {
 

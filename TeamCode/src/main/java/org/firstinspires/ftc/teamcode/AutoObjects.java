@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
  * Created by Navya Janga on 10/23/2017.
  */
 
-public abstract class Objects extends LinearOpMode {
+public abstract class AutoObjects extends LinearOpMode {
 
     ElapsedTime time;
 

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * Created by Navya Janga on 10/23/2017.
  */
 
-public abstract class Init extends Objects {
+public abstract class AutoInit extends AutoObjects {
 
     public void initVariables() {
         time.reset();
