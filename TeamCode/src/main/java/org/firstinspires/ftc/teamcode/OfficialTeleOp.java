@@ -23,8 +23,10 @@ public class OfficialTeleOp extends LinearOpMode {
     public DcMotor omniLeft;
     public DcMotor omniRight;
 
-    public Servo collectLeft;
-    public Servo collectRight;
+    public DcMotor manipulator;
+
+    public DcMotor collectLeft;
+    public DcMotor collectRight;
 
     public Servo clawLeft;
     public Servo clawRight;
@@ -53,8 +55,10 @@ public class OfficialTeleOp extends LinearOpMode {
         omniLeft = hardwareMap.get(DcMotor.class, "omniLeft");
         omniRight = hardwareMap.get(DcMotor.class, "omniRight");
 
-        collectLeft = hardwareMap.get(Servo.class, "collectLeft");
-        collectRight = hardwareMap.get(Servo.class, "collectRight");
+        collectLeft = hardwareMap.get(DcMotor.class, "collectLeft");
+        collectRight = hardwareMap.get(DcMotor.class, "collectRight");
+
+        manipulator = hardwareMap.get(DcMotor.class, "manipulator");
 
         clawRight = hardwareMap.get(Servo.class, "clawRight");
         clawLeft = hardwareMap.get(Servo.class, "clawLeft");
@@ -66,11 +70,13 @@ public class OfficialTeleOp extends LinearOpMode {
         omniLeft.setDirection(DcMotor.Direction.FORWARD);
         omniRight.setDirection(DcMotor.Direction.REVERSE);
 
-        collectLeft.setDirection(Servo.Direction.FORWARD);
-        collectRight.setDirection(Servo.Direction.FORWARD);
-
         clawLeft.setDirection(Servo.Direction.FORWARD);
         clawRight.setDirection(Servo.Direction.FORWARD);
+
+        collectLeft.setDirection(DcMotor.Direction.FORWARD);
+        collectRight.setDirection(DcMotor.Direction.FORWARD);
+
+        manipulator.setDirection(DcMotor.Direction.FORWARD);
 
 
         // Set all motors to zero power
@@ -159,16 +165,6 @@ public class OfficialTeleOp extends LinearOpMode {
             double stickLY2 = gamepad2.left_stick_y;
             //double stickRX2 = gamepad2.right_stick_x;
             double stickRY2 = gamepad2.right_stick_y;
-            if (Math.abs(stickLY2) > stickCenterThreshold) {
-                collectLeft.setPosition(collectLeft.getPosition() + .1);
-                //fLPower = stickLY;
-                //bLPower = stickLY;
-            }
-            if (Math.abs(stickRY2) > stickCenterThreshold) {
-                //fRPower = stickRY;
-                //bRPower = stickRY;
-                collectRight.setPosition(collectRight.getPosition() + .1);
-            }
 
             //Omni wheel motor moves based on amount the trigger pressed
             oLPower = 0.0;
@@ -196,6 +192,35 @@ public class OfficialTeleOp extends LinearOpMode {
                     clawRight.setPosition(0);
                 }
             }
+
+            //Collector
+            if (gamepad1.left_trigger >= .5)
+            {
+                collectLeft.setPower(1);
+
+            }
+
+            else {
+                collectLeft.setPower(0);
+            }
+
+            if ((gamepad1.right_trigger >= .5)) {
+
+                collectRight.setPower(1);
+            }
+
+            else {
+                collectRight.setPower(0);
+            }
+
+            //manipulator
+            if (Math.abs(stickRY2) >= stickPushSmall)
+                manipulator.setPower(gamepad2.right_stick_y);
+            else{
+                manipulator.setPower(0);
+            }
+
+
 
             // Send calculated power to wheels
             /*fLMotor.setPower(fLPower);
