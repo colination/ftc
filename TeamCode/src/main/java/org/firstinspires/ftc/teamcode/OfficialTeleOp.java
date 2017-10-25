@@ -22,6 +22,8 @@ public class OfficialTeleOp extends LinearOpMode {
     public DcMotor motorBR;
     public DcMotor omniLeft;
     public DcMotor omniRight;
+    public DcMotor liftLeft;
+    public DcMotor liftRight;
 
     public Servo collectLeft;
     public Servo collectRight;
@@ -36,7 +38,9 @@ public class OfficialTeleOp extends LinearOpMode {
     public double oLPower = 0.0;
     public double oRPower = 0.0;
 
+
     private double speed = .5;
+    private double liftSpeed = 0.0;
     private double stickCenterThreshold = .1;
     private double stickPushSmall = .2;
     private double stickPushLarge = .8;
@@ -52,6 +56,8 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
         omniLeft = hardwareMap.get(DcMotor.class, "omniLeft");
         omniRight = hardwareMap.get(DcMotor.class, "omniRight");
+        liftLeft = hardwareMap.get(DcMotor.class, "liftLeft");
+        liftRight = hardwareMap.get(DcMotor.class, "liftRight");
 
         collectLeft = hardwareMap.get(Servo.class, "collectLeft");
         collectRight = hardwareMap.get(Servo.class, "collectRight");
@@ -65,6 +71,8 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBR.setDirection(DcMotor.Direction.REVERSE);
         omniLeft.setDirection(DcMotor.Direction.FORWARD);
         omniRight.setDirection(DcMotor.Direction.REVERSE);
+        liftLeft.setDirection(DcMotor.Direction.FORWARD);
+        liftRight.setDirection(DcMotor.Direction.REVERSE);
 
         collectLeft.setDirection(Servo.Direction.FORWARD);
         collectRight.setDirection(Servo.Direction.FORWARD);
@@ -78,9 +86,12 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR.setPower(fRPower);
         motorBL.setPower(bLPower);
         motorBR.setPower(bRPower);
+        liftLeft.setPower(liftSpeed);
+        liftRight.setPower(liftSpeed);
 
         omniLeft.setPower(oLPower);
         omniRight.setPower(oRPower);
+
 
         clawLeft.setPosition(0);
         clawRight.setPosition(0);
@@ -155,16 +166,21 @@ public class OfficialTeleOp extends LinearOpMode {
 
             }
             //Joystick collection logic
+            //moved both collections for each side to make room for lift
             //double stickLX2 = gamepad2.left_stick_x;
             double stickLY2 = gamepad2.left_stick_y;
             //double stickRX2 = gamepad2.right_stick_x;
             double stickRY2 = gamepad2.right_stick_y;
             if (Math.abs(stickLY2) > stickCenterThreshold) {
                 collectLeft.setPosition(collectLeft.getPosition() + .1);
+                oLPower = stickLY2;
+                oRPower = stickLY2;
+                navSetPower();
+                collectRight.setPosition(collectRight.getPosition() + .1);
                 //fLPower = stickLY;
                 //bLPower = stickLY;
             }
-            if (Math.abs(stickRY2) > stickCenterThreshold) {
+            /*if (Math.abs(stickRY2) > stickCenterThreshold) {
                 //fRPower = stickRY;
                 //bRPower = stickRY;
                 collectRight.setPosition(collectRight.getPosition() + .1);
@@ -177,10 +193,23 @@ public class OfficialTeleOp extends LinearOpMode {
             //double triggerRight = gamepad1.right_trigger;
             if (stickLY2 > stickCenterThreshold) {
                 oLPower = stickLY2;
+                oRPower = stickLY2;
+                navSetPower();
+            }*/
+
+
+            /*if (stickRY2 > stickCenterThreshold) {
+                oRPower = stickRY2;
+                navSetPower();
+            }*/
+
+            //lift controls
+            if(Math.abs(stickRY2) > stickCenterThreshold) {
+                liftSpeed = .5;//future note to add variable for speed if that wants to be changed
                 navSetPower();
             }
-            if (stickRY2 > stickCenterThreshold) {
-                oRPower = stickRY2;
+            else {
+                liftSpeed = 0.0;
                 navSetPower();
             }
 
@@ -196,6 +225,8 @@ public class OfficialTeleOp extends LinearOpMode {
                     clawRight.setPosition(0);
                 }
             }
+
+
 
             // Send calculated power to wheels
             /*fLMotor.setPower(fLPower);
@@ -224,6 +255,8 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBR.setPower(bRPower);
         omniLeft.setPower(oLPower);
         omniRight.setPower(oRPower);
+        liftLeft.setPower(liftSpeed);
+        liftRight.setPower(liftSpeed);
 
     }
 
