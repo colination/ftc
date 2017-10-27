@@ -56,13 +56,16 @@ import java.util.Locale;
  */
 @Autonomous(name = "Sensor: BNO055 IMU", group = "Sensor")
 //@Disabled                            // Comment this out to add to the opmode list
-public class IMUSensors extends OfficialTeleOp {
+public class IMUSensors extends LinearOpMode {
     //----------------------------------------------------------------------------------------------
     // State
     //----------------------------------------------------------------------------------------------
 
     // The IMU sensor object
-    BNO055IMU imu;
+    BNO055IMU IMU;
+    public IMU (BNO055IMU imu) {
+        IMU = imu;
+    }
 
     // State used for updating telemetry
     Orientation angles;
