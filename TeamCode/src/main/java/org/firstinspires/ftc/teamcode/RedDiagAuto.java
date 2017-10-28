@@ -18,7 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  /* Created by Navya Janga on 9/20/2017.*/
 
 @Autonomous
-@Disabled
+
 public class RedDiagAuto extends AutoMethods {
 
     public void runOpMode(){
@@ -35,7 +35,7 @@ public class RedDiagAuto extends AutoMethods {
             // move robot sideways until it senses the jewel
             while (jewelColor.red() > 10 && jewelColor.red() < 25) {
 
-                motorPower(0.5); // strafe
+                motorStrafeLeft(0.5); // moves right changed from motor power
             }
 
             motorStop();
@@ -43,11 +43,11 @@ public class RedDiagAuto extends AutoMethods {
             // color sense one jewel and knock off the opposite color
             if (jewelColor.red() < 10) // blue value
             {
-                motorEncoder(0.5, 20, 20, 20, 20);
+                motorEncoder(0.5, -20, -20, -20, -20);
             }
 
             else {
-                motorEncoder(0.5, -20, -20, -20, -20);
+                motorEncoder(0.5, 20, 20, 20, 20);
             }
 
             // put arm back in
@@ -57,7 +57,8 @@ public class RedDiagAuto extends AutoMethods {
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
             while (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-                motorEncoder(0.5, 5, 5, 5, 5);
+                //motorEncoder(0.5, 5, 5, 5, 5);
+                motorPower(-.5);
             }
 
             motorStop();
@@ -65,20 +66,21 @@ public class RedDiagAuto extends AutoMethods {
             // get to the square based on the distance values
             switch(vuMark) {
                 case LEFT :
-                    motorEncoder(0.5, -14, 14, 14, -14);
+                    motorEncoder(0.5, 14, -14, -14, 14);
                 case CENTER :
-                    motorEncoder(0.5, -22.5, 22.5, 22.5, -22.5);
+                    motorEncoder(0.5, 22.5, -22.5, -22.5, 22.5);
                 case RIGHT :
-                    motorEncoder(0.5, -30.4, 30.4, 30.4, -30.4);
+                    motorEncoder(0.5, 30.4, -30.4, -30.4, 30.4);
             }
 
-            // move forward
-            motorEncoder(0.5, 24, 24, 24, 24); // measure distance later based on encoder tickets or use time value
+            // move backwards to cryptobox
+            motorEncoder(0.5, -24, -24, -24, -24); // measure distance later based on encoder tickets or use time value
 
 
             // place glyph in correct section
             // figure out time value needed for one block to pass through manipulator
             manipMove(1);
+
 
             // turn off manipulator
             manipMove(0);

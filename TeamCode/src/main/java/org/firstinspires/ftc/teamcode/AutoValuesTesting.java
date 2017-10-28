@@ -20,44 +20,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  */
 
 @Autonomous
-@Disabled
+//@Disabled
 
-public class AutoValuesTesting extends OfficialTeleOp {
-
-    DcMotor motorFR;
-    DcMotor motorFL;
-    DcMotor motorBR;
-    DcMotor motorBL;
-
-    Servo jewelHit;
-
-    ColorSensor jewelColor;
-
-    /*Orientation angles;
-    angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-    telemetry.addLine()
-            .addData("heading", new Func<String>() {
-        @Override public String value() {
-            return formatAngle(angles.angleUnit, angles.firstAngle);
-        }
-    })*/
-
-    static final double     COUNTS_PER_MOTOR_REV    = 2240 ;     //REV 41 1301 Encoders
-    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 5.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+public class AutoValuesTesting extends AutoMethods {
 
 
     public void runOpMode() {
 
-        //initVariables();
+        initVariables();
         // Testing for distance
 
         while (opModeIsActive()) {
 
             // testing for distance and power values
-            motorEncoder(0.5, 11, 11, 11, 11);
+            motorEncoder(0.5, -8, 8, 8, -8);
 
             // testing for jewelCode : do this after we find the correct distance values
             // hitJewel;

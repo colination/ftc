@@ -45,6 +45,20 @@ public abstract class AutoMethods extends AutoInit {
         motorBL.setPower(speed);
     }
 
+    public void motorStrafeRight(double speed) {
+        motorFR.setPower(speed);
+        motorFL.setPower(-speed);
+        motorBR.setPower(-speed);
+        motorBL.setPower(speed);
+    }
+
+    public void motorStrafeLeft(double speed) {
+        motorFR.setPower(-speed);
+        motorFL.setPower(speed);
+        motorBR.setPower(speed);
+        motorBL.setPower(-speed);
+    }
+
     public void motorStop() {
         motorFR.setPower(0);
         motorBR.setPower(0);
@@ -53,8 +67,7 @@ public abstract class AutoMethods extends AutoInit {
     }
 
     public void manipMove(double speed) {
-        leftManip.setPower(speed);
-        rightManip.setPower(speed);
+        manipulator.setPower(speed);
     }
 
 }

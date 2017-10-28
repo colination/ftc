@@ -21,18 +21,26 @@ public abstract class AutoObjects extends LinearOpMode {
     DcMotor motorBR;
     DcMotor motorBL;
 
-    DcMotor leftManip;
-    DcMotor rightManip;
+    DcMotor collectLeft;
+    DcMotor collectRight;
+
+    DcMotor manipulator;
 
     ColorSensor jewelColor;
+
+    Servo clawRight;
+    Servo clawLeft;
+
+    DcMotor lift;
 
     Servo jewelHit;
 
     VuforiaLocalizer vuforia;
 
+
     static final double     COUNTS_PER_MOTOR_REV    = 2240 ;     //REV 41 1301 Encoders
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     WHEEL_DIAMETER_INCHES   = 5.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
 }

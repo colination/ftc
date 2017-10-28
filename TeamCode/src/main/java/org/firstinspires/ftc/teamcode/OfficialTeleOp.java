@@ -178,7 +178,7 @@ public class OfficialTeleOp extends LinearOpMode {
             }
 
             if ((gamepad1.left_bumper)) {
-                collectLeft.setPower(1);
+                collectLeft.setPower(-1);
             }
 
             else {
@@ -186,7 +186,7 @@ public class OfficialTeleOp extends LinearOpMode {
             }
 
             if ((gamepad1.right_bumper)) {
-                collectRight.setPower(-1);
+                collectRight.setPower(1);
             }
 
             else {
@@ -236,8 +236,8 @@ public class OfficialTeleOp extends LinearOpMode {
     }
 
     public void navStrafe(double speed, boolean isLeft) {
-        if (isLeft == false) {
-            speed = -speed;     // strafe right
+        if (isLeft == true) {
+            speed = -speed;     // strafe left
         }
         fLPower = speed;
         bRPower = speed;
