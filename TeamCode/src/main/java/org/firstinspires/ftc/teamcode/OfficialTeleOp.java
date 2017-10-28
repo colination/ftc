@@ -3,12 +3,15 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
+import for_camera_opmodes.CameraPreview;
 
 @TeleOp(name="OfficialTeleOp", group="Linear Opmode")
 //@Disabled
@@ -36,6 +39,8 @@ public class OfficialTeleOp extends LinearOpMode {
 
     // LIFT
     DcMotor lift;
+
+    ColorSensor jewelColor;
 
     public double fLPower = 0.0;
     public double bLPower = 0.0;
@@ -74,12 +79,14 @@ public class OfficialTeleOp extends LinearOpMode {
 
         clawLeft.setDirection(Servo.Direction.FORWARD);
         clawRight.setDirection(Servo.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.REVERSE);
 
         collectLeft.setDirection(DcMotor.Direction.FORWARD);
         collectRight.setDirection(DcMotor.Direction.FORWARD);
 
         manipulator.setDirection(DcMotor.Direction.FORWARD);
 
+        jewelColor = hardwareMap.get(ColorSensor.class, "jewelColor");
 
         // Set all motors to zero power
         motorFL.setPower(fLPower);
@@ -97,6 +104,8 @@ public class OfficialTeleOp extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
+            jewelColor.enableLed(false);
 
             // BASE : Gamepad 1, Joysticks
             double stickLX = gamepad1.left_stick_x;
@@ -161,7 +170,23 @@ public class OfficialTeleOp extends LinearOpMode {
 
             if ((gamepad1.right_trigger >= .5)) {
 
-                collectRight.setPower(1);
+                collectRight.setPower(-1);
+            }
+
+            else {
+                collectRight.setPower(0);
+            }
+
+            if ((gamepad1.left_bumper)) {
+                collectLeft.setPower(1);
+            }
+
+            else {
+                collectLeft.setPower(0);
+            }
+
+            if ((gamepad1.right_bumper)) {
+                collectRight.setPower(-1);
             }
 
             else {

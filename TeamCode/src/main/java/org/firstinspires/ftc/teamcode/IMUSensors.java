@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+/*package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -54,7 +54,7 @@ import java.util.Locale;
  *
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
-@Autonomous(name = "Sensor: BNO055 IMU", group = "Sensor")
+/*@Autonomous(name = "Sensor: BNO055 IMU", group = "Sensor")
 //@Disabled                            // Comment this out to add to the opmode list
 public class IMUSensors extends LinearOpMode {
     //----------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ public class IMUSensors extends LinearOpMode {
     // Telemetry Configuration
     //----------------------------------------------------------------------------------------------
 
-    void composeTelemetry() {
+ /*   void composeTelemetry() {
 
         // At the beginning of each telemetry update, grab a bunch of data
         // from the IMU that we will then display in separate lines.
@@ -183,4 +183,4 @@ public class IMUSensors extends LinearOpMode {
     String formatDegrees(double degrees){
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
-}
+}*/

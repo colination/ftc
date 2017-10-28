@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+/*package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -20,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  /* Created by Navya Janga on 9/20/2017.*/
 
 
-@Autonomous
+/*@Autonomous
 @Disabled
 public class BlueDiagAuto extends AutoMethods {
 
@@ -94,8 +94,8 @@ public class BlueDiagAuto extends AutoMethods {
         initVariables();
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTrackables.activate();
-
+        relicTrackables.activate();*/
+/*
         while (opModeIsActive()) {
             // open jewel servo
             jewelHit.setPosition(0.5); // value of servo to be open
@@ -153,4 +153,4 @@ public class BlueDiagAuto extends AutoMethods {
 
     }
 
-}
+}*/
