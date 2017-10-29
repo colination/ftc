@@ -14,8 +14,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
 public abstract class AutoObjects extends LinearOpMode {
 
-    ElapsedTime time;
-
     DcMotor motorFR;
     DcMotor motorFL;
     DcMotor motorBR;
@@ -34,9 +32,6 @@ public abstract class AutoObjects extends LinearOpMode {
     DcMotor lift;
 
     Servo jewelHit;
-
-    VuforiaLocalizer vuforia;
-
 
     static final double     COUNTS_PER_MOTOR_REV    = 2240 ;     //REV 41 1301 Encoders
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
