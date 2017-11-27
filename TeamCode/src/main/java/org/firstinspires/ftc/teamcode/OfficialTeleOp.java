@@ -20,6 +20,9 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
+    //jewelTest
+
+
     // BASE
     DcMotor motorFL;
     DcMotor motorBL;
@@ -34,8 +37,8 @@ public class OfficialTeleOp extends LinearOpMode {
     DcMotor collectRight;
 
     // BALANCE BEAM CLAWS
-    Servo clawLeft;
-    Servo clawRight;
+    //Servo clawLeft;
+    //Servo clawRight;
 
     // LIFT
     DcMotor lift;
@@ -69,16 +72,16 @@ public class OfficialTeleOp extends LinearOpMode {
 
         manipulator = hardwareMap.get(DcMotor.class, "manipulator");
 
-        clawRight = hardwareMap.get(Servo.class, "clawRight");
-        clawLeft = hardwareMap.get(Servo.class, "clawLeft");
+        //clawRight = hardwareMap.get(Servo.class, "clawRight");
+        //clawLeft = hardwareMap.get(Servo.class, "clawLeft");
 
         motorFL.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.FORWARD);
         motorFR.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
 
-        clawLeft.setDirection(Servo.Direction.FORWARD);
-        clawRight.setDirection(Servo.Direction.FORWARD);
+        //clawLeft.setDirection(Servo.Direction.FORWARD);
+        //clawRight.setDirection(Servo.Direction.FORWARD);
         lift.setDirection(DcMotor.Direction.REVERSE);
 
         collectLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -86,7 +89,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
         manipulator.setDirection(DcMotor.Direction.FORWARD);
 
-        jewelColor = hardwareMap.get(ColorSensor.class, "jewelColor");
+        jewelColor = hardwareMap.get(ColorSensor.class, "sensorcolor");
 
         // Set all motors to zero power
         motorFL.setPower(fLPower);
@@ -94,8 +97,8 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBL.setPower(bLPower);
         motorBR.setPower(bRPower);
 
-        clawLeft.setPosition(0);
-        clawRight.setPosition(0);
+        //clawLeft.setPosition(0);
+        //clawRight.setPosition(0);
 
 
         // Wait for the game to start (driver presses PLAY)
@@ -105,14 +108,35 @@ public class OfficialTeleOp extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            telemetry.addData("jewelColor: ", jewelColor.red());
+            telemetry.update();
+
             jewelColor.enableLed(false);
 
             // BASE : Gamepad 1, Joysticks
-            double stickLX = gamepad1.left_stick_x;
-            double stickLY = gamepad1.left_stick_y;
-            double stickRX = gamepad1.right_stick_x;
-            double stickRY = gamepad1.right_stick_y;
-            if (stickLX <= -stickPushLarge && stickRX <= -stickPushLarge
+            double stickLX = valueConvert(gamepad1.left_stick_x);
+            double stickLY = valueConvert(gamepad1.left_stick_y);
+            double stickRX = valueConvert(gamepad1.right_stick_x);
+            double stickRY = valueConvert(gamepad1.right_stick_y);
+            telemetry.addData("Status", "Run Time: " + stickLX + stickLY + stickRX + stickRY + Math.abs(motorFR.getCurrentPosition() ) + Math.abs(motorFL.getCurrentPosition() ) + Math.abs(motorBL.getCurrentPosition() ) + Math.abs(motorBR.getCurrentPosition() ));
+            telemetry.update();
+
+            fLPower = moveEquation(-stickRY, -strafe(stickLX, stickRX));
+            fRPower = moveEquation(-stickLY, strafe(stickLX, stickRX));
+            bLPower = moveEquation(-stickRY, strafe(stickLX, stickRX));
+            bRPower = moveEquation(-stickLY, -strafe(stickLX, stickRX));
+            navSetPower();
+
+            /*telemetry.addLine().addData("", (Math.abs(motorFR.getCurrentPosition() )));
+            telemetry.update();
+            telemetry.addLine().addData("", (Math.abs(motorFL.getCurrentPosition() )));
+            telemetry.update();
+            telemetry.addLine().addData("", (Math.abs(motorBL.getCurrentPosition() )));
+            telemetry.update();
+            telemetry.addLine().addData("", (Math.abs(motorBR.getCurrentPosition() )));
+            telemetry.update();*/
+
+            /*if (stickLX <= -stickPushLarge && stickRX <= -stickPushLarge
                     && Math.abs(stickLY) <= stickPushSmall && Math.abs(stickRY) <= stickPushSmall) {
                 //strafe left
                 navStrafe(speed, true);
@@ -135,10 +159,10 @@ public class OfficialTeleOp extends LinearOpMode {
                 }
                 navTank(leftSpeed, rightSpeed);
 
-            }
+            }*/
 
 
-            // BALANCE BEAM CLAWS
+            /*/ BALANCE BEAM CLAWS
             clawLeft.setPosition(0);
             clawRight.setPosition(0);
 
@@ -151,7 +175,7 @@ public class OfficialTeleOp extends LinearOpMode {
                     clawLeft.setPosition(0);
                     clawRight.setPosition(0);
                 }
-            }
+            }*/
 
             double stickLY2 = gamepad2.left_stick_y;
             double stickRY2 = gamepad2.right_stick_y;
@@ -213,10 +237,31 @@ public class OfficialTeleOp extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
 
-
+            idle();
         }
         telemetry.addData("Status", "STOPPED Time: " + runtime.toString());
         telemetry.update();
+    }
+
+    public double valueConvert(double controllerValue) {
+
+        if(Math.abs(controllerValue) <= .03){
+            return 0;
+        }
+        if(Math.abs(controllerValue) > .03 && Math.abs(controllerValue) >= .1){
+            return (2 * controllerValue - 0.02);
+        }
+        if(Math.abs(controllerValue) > .1 && Math.abs(controllerValue) >= .8){
+            return (22/7 * controllerValue + 0.15);
+        }
+        if(Math.abs(controllerValue) > .8 && Math.abs(controllerValue) >= 1){
+            return (1/3 * controllerValue + .66);
+        }
+        return 0;
+    }
+
+    public double strafe(double leftX, double rightX){
+        return (leftX + rightX)/2;
     }
 
 
@@ -244,6 +289,11 @@ public class OfficialTeleOp extends LinearOpMode {
         bLPower = -speed;
         fRPower = -speed;
         navSetPower();
+    }
+
+    public double moveEquation(double yValue, double strafeValue) {
+        return (yValue * Math.abs(yValue) + strafeValue * Math.abs(strafeValue))
+                /(Math.abs(yValue) + Math.abs(strafeValue));
     }
 
 }
