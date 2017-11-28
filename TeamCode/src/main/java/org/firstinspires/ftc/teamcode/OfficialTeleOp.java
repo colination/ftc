@@ -36,13 +36,10 @@ public class OfficialTeleOp extends LinearOpMode {
     DcMotor collectLeft;
     DcMotor collectRight;
 
-    // BALANCE BEAM CLAWS
-    //Servo clawLeft;
-    //Servo clawRight;
-
     // LIFT
     DcMotor lift;
 
+    // COLOR SENSOR FOR AUTO
     ColorSensor jewelColor;
 
     public double fLPower = 0.0;
@@ -72,16 +69,11 @@ public class OfficialTeleOp extends LinearOpMode {
 
         manipulator = hardwareMap.get(DcMotor.class, "manipulator");
 
-        //clawRight = hardwareMap.get(Servo.class, "clawRight");
-        //clawLeft = hardwareMap.get(Servo.class, "clawLeft");
-
         motorFL.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.FORWARD);
         motorFR.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
 
-        //clawLeft.setDirection(Servo.Direction.FORWARD);
-        //clawRight.setDirection(Servo.Direction.FORWARD);
         lift.setDirection(DcMotor.Direction.REVERSE);
 
         collectLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -89,7 +81,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
         manipulator.setDirection(DcMotor.Direction.FORWARD);
 
-        jewelColor = hardwareMap.get(ColorSensor.class, "sensorcolor");
+        jewelColor = hardwareMap.get(ColorSensor.class, "jewelColor");
 
         // Set all motors to zero power
         motorFL.setPower(fLPower);
@@ -97,19 +89,12 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBL.setPower(bLPower);
         motorBR.setPower(bRPower);
 
-        //clawLeft.setPosition(0);
-        //clawRight.setPosition(0);
-
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
-            telemetry.addData("jewelColor: ", jewelColor.red());
-            telemetry.update();
 
             jewelColor.enableLed(false);
 
@@ -121,11 +106,119 @@ public class OfficialTeleOp extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + stickLX + stickLY + stickRX + stickRY + Math.abs(motorFR.getCurrentPosition() ) + Math.abs(motorFL.getCurrentPosition() ) + Math.abs(motorBL.getCurrentPosition() ) + Math.abs(motorBR.getCurrentPosition() ));
             telemetry.update();
 
+            // BASE : Strafe
             fLPower = moveEquation(-stickRY, -strafe(stickLX, stickRX));
             fRPower = moveEquation(-stickLY, strafe(stickLX, stickRX));
             bLPower = moveEquation(-stickRY, strafe(stickLX, stickRX));
             bRPower = moveEquation(-stickLY, -strafe(stickLX, stickRX));
             navSetPower();
+
+
+            double stickLY2 = gamepad2.left_stick_y;
+            double stickRY2 = gamepad2.right_stick_y;
+
+            // COLLECTION : Left and Right Trigger
+            // Moving Forwards
+            while (gamepad1.left_trigger >= .5)
+            {
+                collectLeft.setPower(1);
+            }
+            collectLeft.setPower(0);
+
+            while ((gamepad1.right_trigger >= .5)) {
+
+                collectRight.setPower(-1);
+            }
+            collectRight.setPower(0);
+
+            // Moving Backwards
+            if ((gamepad1.left_bumper)) {
+                collectLeft.setPower(-1);
+            }
+
+            else {
+                collectLeft.setPower(0);
+            }
+
+            if ((gamepad1.right_bumper)) {
+                collectRight.setPower(1);
+            }
+
+            else {
+                collectRight.setPower(0);
+            }
+
+
+            // MANIPULATOR : Gamepad 2, Right Joystick
+            if (Math.abs(stickRY2) >= stickPushSmall)
+                manipulator.setPower(gamepad2.right_stick_y);
+            else{
+                manipulator.setPower(0);
+            }
+
+
+            // LIFT CODE : Gamepad 2, Left Joystick
+            if (Math.abs(stickLY2) >= stickPushSmall)
+                lift.setPower(gamepad2.left_stick_y);
+            else{
+                lift.setPower(0);
+            }
+
+        }
+    }
+
+    public double valueConvert(double controllerValue) {
+
+        if(Math.abs(controllerValue) <= .03){
+            return 0;
+        }
+        if(Math.abs(controllerValue) > .03 && Math.abs(controllerValue) <= .6){
+            return (2 * controllerValue - 0.02);
+        }
+        if(Math.abs(controllerValue) > .6 && Math.abs(controllerValue) <= .95){
+            return (22/7 * controllerValue + 0.15);
+        }
+        if(Math.abs(controllerValue) > .95 && Math.abs(controllerValue) <= 1){
+            return (1/3 * controllerValue + .66);
+        }
+        return 0;
+    }
+
+    public double strafe(double leftX, double rightX){
+        return (leftX + rightX)/2;
+    }
+
+    public void navSetPower() {
+        motorFL.setPower(fLPower);
+        motorFR.setPower(fRPower);
+        motorBL.setPower(bLPower);
+        motorBR.setPower(bRPower);
+    }
+
+    public void navTank(double leftSpeed, double rightSpeed) {
+        fLPower = bLPower = leftSpeed;
+        fRPower = bRPower = rightSpeed;
+        navSetPower();
+    }
+
+    public void navStrafe(double speed, boolean isLeft) {
+        if (isLeft == true) {
+            speed = -speed;     // strafe left
+        }
+        fLPower = speed;
+        bRPower = speed;
+        bLPower = -speed;
+        fRPower = -speed;
+        navSetPower();
+    }
+
+    public double moveEquation(double yValue, double strafeValue) {
+        return (yValue * Math.abs(yValue) + strafeValue * Math.abs(strafeValue))
+                /(Math.abs(yValue) + Math.abs(strafeValue));
+    }
+
+}
+
 
             /*telemetry.addLine().addData("", (Math.abs(motorFR.getCurrentPosition() )));
             telemetry.update();
@@ -176,124 +269,3 @@ public class OfficialTeleOp extends LinearOpMode {
                     clawRight.setPosition(0);
                 }
             }*/
-
-            double stickLY2 = gamepad2.left_stick_y;
-            double stickRY2 = gamepad2.right_stick_y;
-
-            // COLLECTION : Left and Right Trigger
-            if (gamepad1.left_trigger >= .5)
-            {
-                collectLeft.setPower(1);
-
-            }
-
-            else {
-                collectLeft.setPower(0);
-            }
-
-
-            if ((gamepad1.right_trigger >= .5)) {
-
-                collectRight.setPower(-1);
-            }
-
-            else {
-                collectRight.setPower(0);
-            }
-
-            if ((gamepad1.left_bumper)) {
-                collectLeft.setPower(-1);
-            }
-
-            else {
-                collectLeft.setPower(0);
-            }
-
-            if ((gamepad1.right_bumper)) {
-                collectRight.setPower(1);
-            }
-
-            else {
-                collectRight.setPower(0);
-            }
-
-
-            // MANIPULATOR : Gamepad 2, Right Joystick
-            if (Math.abs(stickRY2) >= stickPushSmall)
-                manipulator.setPower(gamepad2.right_stick_y);
-            else{
-                manipulator.setPower(0);
-            }
-
-
-            // LIFT CODE : Gamepad 2, Left Joystick
-            if (Math.abs(stickLY2) >= stickPushSmall)
-                lift.setPower(gamepad2.left_stick_y);
-            else{
-                lift.setPower(0);
-            }
-
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.update();
-
-            idle();
-        }
-        telemetry.addData("Status", "STOPPED Time: " + runtime.toString());
-        telemetry.update();
-    }
-
-    public double valueConvert(double controllerValue) {
-
-        if(Math.abs(controllerValue) <= .03){
-            return 0;
-        }
-        if(Math.abs(controllerValue) > .03 && Math.abs(controllerValue) >= .1){
-            return (2 * controllerValue - 0.02);
-        }
-        if(Math.abs(controllerValue) > .1 && Math.abs(controllerValue) >= .8){
-            return (22/7 * controllerValue + 0.15);
-        }
-        if(Math.abs(controllerValue) > .8 && Math.abs(controllerValue) >= 1){
-            return (1/3 * controllerValue + .66);
-        }
-        return 0;
-    }
-
-    public double strafe(double leftX, double rightX){
-        return (leftX + rightX)/2;
-    }
-
-
-    public void navSetPower() {
-        motorFL.setPower(fLPower);
-        motorFR.setPower(fRPower);
-        motorBL.setPower(bLPower);
-        motorBR.setPower(bRPower);
-
-
-    }
-
-    public void navTank(double leftSpeed, double rightSpeed) {
-        fLPower = bLPower = leftSpeed;
-        fRPower = bRPower = rightSpeed;
-        navSetPower();
-    }
-
-    public void navStrafe(double speed, boolean isLeft) {
-        if (isLeft == true) {
-            speed = -speed;     // strafe left
-        }
-        fLPower = speed;
-        bRPower = speed;
-        bLPower = -speed;
-        fRPower = -speed;
-        navSetPower();
-    }
-
-    public double moveEquation(double yValue, double strafeValue) {
-        return (yValue * Math.abs(yValue) + strafeValue * Math.abs(strafeValue))
-                /(Math.abs(yValue) + Math.abs(strafeValue));
-    }
-
-}
