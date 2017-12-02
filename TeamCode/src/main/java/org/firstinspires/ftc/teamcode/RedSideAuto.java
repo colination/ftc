@@ -78,8 +78,6 @@ public class RedSideAuto extends LinearOpMode {
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-
-
         collectLeft = hardwareMap.dcMotor.get("collectLeft");
         collectRight = hardwareMap.dcMotor.get("collectRight");
 
@@ -91,19 +89,26 @@ public class RedSideAuto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        /*parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);*/
+        VuforiaLocalizer vuforia;
 
-        /*initVariables();
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+
+        parameters.vuforiaLicenseKey = "ATW/8fr/////AAAAGZ5Fjme7F0bTj0e+AOR2QIAOmUyzJb0YwYzAFqJZ9s/Mn3mkJq6MvoHNP03tdbewGWZg7BNT4+3qq8AydmSrU5Gbsvd35P3vIf1lJ36C9drgbusNC+rtTTW9lt6rGarj9kvrotz5c6CR2frUiNaxHK3JA6xEjyjGo8jvSgQ3YB03yW5rBdAAxRyKj/Ij30RL6ohnIyKDi03LvDBJiOlTMW3DvXnSgAU+D7TLEokjbjon1U3IS/zjGldbPi2Cv7D5Q98oIlTSfOxJpIgJ9kceLNAqoOQziy3CXc0FUeY8fTQ3/QKOKbF9brRCLoEAn9FmMc2m/MmMlwrImvoLyGvcQWcTabM1zxZXnXX4Q4+AUZaB";
+
+        VuforiaTrackables relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTrackables.activate();*/
+        relicTrackables.activate();
 
         while (opModeIsActive()) {//distnce 1600
 
+
             // Display the current value
             telemetry.addLine().addData("Servo Position", "%5.2f", jewelHit.getPosition());
-            telemetry.addLine().addData(">", "Press Stop to end test." );
+            telemetry.addLine().addData(">", "Press Stop to end test.");
             telemetry.update();
 
             // Set the servo to the new position and pause;
@@ -117,14 +122,13 @@ public class RedSideAuto extends LinearOpMode {
             sleep(CYCLE_MS);
             idle();
 
-            if(sensorColor.red() > 30) {
+            if (sensorColor.red() > 30) {
                 coolEncoderForward(-.3, 200);
                 sleep(300);
                 jewelHit.setPosition(0);
                 sleep(1000);
                 coolEncoderForward(.3, 700);
-            }
-            else {
+            } else {
                 coolEncoderForward(.3, 200);
                 jewelHit.setPosition(0);
                 sleep(1000);
@@ -144,11 +148,26 @@ public class RedSideAuto extends LinearOpMode {
 
             idle();
             sleep(20000);
-        }
-        telemetry.addLine().addData(">", "Done");
-        telemetry.update();
 
-        // Signal done;
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+
+                /* Found an instance of the template.*/
+                telemetry.addData("VuMark", "%s visible", vuMark);
+                if (vuMark == RelicRecoveryVuMark.LEFT) {
+
+                }
+                if (vuMark == RelicRecoveryVuMark.CENTER) {
+
+                }
+                if (vuMark == RelicRecoveryVuMark.RIGHT) {
+
+                }
+            }
+            telemetry.addLine().addData(">", "Done");
+            telemetry.update();
+
+            // {Signal done;
             // open jewel servo
 
             /*jewelHit.setPosition(0.5); // value of servo to be open
@@ -201,8 +220,9 @@ public class RedSideAuto extends LinearOpMode {
 
             // turn off manipulator
             manipMove(0);*/
+       }
+    }
 
-        }
     public void encoderReset() {
         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
