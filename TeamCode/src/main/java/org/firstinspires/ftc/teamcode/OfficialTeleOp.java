@@ -20,14 +20,14 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
     //Manip servo
-    Servo manipServo;
-=======
+    //Servo manipServo;
+//=======
     //MANIPILATOR SERVO
     Servo manipServo;
     Servo jewelHit;
->>>>>>> 7286f2e7664925c52135da553a117d8a0fe9d92e
+//>>>>>>> 7286f2e7664925c52135da553a117d8a0fe9d92e
 
 
     // BASE
@@ -183,14 +183,14 @@ public class OfficialTeleOp extends LinearOpMode {
             else{
                 lift.setPower(0);
             }
-<<<<<<< HEAD
+/*<<<<<<< HEAD
 
             //MANIPULATOR SERVO
             telemetry.addLine().addData(" ",manipServo.getPosition());
             if (gamepad2.left_bumper)
             {
                     manipServo.setPosition(.5);
-=======
+=======*/
             //MANIPULATOR SERVO
             telemetry.addLine().addData(" ", manipServo.getPosition());
             while (gamepad2.left_bumper)
@@ -198,7 +198,7 @@ public class OfficialTeleOp extends LinearOpMode {
                 if(manipServo.getPosition()== 0.0){
                     manipServo.setPosition(1);
                 }
->>>>>>> 7286f2e7664925c52135da553a117d8a0fe9d92e
+//>>>>>>> 7286f2e7664925c52135da553a117d8a0fe9d92e
             }
             manipServo.setPosition(0.0);
         }

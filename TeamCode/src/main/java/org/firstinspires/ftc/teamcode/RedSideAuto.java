@@ -108,17 +108,26 @@ public class RedSideAuto extends LinearOpMode {
 
             // Set the servo to the new position and pause;
             coolEncoderForward(.3, 50);
+            idle();
             sleep(1000);
             jewelHit.setPosition(0);
-            coolEncoderForward(-.3, 50);
+            idle();
+            sleep(500);
+            rightEncoder(.5, 50);
+            idle();
             sleep(1000);
             idle();
             jewelHit.setPosition(.84);
             sleep(CYCLE_MS);
             idle();
+            telemetry.addLine().addData("Color", sensorColor.red());
+            telemetry.update();
+            sleep(5000);
+
+            telemetry.update();
 
             if(sensorColor.red() > 30) {
-                coolEncoderForward(-.3, 200);
+                coolEncoderForward(-.7, 250);
                 sleep(300);
                 jewelHit.setPosition(0);
                 sleep(1000);
@@ -232,13 +241,29 @@ public class RedSideAuto extends LinearOpMode {
 
         }
 
+    public void rightEncoder(double speed, int distance) {
+        encoderReset();
+        while ((Math.abs(motorFR.getCurrentPosition()) < distance) && (opModeIsActive())) {
+            motorFL.setPower(speed);
+            motorFR.setPower(-speed);
+            motorBL.setPower(-speed);
+            motorBR.setPower(speed);
+            telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
+            telemetry.update();
+        }
+        motorFL.setPower(0);
+        motorFR.setPower(0);
+        motorBL.setPower(0);
+        motorBR.setPower(0);
+    }
+
     public void turnLeft() {
         encoderReset();
         while ((Math.abs(motorFR.getCurrentPosition()) < 1350) && (opModeIsActive())) {//clockwise
-            motorFL.setPower(.5);
-            motorFR.setPower(-.5);
-            motorBL.setPower(.5);
-            motorBR.setPower(-.5);
+            motorFL.setPower(-.5);
+            motorFR.setPower(.5);
+            motorBL.setPower(-.5);
+            motorBR.setPower(.5);
             telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
             telemetry.update();
         }
