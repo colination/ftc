@@ -113,7 +113,8 @@ public class RedSideAuto extends LinearOpMode {
             jewelHit.setPosition(0);
             idle();
             sleep(500);
-            rightEncoder(.5, 50);
+            rightEncoder(.3, 150);
+            coolEncoderForward(-.3, 50);
             idle();
             sleep(1000);
             idle();
@@ -122,22 +123,22 @@ public class RedSideAuto extends LinearOpMode {
             idle();
             telemetry.addLine().addData("Color", sensorColor.red());
             telemetry.update();
-            sleep(5000);
+            sleep(3000);
 
             telemetry.update();
 
-            if(sensorColor.red() > 30) {
+            if(sensorColor.red() > 12) {
                 coolEncoderForward(-.7, 250);
                 sleep(300);
                 jewelHit.setPosition(0);
                 sleep(1000);
-                coolEncoderForward(.3, 700);
+                coolEncoderForward(.3, 900);
             }
             else {
-                coolEncoderForward(.3, 200);
+                coolEncoderForward(.3, 100);
                 jewelHit.setPosition(0);
                 sleep(1000);
-                coolEncoderForward(.3, 500);
+                coolEncoderForward(.3, 400);
             }
             sleep(1000);
             coolEncoderForward(.3, 750);
@@ -151,7 +152,7 @@ public class RedSideAuto extends LinearOpMode {
             manipulator.setPower(-1);
             sleep(1700);
 
-            idle();
+
             sleep(20000);
         }
         telemetry.addLine().addData(">", "Done");
