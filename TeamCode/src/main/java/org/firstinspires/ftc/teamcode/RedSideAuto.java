@@ -115,7 +115,7 @@ public class RedSideAuto extends LinearOpMode {
             telemetry.update();
 
             // Set the servo to the new position and pause;
-            coolEncoderForward(.3, 50);
+            coolEncoderForward(.3, 20);
             idle();
             manipServo.setPosition(0);
             sleep(1000);
@@ -123,7 +123,7 @@ public class RedSideAuto extends LinearOpMode {
             idle();
             sleep(500);
             rightEncoder(.3, 75);
-            coolEncoderForward(-.3, 50);
+            //coolEncoderForward(-.3, 50);
             idle();
             sleep(1000);
             idle();
