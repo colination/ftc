@@ -20,8 +20,14 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
+<<<<<<< HEAD
     //Manip servo
     Servo manipServo;
+=======
+    //MANIPILATOR SERVO
+    Servo manipServo;
+    Servo jewelHit;
+>>>>>>> 7286f2e7664925c52135da553a117d8a0fe9d92e
 
 
     // BASE
@@ -67,6 +73,9 @@ public class OfficialTeleOp extends LinearOpMode {
 
         lift = hardwareMap.get(DcMotor.class, "lift");
 
+        manipServo = hardwareMap.get(Servo.class, "manipServo");
+        jewelHit = hardwareMap.get(Servo.class, "jewelHit");
+
         collectLeft = hardwareMap.get(DcMotor.class, "collectLeft");
         collectRight = hardwareMap.get(DcMotor.class, "collectRight");
 
@@ -109,33 +118,38 @@ public class OfficialTeleOp extends LinearOpMode {
             double stickLY = valueConvert(gamepad1.left_stick_y);
             double stickRX = valueConvert(gamepad1.right_stick_x);
             double stickRY = valueConvert(gamepad1.right_stick_y);
-            telemetry.addData("Status", "Run Time: " + stickLX + stickLY + stickRX + stickRY + Math.abs(motorFR.getCurrentPosition() ) + Math.abs(motorFL.getCurrentPosition() ) + Math.abs(motorBL.getCurrentPosition() ) + Math.abs(motorBR.getCurrentPosition() ));
-            telemetry.update();
+            /*telemetry.addData("Status", "Run Time: " + stickLX + stickLY + stickRX + stickRY + Math.abs(motorFR.getCurrentPosition() ) + Math.abs(motorFL.getCurrentPosition() ) + Math.abs(motorBL.getCurrentPosition() ) + Math.abs(motorBR.getCurrentPosition() ));
+            telemetry.update();*/
 
             // BASE : Strafe
-            fLPower = moveEquation(-stickRY, -strafe(stickLX, stickRX));
-            fRPower = moveEquation(-stickLY, strafe(stickLX, stickRX));
-            bLPower = moveEquation(-stickRY, strafe(stickLX, stickRX));
-            bRPower = moveEquation(-stickLY, -strafe(stickLX, stickRX));
+            fRPower = moveEquation(stickRY, -strafe(stickLX, stickRX));
+            fLPower = moveEquation(stickLY, strafe(stickLX, stickRX));
+            bRPower = moveEquation(stickRY, strafe(stickLX, stickRX));
+            bLPower = moveEquation(stickLY, -strafe(stickLX, stickRX));
             navSetPower();
 
+            jewelHit.setPosition(0);
 
             double stickLY2 = gamepad2.left_stick_y;
             double stickRY2 = gamepad2.right_stick_y;
 
             // COLLECTION : Left and Right Trigger
             // Moving Forwards
-            while (gamepad1.left_trigger >= .5)
+            if (gamepad1.left_trigger >= .5)
             {
                 collectLeft.setPower(1);
             }
-            collectLeft.setPower(0);
+            else {
+                collectLeft.setPower(0);
+            }
 
-            while ((gamepad1.right_trigger >= .5)) {
-
+            if (gamepad1.right_trigger >= .5) {
                 collectRight.setPower(-1);
             }
-            collectRight.setPower(0);
+            else {
+                collectRight.setPower(0);
+            }
+
 
             // Moving Backwards
             if ((gamepad1.left_bumper)) {
@@ -165,34 +179,59 @@ public class OfficialTeleOp extends LinearOpMode {
 
             // LIFT CODE : Gamepad 2, Left Joystick
             if (Math.abs(stickLY2) >= stickPushSmall)
-                lift.setPower(gamepad2.left_stick_y);
+                lift.setPower(-gamepad2.left_stick_y);
             else{
                 lift.setPower(0);
             }
+<<<<<<< HEAD
 
             //MANIPULATOR SERVO
             telemetry.addLine().addData(" ",manipServo.getPosition());
             if (gamepad2.left_bumper)
             {
                     manipServo.setPosition(.5);
+=======
+            //MANIPULATOR SERVO
+            telemetry.addLine().addData(" ", manipServo.getPosition());
+            while (gamepad2.left_bumper)
+            {
+                if(manipServo.getPosition()== 0.0){
+                    manipServo.setPosition(1);
+                }
+>>>>>>> 7286f2e7664925c52135da553a117d8a0fe9d92e
             }
             manipServo.setPosition(0.0);
         }
     }
 
-    public double valueConvert(double controllerValue) {
+    public double valueConvert(double controllerValue) {//note: this needs to be reversed larger coefficient for higher motor value
 
         if(Math.abs(controllerValue) <= .03){
             return 0;
         }
         if(Math.abs(controllerValue) > .03 && Math.abs(controllerValue) <= .6){
-            return (2 * controllerValue - 0.02);
+            if (controllerValue < 0) {
+                return (1/4 * controllerValue - .02);
+            }
+            else {
+                return (1/4 * controllerValue + .02);
+            }
         }
         if(Math.abs(controllerValue) > .6 && Math.abs(controllerValue) <= .95){
-            return (22/7 * controllerValue + 0.15);
+            if (controllerValue < 0) {
+                return (2/3 * controllerValue - .15);
+            }
+            else {
+                return (2/3 * controllerValue + .15);
+            }
         }
         if(Math.abs(controllerValue) > .95 && Math.abs(controllerValue) <= 1){
-            return (1/3 * controllerValue + .66);
+            if (controllerValue < 0) {
+                return (3 * controllerValue - 2);
+            }
+            else {
+                return (3 * controllerValue + 2);
+            }
         }
         return 0;
     }
