@@ -20,7 +20,8 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    //jewelTest
+    //Manip servo
+    Servo manipServo;
 
 
     // BASE
@@ -62,12 +63,17 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
 
+        manipServo = hardwareMap.get(Servo.class, "manipServo");
+
         lift = hardwareMap.get(DcMotor.class, "lift");
 
         collectLeft = hardwareMap.get(DcMotor.class, "collectLeft");
         collectRight = hardwareMap.get(DcMotor.class, "collectRight");
 
         manipulator = hardwareMap.get(DcMotor.class, "manipulator");
+
+        manipServo.setDirection(Servo.Direction.FORWARD);
+
 
         motorFL.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.FORWARD);
@@ -164,6 +170,13 @@ public class OfficialTeleOp extends LinearOpMode {
                 lift.setPower(0);
             }
 
+            //MANIPULATOR SERVO
+            telemetry.addLine().addData(" ",manipServo.getPosition());
+            if (gamepad2.left_bumper)
+            {
+                    manipServo.setPosition(.5);
+            }
+            manipServo.setPosition(0.0);
         }
     }
 
