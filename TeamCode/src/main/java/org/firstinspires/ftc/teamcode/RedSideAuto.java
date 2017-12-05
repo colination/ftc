@@ -91,7 +91,7 @@ public class RedSideAuto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        /*VuforiaLocalizer vuforia;
+        VuforiaLocalizer vuforia;
 
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -99,12 +99,12 @@ public class RedSideAuto extends LinearOpMode {
 
         parameters.vuforiaLicenseKey = "ATW/8fr/////AAAAGZ5Fjme7F0bTj0e+AOR2QIAOmUyzJb0YwYzAFqJZ9s/Mn3mkJq6MvoHNP03tdbewGWZg7BNT4+3qq8AydmSrU5Gbsvd35P3vIf1lJ36C9drgbusNC+rtTTW9lt6rGarj9kvrotz5c6CR2frUiNaxHK3JA6xEjyjGo8jvSgQ3YB03yW5rBdAAxRyKj/Ij30RL6ohnIyKDi03LvDBJiOlTMW3DvXnSgAU+D7TLEokjbjon1U3IS/zjGldbPi2Cv7D5Q98oIlTSfOxJpIgJ9kceLNAqoOQziy3CXc0FUeY8fTQ3/QKOKbF9brRCLoEAn9FmMc2m/MmMlwrImvoLyGvcQWcTabM1zxZXnXX4Q4+AUZaB";
 
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTrackables.activate();*/
+        relicTrackables.activate();
 
         while (opModeIsActive()) {//distnce 1600
 
@@ -114,7 +114,7 @@ public class RedSideAuto extends LinearOpMode {
             telemetry.addLine().addData(">", "Press Stop to end test.");
             telemetry.update();
 
-            // Set the servo to the new position and pause;
+            /*// Set the servo to the new position and pause;
             coolEncoderForward(.3, 50);
             idle();
             manipServo.setPosition(0);
@@ -129,7 +129,19 @@ public class RedSideAuto extends LinearOpMode {
             idle();
             jewelHit.setPosition(.84);
             sleep(1000);
+            idle();*/
+
+            // Set jewel starting position
+
+            manipServo.setPosition(0);
+            jewelHit.setPosition(0);
+
             idle();
+            sleep(1000);
+
+            jewelHit.setPosition(.84);
+
+
             telemetry.addLine().addData("Color", sensorColor.red());
             telemetry.update();
             sleep(3000);
@@ -142,16 +154,19 @@ public class RedSideAuto extends LinearOpMode {
                 sleep(300);
                 jewelHit.setPosition(0);
                 sleep(1000);
+
                 coolEncoderForward(.3, 850);
             }
             else {
                 coolEncoderForward(.3, 100);
                 jewelHit.setPosition(0);
                 sleep(1000);
-                coolEncoderForward(.3, 600);
+                coolEncoderForward(.5, 400);
             }
             sleep(1000);
-            coolEncoderForward(.3, 775);
+
+
+            /*coolEncoderForward(.3, 775);
             idle();
             sleep(1000);
             turnLeft();
@@ -159,9 +174,9 @@ public class RedSideAuto extends LinearOpMode {
             sleep(1000);
             manipServo.setPosition(1);
             sleep(1000);
-            manipulator.setPower(-1);
+            manipulator.setPower(-1);*/
 
-            /*RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 // Found an instance of the template.
@@ -202,7 +217,7 @@ public class RedSideAuto extends LinearOpMode {
                     sleep(1000);
                     manipulator.setPower(-1);
                 }
-            }*/
+            }
 
             sleep(1700);
 
