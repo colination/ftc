@@ -177,9 +177,12 @@ public class OfficialTeleOp extends LinearOpMode {
                 lift.setPower(0);
             }
             //MANIPULATOR SERVO
-            telemetry.addLine().addData(" ", manipServo.getPosition());
-            if (gamepad2.left_bumper && manipServo.getPosition() == 0) {
+            if (gamepad2.left_bumper) {
                 manipServo.setPosition(.5);
+            }
+            else
+            {
+                manipServo.setPosition(0);
             }
         }
     }
