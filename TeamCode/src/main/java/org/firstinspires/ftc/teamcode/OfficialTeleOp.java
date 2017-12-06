@@ -122,10 +122,10 @@ public class OfficialTeleOp extends LinearOpMode {
             telemetry.update();*/
 
             // BASE : Strafe
-            fRPower = moveEquation(stickRY, -strafe(stickLX, stickRX));
-            fLPower = moveEquation(stickLY, strafe(stickLX, stickRX));
-            bRPower = moveEquation(stickRY, strafe(stickLX, stickRX));
-            bLPower = moveEquation(stickLY, -strafe(stickLX, stickRX));
+            fRPower = moveEquation(stickRY, strafe(stickLX, stickRX));
+            fLPower = moveEquation(stickLY, -strafe(stickLX, stickRX));
+            bRPower = moveEquation(stickRY, -strafe(stickLX, stickRX));
+            bLPower = moveEquation(stickLY, strafe(stickLX, stickRX));
             navSetPower();
 
             jewelHit.setPosition(0);

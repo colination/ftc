@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -20,42 +19,48 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Created by Navya Janga on 10/21/2017.
  */
 
-@Autonomous (name = "servoTest", group = "Auto")
+@TeleOp(name = "servo", group = "Test")
 //@Disabled
 
 public class servoTest extends LinearOpMode{
 
-    CRServo jewelHit;
+    CRServo manipServo;
 
     //@Override
     public void runOpMode()  throws InterruptedException {
 
-        jewelHit = hardwareMap.crservo.get("jewelHit");
-        jewelHit.setPower(0);
+        manipServo = hardwareMap.crservo.get("manipServo");
+        // try using the servo like a normal servo?
+        manipServo.setPower(0);
 
         waitForStart();
 
         while (opModeIsActive()) {
 
+
+            manipServo.setPower(1);
+            telemetry.addData("Servo Position", "%5.2f", manipServo.getPower());
+            telemetry.addData(">", "Press Stop to end test." );
+            telemetry.update();
+
+            sleep(500);
+            manipServo.setPower(0);
+            telemetry.addData("Servo Position", "%5.2f", manipServo.getPower());
+            telemetry.addData(">", "Press Stop to end test." );
+            telemetry.update();
+
+            sleep(500);
             // testing for distance and power values
-            telemetry.addData("", "start");
-            telemetry.update();
 
-            jewelHit.setPower(1);
+            /*while (gamepad1.left_stick_y > 0.1) {
+                manipServo.setPower(1);
 
-            telemetry.addData("", "powerSet");
-            telemetry.update();
+            }
 
-            Thread.sleep(1000);
+            while (gamepad1.left_stick_y < -0.1) {
+                manipServo.setPower(-1);
 
-
-            jewelHit.setPower(0);
-
-            telemetry.addData("", "powerStop");
-            telemetry.update();
-
-            // testing for jewelCode : do this after we find the correct distance values
-            // hitJewel;
+            }*/
 
         }
 
