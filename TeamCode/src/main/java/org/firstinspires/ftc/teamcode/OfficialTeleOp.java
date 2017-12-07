@@ -20,14 +20,12 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-//<<<<<<< HEAD
     //Manip servo
     //Servo manipServo;
-//=======
+
     //MANIPILATOR SERVO
     Servo manipServo;
     Servo jewelHit;
-//>>>>>>> 7286f2e7664925c52135da553a117d8a0fe9d92e
 
 
     // BASE
@@ -135,18 +133,15 @@ public class OfficialTeleOp extends LinearOpMode {
 
             // COLLECTION : Left and Right Trigger
             // Moving Forwards
-            if (gamepad1.left_trigger >= .5)
-            {
+            if (gamepad1.left_trigger >= .5) {
                 collectLeft.setPower(1);
-            }
-            else {
+            } else {
                 collectLeft.setPower(0);
             }
 
             if (gamepad1.right_trigger >= .5) {
                 collectRight.setPower(-1);
-            }
-            else {
+            } else {
                 collectRight.setPower(0);
             }
             collectLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -155,17 +150,13 @@ public class OfficialTeleOp extends LinearOpMode {
             // Moving Backwards
             if ((gamepad1.left_bumper)) {
                 collectLeft.setPower(-1);
-            }
-
-            else {
+            } else {
                 collectLeft.setPower(0);
             }
 
             if ((gamepad1.right_bumper)) {
                 collectRight.setPower(1);
-            }
-
-            else {
+            } else {
                 collectRight.setPower(0);
             }
 
@@ -173,7 +164,7 @@ public class OfficialTeleOp extends LinearOpMode {
             // MANIPULATOR : Gamepad 2, Right Joystick
             if (Math.abs(stickRY2) >= stickPushSmall)
                 manipulator.setPower(gamepad2.right_stick_y);
-            else{
+            else {
                 manipulator.setPower(0);
             }
 
@@ -181,29 +172,29 @@ public class OfficialTeleOp extends LinearOpMode {
             // LIFT CODE : Gamepad 2, Left Joystick
             if (Math.abs(stickLY2) >= stickPushSmall)
                 lift.setPower(-gamepad2.left_stick_y);
-            else{
+            else {
                 lift.setPower(0);
             }
-/*<<<<<<< HEAD
-
             //MANIPULATOR SERVO
-            telemetry.addLine().addData(" ",manipServo.getPosition());
-            if (gamepad2.left_bumper)
-            {
-                    manipServo.setPosition(.5);
-=======*/
-            //MANIPULATOR SERVO
-            telemetry.addLine().addData(" ", manipServo.getPosition());
-            while (gamepad2.x)
-            {
-                if(manipServo.getPosition()== 0.0){
-                    manipServo.setPosition(1);
-                }
-//>>>>>>> 7286f2e7664925c52135da553a117d8a0fe9d92e
+            if (gamepad2.left_bumper) {
+                manipServo.setPosition(.5);
+            } else {
+                manipServo.setPosition(0);
             }
-            manipServo.setPosition(0.0);
         }
+
+        //MANIPULATOR SERVO
+
+        telemetry.addLine().addData(" ", manipServo.getPosition());
+        if (gamepad2.x) {
+            manipServo.setPosition(1);
+        }
+
+        manipServo.setPosition(0.0);
+
+
     }
+
 
     public double valueConvert(double controllerValue) {//note: this needs to be reversed larger coefficient for higher motor value
 

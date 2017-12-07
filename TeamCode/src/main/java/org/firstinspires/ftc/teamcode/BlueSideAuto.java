@@ -87,7 +87,7 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
 
         // Wait for the start button
         // Wait for the start button
-        telemetry.addLine().addData(">", "Press Start to begin RedSideAuto." );
+        telemetry.addLine().addData(">", "MAKE SURE YOU LOAD ME WITH A GLYPH" );
         telemetry.update();
         waitForStart();
         /*
