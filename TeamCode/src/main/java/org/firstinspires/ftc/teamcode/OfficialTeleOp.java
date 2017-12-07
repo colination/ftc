@@ -128,7 +128,7 @@ public class OfficialTeleOp extends LinearOpMode {
             bLPower = moveEquation(stickLY, strafe(stickLX, stickRX));
             navSetPower();
 
-            jewelHit.setPosition(0);
+            jewelHit.setPosition(.45);
 
             double stickLY2 = gamepad2.left_stick_y;
             double stickRY2 = gamepad2.right_stick_y;
@@ -149,7 +149,8 @@ public class OfficialTeleOp extends LinearOpMode {
             else {
                 collectRight.setPower(0);
             }
-
+            collectLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            collectRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
             // Moving Backwards
             if ((gamepad1.left_bumper)) {
