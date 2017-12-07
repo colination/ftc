@@ -194,7 +194,7 @@ public class OfficialTeleOp extends LinearOpMode {
 =======*/
             //MANIPULATOR SERVO
             telemetry.addLine().addData(" ", manipServo.getPosition());
-            while (gamepad2.left_bumper)
+            while (gamepad2.x)
             {
                 if(manipServo.getPosition()== 0.0){
                     manipServo.setPosition(1);
