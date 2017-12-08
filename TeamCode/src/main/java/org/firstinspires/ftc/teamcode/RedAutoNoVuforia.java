@@ -18,6 +18,7 @@ public class RedAutoNoVuforia extends AutoMethods {
 
         initVariables();
 
+
         while (opModeIsActive()) {
             // open jewel servo
             jewelHit.setPosition(0.5); // value of servo to be open
