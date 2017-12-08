@@ -133,9 +133,9 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
 
 
             if(sensorColor.red() > 12) {
-                coolEncoderForward(.3, 100);
+                coolEncoderForward(.4, 100);
                 idle();
-                sleep(500);
+                sleep(400);
                 jewelHit.setPosition(0);
                 idle();
                 sleep(1000);

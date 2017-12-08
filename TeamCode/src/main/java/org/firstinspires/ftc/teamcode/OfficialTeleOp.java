@@ -171,7 +171,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
             // LIFT CODE : Gamepad 2, Left Joystick
             if (Math.abs(stickLY2) >= stickPushSmall)
-                lift.setPower(-gamepad2.left_stick_y);
+                lift.setPower(gamepad2.left_stick_y);
             else {
                 lift.setPower(0);
             }
