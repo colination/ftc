@@ -40,12 +40,12 @@ public abstract class AutoInit extends AutoObjects {
 
         lift = hardwareMap.dcMotor.get("lift");
 
-        clawRight = hardwareMap.servo.get("clawRight");
-        clawLeft = hardwareMap.servo.get("clawLeft");
+        //clawRight = hardwareMap.servo.get("clawRight");
+        //clawLeft = hardwareMap.servo.get("clawLeft");
 
         manipulator = hardwareMap.dcMotor.get("manipulator");
 
-        jewelColor = hardwareMap.get(ColorSensor.class, "jewelColor");
+        sensorColor = hardwareMap.get(ColorSensor.class, "sensorcolor");
 
         jewelHit = hardwareMap.servo.get("jewelHit");
 

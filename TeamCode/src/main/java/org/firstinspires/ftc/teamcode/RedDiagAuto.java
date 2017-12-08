@@ -87,7 +87,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
 
         // Wait for the start button
         // Wait for the start button
-        telemetry.addLine().addData(">", "Press Start to begin RedSideAuto." );
+        telemetry.addLine().addData(">", "MAKE SURE YOU LOAD ME WITH A GLYPH" );
         telemetry.update();
         waitForStart();
         /*
@@ -134,7 +134,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
 
             if(sensorColor.red() > 12) {
                 coolEncoderForward(-.3, 100);
-                sleep(300);
+                sleep(400);
                 jewelHit.setPosition(0);
                 sleep(1000);
                 coolEncoderForward(.3, 850);

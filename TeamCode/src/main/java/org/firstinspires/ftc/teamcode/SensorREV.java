@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
@@ -77,10 +78,16 @@ public class SensorREV extends LinearOpMode {
     //DistanceSensor sensorDistance;
 
     @Override
+
     public void runOpMode() {
 
         // get a reference to the color sensor.
+        ColorSensor sensorColor;
         sensorColor = hardwareMap.get(ColorSensor.class, "sensorColor");
+
+        Servo jewelHit;
+        jewelHit = hardwareMap.servo.get("jewelHit");
+
 
         // get a reference to the distance sensor that shares the same name.
         //sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_color_distance");
@@ -106,6 +113,7 @@ public class SensorREV extends LinearOpMode {
         // loop and read the RGB and distance data.
         // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
         while (opModeIsActive()) {
+
             // convert the RGB values to HSV values.
             // multiply by the SCALE_FACTOR.
             // then cast it back to int (SCALE_FACTOR is a double)
@@ -117,7 +125,16 @@ public class SensorREV extends LinearOpMode {
             // send the info back to driver station using telemetry function.
             //telemetry.addData("Distance (cm)",
                    // String.format(Locale.US, "%.02f", sensorDistance.getDistance(DistanceUnit.CM)));
-            telemetry.addData("Alpha", sensorColor.red());
+            jewelHit.setPosition(.5);
+            while (jewelHit.getPosition() == .5)
+            {
+                telemetry.addData("redValue", sensorColor.red());
+            }
+            if (sensorColor.red() >= 30)
+            {
+                jewelHit.setPosition(0);
+            }
+
             /*telemetry.addData("Red  ", sensorColor.red());
             telemetry.addData("Green", sensorColor.green());
             telemetry.addData("Blue ", sensorColor.blue());

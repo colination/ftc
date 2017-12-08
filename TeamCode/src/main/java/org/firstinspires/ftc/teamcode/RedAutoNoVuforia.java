@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
  /* Created by Navya Janga on 9/20/2017.*/
 
-
+/*
 @Autonomous
 @Disabled
 public class RedAutoNoVuforia extends AutoMethods {
@@ -23,7 +23,7 @@ public class RedAutoNoVuforia extends AutoMethods {
             jewelHit.setPosition(0.5); // value of servo to be open
 
             // move robot sideways until it senses the jewel
-            while (jewelColor.red() > 10 && jewelColor.red() < 25) {
+            while (sensorColor.red() > 10 && sensorColor.red() < 25) {
 
                 motorPower(0.5); // strafe
             }
@@ -31,7 +31,7 @@ public class RedAutoNoVuforia extends AutoMethods {
             motorStop();
 
             // color sense one jewel and knock off the opposite color
-            if (jewelColor.red() < 10) // blue value
+            if (sensorColor.red() < 10) // blue value
             {
                 motorEncoder(0.5, 20, 20, 20, 20);
             } else {
@@ -60,3 +60,4 @@ public class RedAutoNoVuforia extends AutoMethods {
     }
 
 }
+*/

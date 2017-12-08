@@ -24,10 +24,10 @@ public abstract class AutoObjects extends LinearOpMode {
 
     DcMotor manipulator;
 
-    ColorSensor jewelColor;
+    ColorSensor sensorColor;
 
-    Servo clawRight;
-    Servo clawLeft;
+    //Servo clawRight;
+    //Servo clawLeft;
 
     DcMotor lift;
 
