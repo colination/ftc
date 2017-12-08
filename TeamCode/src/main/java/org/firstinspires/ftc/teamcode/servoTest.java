@@ -15,9 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-/**
- * Created by Navya Janga on 10/21/2017.
- */
+
 
 @TeleOp(name = "servo", group = "Test")
 //@Disabled
