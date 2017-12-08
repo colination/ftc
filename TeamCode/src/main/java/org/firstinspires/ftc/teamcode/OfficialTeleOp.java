@@ -126,7 +126,10 @@ public class OfficialTeleOp extends LinearOpMode {
             bLPower = moveEquation(stickLY, strafe(stickLX, stickRX));
             navSetPower();
 
+
             jewelHit.setPosition(.45);
+
+
 
             double stickLY2 = gamepad2.left_stick_y;
             double stickRY2 = gamepad2.right_stick_y;
@@ -177,8 +180,12 @@ public class OfficialTeleOp extends LinearOpMode {
             }
             //MANIPULATOR SERVO
             if (gamepad2.left_bumper) {
+
                 manipServo.setPosition(.5);
-            } else {
+
+            }
+            else {
+
                 manipServo.setPosition(0);
             }
         }
