@@ -133,16 +133,15 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
 
 
             if(sensorColor.red() > 12) {
-                coolEncoderForward(-.3, 100);
-                sleep(400);
+                coolEncoderForward(-.3, 225);
+                idle();
                 jewelHit.setPosition(0);
-                sleep(1000);
-                coolEncoderForward(.3, 850);
+                coolEncoderForward(.3, 1000);
             }
             else {
-                coolEncoderForward(.3, 100);
+                coolEncoderForward(.3, 225);
+                idle();
                 jewelHit.setPosition(0);
-                sleep(1000);
                 coolEncoderForward(.3, 600);
             }
             sleep(1000);
@@ -151,7 +150,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
             sleep(1000);
             rightEncoder(-.3, 1900);
             turnAround();
-            coolEncoderForward(-.3, 200);
+            coolEncoderForward(-.3, 350);
             sleep(1000);
             manipServo.setPosition(1);
             sleep(1000);
@@ -316,7 +315,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
 
     public void turnAround() {
         encoderReset();
-        while ((Math.abs(motorFR.getCurrentPosition()) < 2700) && (opModeIsActive())) {//clockwise
+        while ((Math.abs(motorFR.getCurrentPosition()) < 2800) && (opModeIsActive())) {//clockwise
             motorFL.setPower(.5);
             motorFR.setPower(-.5);
             motorBL.setPower(.5);

@@ -130,7 +130,6 @@ public class OfficialTeleOp extends LinearOpMode {
             jewelHit.setPosition(.45);
 
 
-
             double stickLY2 = gamepad2.left_stick_y;
             double stickRY2 = gamepad2.right_stick_y;
 
@@ -178,27 +177,15 @@ public class OfficialTeleOp extends LinearOpMode {
             else {
                 lift.setPower(0);
             }
+
             //MANIPULATOR SERVO
-            if (gamepad2.left_bumper) {
-
-                manipServo.setPosition(.5);
-
+            if (gamepad2.right_bumper) {
+                manipServo.setPosition(1);
             }
-            else {
+            manipServo.setPosition(0);
 
-                manipServo.setPosition(0);
-            }
+
         }
-
-        //MANIPULATOR SERVO
-
-        telemetry.addLine().addData(" ", manipServo.getPosition());
-        if (gamepad2.x) {
-            manipServo.setPosition(1);
-        }
-
-        manipServo.setPosition(0.0);
-
 
     }
 

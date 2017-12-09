@@ -115,7 +115,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             telemetry.update();
 
             // Set the servo to the new position and pause;
-            manipServo.setPosition(0);
+            manipServo.setPosition(.7);
             sleep(1000);
             jewelHit.setPosition(0);
             sleep(500);
@@ -131,18 +131,20 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
 
 
             if(sensorColor.red() > 12) {
-                coolEncoderForward(.3, 100);
+                coolEncoderForward(.3, 225);
+                idle();
                 jewelHit.setPosition(0);
-                sleep(1000);
                 coolEncoderForward(-.3, 1000);
+
 
             }
             else {
                 coolEncoderForward(-.3, 200);
                 sleep(300);
-                jewelHit.setPosition(0);
-                sleep(1000);
+                idle();
+
                 coolEncoderForward(-.3, 600);
+                jewelHit.setPosition(0);
             }
             sleep(1000);
             coolEncoderForward(-.3, 775);
@@ -151,7 +153,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             rightEncoder(-.3, 1900);
             coolEncoderForward(-.3, 300);
             sleep(1000);
-            manipServo.setPosition(1);
+            manipServo.setPosition(0);
             sleep(1000);
             manipulator.setPower(-1);
             /*
