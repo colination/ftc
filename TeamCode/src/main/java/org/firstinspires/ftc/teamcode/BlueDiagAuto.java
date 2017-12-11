@@ -130,7 +130,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             telemetry.update();
 
 
-            if(sensorColor.red() > 12) {
+            if(sensorColor.red() > 15) {
                 coolEncoderForward(.3, 225);
                 idle();
                 jewelHit.setPosition(0);
@@ -139,8 +139,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
 
             }
             else {
-                coolEncoderForward(-.3, 200);
-                sleep(300);
+                coolEncoderForward(-.3, 225);
                 idle();
 
                 coolEncoderForward(-.3, 600);

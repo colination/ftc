@@ -117,7 +117,7 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
             // Set the servo to the new position and pause;
 
 
-            manipServo.setPosition(0);
+            manipServo.setPosition(.7);
             sleep(1000);
             jewelHit.setPosition(0);
             sleep(500);
@@ -132,19 +132,19 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
             telemetry.update();
 
 
-            if(sensorColor.red() > 12) {
-                coolEncoderForward(.4, 100);
+            if(sensorColor.red() > 15) {
+                coolEncoderForward(.3, 225);
                 idle();
-                sleep(400);
+
                 jewelHit.setPosition(0);
                 idle();
-                sleep(1000);
+
                 coolEncoderForward(-.3, 1000);
 
             }
             else {
                 coolEncoderForward(-.3, 200);
-                sleep(300);
+                idle();
                 jewelHit.setPosition(0);
                 sleep(1000);
                 coolEncoderForward(-.3, 600);
@@ -156,7 +156,7 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
             turnLeft();
             coolEncoderForward(-.3, 275);
             sleep(1000);
-            manipServo.setPosition(1);
+            manipServo.setPosition(0);
             sleep(1000);
 
             /*

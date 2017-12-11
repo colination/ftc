@@ -119,7 +119,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
 
             manipServo.setPosition(0);
             sleep(1000);
-            jewelHit.setPosition(0);
+            jewelHit.setPosition(.7);
             sleep(500);
             idle();
             jewelHit.setPosition(.84);
@@ -132,7 +132,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
             telemetry.update();
 
 
-            if(sensorColor.red() > 12) {
+            if(sensorColor.red() > 15) {
                 coolEncoderForward(-.3, 225);
                 idle();
                 jewelHit.setPosition(0);
@@ -152,7 +152,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
             turnAround();
             coolEncoderForward(-.3, 350);
             sleep(1000);
-            manipServo.setPosition(1);
+            manipServo.setPosition(0);
             sleep(1000);
             manipulator.setPower(-1);
             /*

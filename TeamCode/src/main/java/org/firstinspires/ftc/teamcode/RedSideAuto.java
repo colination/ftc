@@ -74,7 +74,6 @@ public class RedSideAuto extends LinearOpMode {
         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -87,7 +86,7 @@ public class RedSideAuto extends LinearOpMode {
 
         // Wait for the start button
         // Wait for the start button
-        telemetry.addLine().addData(">", "MAKE SURE YOU LOAD ME WITH A GLYPH" );
+        telemetry.addLine().addData(">", "MAKE SURE YOU LOAD ME WITH A GLYPH");
         telemetry.update();
         waitForStart();
 
@@ -133,7 +132,7 @@ public class RedSideAuto extends LinearOpMode {
 
             // Set jewel starting position
 
-            manipServo.setPosition(0);
+            manipServo.setPosition(.7);
             jewelHit.setPosition(0);
 
             idle();
@@ -149,43 +148,37 @@ public class RedSideAuto extends LinearOpMode {
             telemetry.update();
 
 
-            if(sensorColor.red() > 12) {
-                coolEncoderForward(-.5, 100);
+            if (sensorColor.red() > 15) {
+                coolEncoderForward(-.5, 225);
                 idle();
-                sleep(400);
                 jewelHit.setPosition(0);
-                sleep(1000);
 
-                coolEncoderForward(.3, 450);
 
-                coolEncoderForward(.3, 850);
+                coolEncoderForward(.3, 1000);
 
-            }
-            else {
-                coolEncoderForward(.3, 100);
+            } else {
+                coolEncoderForward(.3, 225);
                 sleep(1000);
                 jewelHit.setPosition(0);
                 sleep(1000);
 
-                coolEncoderForward(.3, 250);
+                coolEncoderForward(.3, 600);
             }
             sleep(1000);
             coolEncoderForward(.3, 1000);
-              coolEncoderForward(.5, 400);
-            }
+
             sleep(1000);
 
 
-            /*coolEncoderForward(.3, 775);
 
             idle();
-            sleep(1000);
+
             turnLeft();
             coolEncoderForward(-.3, 300);
-            sleep(1000);
-            manipServo.setPosition(1);
-            sleep(1000);
-            manipulator.setPower(-1);*/
+            sleep(500);
+            manipServo.setPosition(0);
+            sleep(500);
+            manipulator.setPower(-1);
 
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
@@ -230,15 +223,12 @@ public class RedSideAuto extends LinearOpMode {
                 }
             }
 
-            sleep(1700);
-
 
             manipulator.setPower(-1);
             sleep(3000);
             coolEncoderForward(.4, 300);
             sleep(500);
             coolEncoderForward(-.4, 325);
-
             manipulator.setPower(0);
             coolEncoderForward(.4, 150);
             sleep(20000);
@@ -301,6 +291,7 @@ public class RedSideAuto extends LinearOpMode {
             // turn off manipulator
             manipMove(0);*/
         }
+    }
 
 
     public void encoderReset() {

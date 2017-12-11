@@ -180,9 +180,12 @@ public class OfficialTeleOp extends LinearOpMode {
 
             //MANIPULATOR SERVO
             if (gamepad2.right_bumper) {
-                manipServo.setPosition(1);
+                manipServo.setPosition(0);
             }
-            manipServo.setPosition(0);
+
+            else {
+                manipServo.setPosition(.7);
+            }
 
 
         }
