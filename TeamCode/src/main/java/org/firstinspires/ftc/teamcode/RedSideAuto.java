@@ -170,7 +170,7 @@ public class RedSideAuto extends LinearOpMode {
                 jewelHit.setPosition(0);
 
 
-                coolEncoderForward(.3, 850);
+                coolEncoderForward(.3, 750);
 
             } else {
                 coolEncoderForward(.3, 225);
@@ -178,9 +178,8 @@ public class RedSideAuto extends LinearOpMode {
                 jewelHit.setPosition(0);
                 sleep(1000);
 
-                coolEncoderForward(.3, 415);
+                coolEncoderForward(.3, 300);
             }
-            sleep(8000);
             /*coolEncoderForward(.3, 1000); //11 17 25
 
             sleep(1000);
@@ -203,7 +202,7 @@ public class RedSideAuto extends LinearOpMode {
                 telemetry.addData("VuMark", "%s visible", vuMark);
                 if (vuMark == RelicRecoveryVuMark.LEFT) {//LEFT WORKS
                     sleep(1000);
-                    coolEncoderForward(.3, 2000);
+                    coolEncoderForward(.3, 2100);
                     idle();
                     sleep(1000);
                     turnLeft();
@@ -215,7 +214,7 @@ public class RedSideAuto extends LinearOpMode {
                 }
                 if (vuMark == RelicRecoveryVuMark.CENTER) {
                     sleep(1000);
-                    coolEncoderForward(.3, 1375);
+                    coolEncoderForward(.3, 1475);
                     idle();
                     sleep(1000);
                     turnLeft();
@@ -227,7 +226,7 @@ public class RedSideAuto extends LinearOpMode {
                 }
                 if (vuMark == RelicRecoveryVuMark.RIGHT) {
                     sleep(1000);
-                    coolEncoderForward(.3, 750);
+                    coolEncoderForward(.3, 850);
                     idle();
                     sleep(1000);
                     turnLeft();
@@ -274,8 +273,8 @@ public class RedSideAuto extends LinearOpMode {
             motorFR.setPower(speed);
             motorBL.setPower(speed);
             motorBR.setPower(speed);
-            telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
-            telemetry.update();
+            //telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
+            //telemetry.update();
         }
         motorFL.setPower(0);
         motorFR.setPower(0);
@@ -291,8 +290,8 @@ public class RedSideAuto extends LinearOpMode {
             motorFR.setPower(-speed);
             motorBL.setPower(-speed);
             motorBR.setPower(speed);
-            telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
-            telemetry.update();
+            //telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
+            //telemetry.update();
         }
         motorFL.setPower(0);
         motorFR.setPower(0);
@@ -307,8 +306,8 @@ public class RedSideAuto extends LinearOpMode {
             motorFR.setPower(.5);
             motorBL.setPower(-.5);
             motorBR.setPower(.5);
-            telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
-            telemetry.update();
+            //telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
+            //telemetry.update();
         }
         motorFL.setPower(0);
         motorFR.setPower(0);
