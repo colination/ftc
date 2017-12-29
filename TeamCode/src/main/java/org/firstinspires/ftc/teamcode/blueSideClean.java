@@ -33,6 +33,7 @@ public class blueSideClean extends LinearOpMode {//STILL RED SIDE AUTO
 
     // Define class members
     //double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+    //boolean rampUp = true;
     DcMotor motorFR;
     DcMotor motorFL;
     DcMotor motorBR;
@@ -154,6 +155,7 @@ public class blueSideClean extends LinearOpMode {//STILL RED SIDE AUTO
 
 
             telemetry.addLine().addData(">", "Done");
+            telemetry.update();
 
         }
     }
