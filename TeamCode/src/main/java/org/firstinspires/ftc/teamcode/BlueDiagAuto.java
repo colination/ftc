@@ -130,7 +130,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             telemetry.update();
 
 
-            if(sensorColor.red() > 15) {
+            if(sensorColor.red() > sensorColor.blue()) {
                 coolEncoderForward(.3, 225);
                 idle();
                 jewelHit.setPosition(0);
@@ -210,60 +210,6 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
 
             telemetry.addLine().addData(">", "Done");
             telemetry.update();
-
-            // {Signal done;
-            // open jewel servo
-
-            /*jewelHit.setPosition(0.5); // value of servo to be open
-
-            // move robot sideways until it senses the jewel
-            while (jewelColor.red() > 10 && jewelColor.red() < 25) {
-
-                motorPower(0.5); // strafe
-            }
-
-            motorStop();
-
-            // color sense one jewel and knock off the opposite color
-            if (jewelColor.red() < 10) // blue value
-            {
-                motorEncoder(0.5, 20, 20, 20, 20);
-            } else {
-                motorEncoder(0.5, -20, -20, -20, -20);
-            }
-
-            // put arm back in
-            jewelHit.setPosition(0);
-
-            // move towards glyphCode until the glyphCode is visible and scan glyphCode
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-
-            while (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-                motorEncoder(0.5, 5, 5, 5, 5);
-            }
-
-            motorStop();
-
-            // get to the square based on the distance values
-            switch (vuMark) {
-                case LEFT:
-                    motorEncoder(0.5, -14, 14, 14, -14);
-                case CENTER:
-                    motorEncoder(0.5, -22.5, 22.5, 22.5, -22.5);
-                case RIGHT:
-                    motorEncoder(0.5, -30.4, 30.4, 30.4, -30.4);
-            }
-
-            // move forward
-            motorEncoder(0.5, 24, 24, 24, 24); // measure distance later based on encoder tickets or use time value
-
-
-            // place glyph in correct section
-            // figure out time value needed for one block to pass through manipulator
-            manipMove(1);
-
-            // turn off manipulator
-            manipMove(0);*/
         }
     }
 
