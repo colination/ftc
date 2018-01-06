@@ -122,23 +122,25 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
             sleep(1000);
             idle();
             telemetry.addLine().addData("Color", sensorColor.red());
+            telemetry.addLine().addData("blue", sensorColor.blue());
             telemetry.update();
-            sleep(3000);
+            sleep(2000);
 
             telemetry.update();
 
             if(sensorColor.red() > sensorColor.blue()) {
-                coolEncoderForward(-.3, 225);
+                coolEncoderForward(-.3, 240);
                 idle();
                 jewelHit.setPosition(0);
-                coolEncoderForward(.3, 1000);
+                coolEncoderForward(.3, 700);
             }
             else {
-                coolEncoderForward(.3, 225);
+                coolEncoderForward(.3, 240);
                 idle();
                 jewelHit.setPosition(0);
-                coolEncoderForward(.3, 600);
+                coolEncoderForward(.3, 250);
             }
+            //coolEncoderForward(.3, 1350);
             /*sleep(1000);
             coolEncoderForward(.3, 500);
             idle();
@@ -150,8 +152,11 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
             manipServo.setPosition(0);
             sleep(1000);
             manipulator.setPower(-1);*/
-
+            idle();
+            sleep(5000);
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            telemetry.addData("reading vuforia", vuMark);
+            telemetry.update();
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 // Found an instance of the template.
@@ -159,11 +164,13 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
                 telemetry.update();
                 if (vuMark == RelicRecoveryVuMark.LEFT) {
                     sleep(1000);
-                    coolEncoderForward(.3, 800);
+                    coolEncoderForward(.3, 500);
                     idle();
                     sleep(1000);
-                    turnLeft();
-                    coolEncoderForward(-.3, 300);
+                    rightEncoder(-.3, 1950);
+                    turnAround();
+                    coolEncoderForward(-.3, 1000);
+                    coolEncoderForward(-.3, 200);
                     sleep(1000);
                     manipServo.setPosition(1);
                     sleep(1000);
@@ -171,11 +178,13 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
                 }
                 if (vuMark == RelicRecoveryVuMark.CENTER) {
                     sleep(1000);
-                    coolEncoderForward(.3, 750);
+                    coolEncoderForward(.3,500);
                     idle();
                     sleep(1000);
-                    turnLeft();
-                    coolEncoderForward(-.3, 300);
+                    rightEncoder(-.3, 1750);
+                    turnAround();
+                    coolEncoderForward(-.3, 1000);
+                    coolEncoderForward(-.3, 200);
                     sleep(1000);
                     manipServo.setPosition(1);
                     sleep(1000);
@@ -183,17 +192,21 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
                 }
                 if (vuMark == RelicRecoveryVuMark.RIGHT) {
                     sleep(1000);
-                    coolEncoderForward(.3, 1000);
+                    coolEncoderForward(.3, 500);
                     idle();
                     sleep(1000);
-                    turnLeft();
-                    coolEncoderForward(-.3, 400);
+                    rightEncoder(-.3, 1550);
+                    turnAround();
+                    coolEncoderForward(-.3, 1000);
+                    coolEncoderForward(-.3, 200);
                     sleep(1000);
                     manipServo.setPosition(1);
                     sleep(1000);
                     manipulator.setPower(-1);
                 }
             }
+            telemetry.addData("done reading vuforia", vuMark);
+            telemetry.update();
             manipulator.setPower(-1);
             sleep(3000);
             coolEncoderForward(.4, 300);
@@ -254,7 +267,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
 
     public void turnAround() {
         encoderReset();
-        while ((Math.abs(motorFR.getCurrentPosition()) < 2800) && (opModeIsActive())) {//clockwise
+        while ((Math.abs(motorFR.getCurrentPosition()) < 2900) && (opModeIsActive())) {//clockwise
             motorFL.setPower(.5);
             motorFR.setPower(-.5);
             motorBL.setPower(.5);

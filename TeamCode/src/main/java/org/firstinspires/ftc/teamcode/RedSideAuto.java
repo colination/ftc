@@ -178,6 +178,7 @@ public class RedSideAuto extends LinearOpMode {
 
                 coolEncoderForward(.3, 250);
             }
+
             /*coolEncoderForward(.3, 1000); //11 17 25
 
             sleep(1000);
@@ -196,11 +197,52 @@ public class RedSideAuto extends LinearOpMode {
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             telemetry.addData("reading vuforia", vuMark);
             telemetry.update();
+
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 // Found an instance of the template.
                 telemetry.addData("VuMark", "%s visible", vuMark);
-                if (vuMark == RelicRecoveryVuMark.LEFT) {//LEFT WORKS
+
+                switch(vuMark) {
+                    case LEFT : sleep(1000);
+                        coolEncoderForward(.3, 2100);
+                        idle();
+                        sleep(1000);
+                        turnLeft();
+                        coolEncoderForward(-.3, 400);
+                        sleep(1000);
+                        manipServo.setPosition(1);
+                        sleep(1000);
+                        manipulator.setPower(-1);
+                        break;
+
+                    case RIGHT : sleep(1000);
+                        coolEncoderForward(.3, 850);
+                        idle();
+                        sleep(1000);
+                        turnLeft();
+                        coolEncoderForward(-.3, 400);
+                        sleep(1000);
+                        manipServo.setPosition(1);
+                        sleep(1000);
+                        manipulator.setPower(-1);
+                        break;
+
+                    case CENTER : sleep(1000);
+                        coolEncoderForward(.3, 1500);
+                        idle();
+                        sleep(1000);
+                        turnLeft();
+                        coolEncoderForward(-.3, 400);
+                        sleep(1000);
+                        manipServo.setPosition(1);
+                        sleep(1000);
+                        manipulator.setPower(-1);
+
+
+                }
+
+                /*if (vuMark == RelicRecoveryVuMark.LEFT) {//LEFT WORKS
                     sleep(1000);
                     coolEncoderForward(.3, 2100);
                     idle();
@@ -235,7 +277,7 @@ public class RedSideAuto extends LinearOpMode {
                     manipServo.setPosition(1);
                     sleep(1000);
                     manipulator.setPower(-1);
-                }
+                } */
             }
 
             telemetry.addData("done reading vuforia", vuMark);
