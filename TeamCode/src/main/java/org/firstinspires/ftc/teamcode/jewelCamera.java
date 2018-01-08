@@ -15,10 +15,10 @@ import for_camera_opmodes.LinearOpModeCamera;
 @Autonomous
 public class jewelCamera extends LinearOpModeCamera {
 
+    VuforiaLocalizer vuforia;
+
     @Override
     public void runOpMode() throws InterruptedException {
-
-        VuforiaLocalizer vuforia;
 
         waitForStart();
 
@@ -40,7 +40,7 @@ public class jewelCamera extends LinearOpModeCamera {
             rgbJewel = convertYuvImageToRgb(yuvImage, width, height, 1);
 
             for (int x = 0; x < (rgbJewel.getWidth() * .5); x++) {
-                for (int y = 0; y < (int) (.33 * rgbJewel.getHeight()); y++) {
+                for (int y = 0; y < (int) (.33 * rgbJewel.getHeight() ); y++) {
                     int pixel = rgbJewel.getPixel(x, y);
                     redValueRight += red(pixel);
                 }
@@ -69,39 +69,36 @@ public class jewelCamera extends LinearOpModeCamera {
 
         stopCamera();
 
-        telemetry.addData("move on", "");
-        telemetry.update();
-
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
         parameters.vuforiaLicenseKey = "ATW/8fr/////AAAAGZ5Fjme7F0bTj0e+AOR2QIAOmUyzJb0YwYzAFqJZ9s/Mn3mkJq6MvoHNP03tdbewGWZg7BNT4+3qq8AydmSrU5Gbsvd35P3vIf1lJ36C9drgbusNC+rtTTW9lt6rGarj9kvrotz5c6CR2frUiNaxHK3JA6xEjyjGo8jvSgQ3YB03yW5rBdAAxRyKj/Ij30RL6ohnIyKDi03LvDBJiOlTMW3DvXnSgAU+D7TLEokjbjon1U3IS/zjGldbPi2Cv7D5Q98oIlTSfOxJpIgJ9kceLNAqoOQziy3CXc0FUeY8fTQ3/QKOKbF9brRCLoEAn9FmMc2m/MmMlwrImvoLyGvcQWcTabM1zxZXnXX4Q4+AUZaB";
 
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
-        VuforiaTrackables relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
+        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
-
+        relicTemplate.setName("relicVuMarkTemplate");
 
         relicTrackables.activate();
-
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         while (vuMark == RelicRecoveryVuMark.UNKNOWN && opModeIsActive()) {
 
-               /* Found an instance of the template. In the actual game, you will probably
-                * loop until this condition occurs, then move on to act accordingly depending
-                * on which VuMark was visible. */
             telemetry.addData("VuMark", "not visible");
+            telemetry.update();
 
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
         }
 
+
         telemetry.addData("VuMark", "%s visible", vuMark);
-
-
         telemetry.update();
+
+        sleep(5000);
+
     }
 }
 

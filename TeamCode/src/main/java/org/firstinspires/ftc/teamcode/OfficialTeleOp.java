@@ -44,6 +44,14 @@ public class OfficialTeleOp extends LinearOpMode {
     // LIFT
     DcMotor lift;
 
+    Servo clawServo;
+
+    // MANIPULATOR VEX MOTORS
+    DcMotor frontLeft;
+    DcMotor frontRight;
+    DcMotor backLeft;
+    DcMotor backRight;
+
     // COLOR SENSOR FOR AUTO
     ColorSensor jewelColor;
 
@@ -70,7 +78,7 @@ public class OfficialTeleOp extends LinearOpMode {
         manipServo = hardwareMap.get(Servo.class, "manipServo");
 
         lift = hardwareMap.get(DcMotor.class, "lift");
-
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
         manipServo = hardwareMap.get(Servo.class, "manipServo");
         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
 
@@ -185,6 +193,13 @@ public class OfficialTeleOp extends LinearOpMode {
 
             else {
                 manipServo.setPosition(.7);
+            }
+
+            if (gamepad2.a){
+                clawServo.setPosition(0);
+            }
+            if (gamepad2.y){
+                clawServo.setPosition(.5);
             }
 
 
