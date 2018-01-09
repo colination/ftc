@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Bitmap;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,12 +17,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
+import for_camera_opmodes.LinearOpModeCamera;
+
  /* Created by Navya Janga on 9/20/2017.*/
 
 
 @Autonomous
 //@Disabled
-public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
+public class RedSideCamera extends LinearOpModeCamera {
 
     //static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int    CYCLE_MS    =   5000;     // period of each cycle
@@ -54,7 +58,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
 
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
         manipServo = hardwareMap.get(Servo.class, "manipServo");
         motorFL = hardwareMap.get(DcMotor.class, "motorFL");
@@ -74,7 +78,6 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -87,26 +90,9 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
 
         // Wait for the start button
         // Wait for the start button
-        telemetry.addLine().addData(">", "MAKE SURE YOU LOAD ME WITH A GLYPH" );
+        telemetry.addLine().addData(">", "MAKE SURE YOU LOAD ME WITH A GLYPH");
         telemetry.update();
         waitForStart();
-        /*
-        VuforiaLocalizer vuforia;
-
-
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-
-        parameters.vuforiaLicenseKey = "ATW/8fr/////AAAAGZ5Fjme7F0bTj0e+AOR2QIAOmUyzJb0YwYzAFqJZ9s/Mn3mkJq6MvoHNP03tdbewGWZg7BNT4+3qq8AydmSrU5Gbsvd35P3vIf1lJ36C9drgbusNC+rtTTW9lt6rGarj9kvrotz5c6CR2frUiNaxHK3JA6xEjyjGo8jvSgQ3YB03yW5rBdAAxRyKj/Ij30RL6ohnIyKDi03LvDBJiOlTMW3DvXnSgAU+D7TLEokjbjon1U3IS/zjGldbPi2Cv7D5Q98oIlTSfOxJpIgJ9kceLNAqoOQziy3CXc0FUeY8fTQ3/QKOKbF9brRCLoEAn9FmMc2m/MmMlwrImvoLyGvcQWcTabM1zxZXnXX4Q4+AUZaB";
-
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTrackables.activate();
-        */
-        while (opModeIsActive()) {//distnce 1600
 
 
             // Display the current value
@@ -114,90 +100,153 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             telemetry.addLine().addData(">", "Press Stop to end test.");
             telemetry.update();
 
-            // Set the servo to the new position and pause;
+            // Set jewel starting position
+
             manipServo.setPosition(.7);
-            sleep(1000);
             jewelHit.setPosition(0);
-            sleep(500);
+
             idle();
+
             jewelHit.setPosition(.84);
             sleep(1000);
-            idle();
-            telemetry.addLine().addData("Color", sensorColor.red());
-            telemetry.update();
-            sleep(3000);
 
             telemetry.update();
 
+            setCameraDownsampling(2);
 
-            if(sensorColor.red() > sensorColor.blue()) {
+            startCamera();
+            sleep(2000);
+
+            // Get two values, of the left and right jewel, and then compare the red and blue values
+
+            boolean left = false;
+            int numPics = 0;
+            int redValueLeft = 0;
+            int redValueRight = 0;
+
+            if (imageReady()) {
+
+                Bitmap rgbJewel;
+                rgbJewel = convertYuvImageToRgb(yuvImage, width, height, 1);
+
+                for (int x = 0; x < (rgbJewel.getWidth() * .5); x++) {
+                    for (int y = 0; y < (int) (.33 * rgbJewel.getHeight()); y++) {
+                        int pixel = rgbJewel.getPixel(x, y);
+                        redValueRight += red(pixel);
+                    }
+                }
+
+                for (int x = (int) (rgbJewel.getWidth() * .5); x < rgbJewel.getWidth(); x++) {
+                    for (int y = 0; y < (int) (.33 * rgbJewel.getHeight()); y++) {
+                        int pixel = rgbJewel.getPixel(x, y);
+                        redValueLeft += red(pixel);
+                    }
+                }
+
+                sleep(1000);
+
+                left = redValueLeft > redValueRight;
+
+                telemetry.addData("Is Jewel Red on the Left?", left);
+
+                telemetry.addData("numPics: ", numPics);
+
+                telemetry.addData("redLeft to redRight: ", redValueLeft + "    " + redValueRight);
+
+                telemetry.update();
+            }
+
+            stopCamera();
+
+            if (left) {
+                coolEncoderForward(-.5, 150);
+                idle();
+                sleep(500);
+
+                jewelHit.setPosition(0);
+                sleep(1000);
+                coolEncoderForward(.3, 500);
+
+
+            } else if (!left){
                 coolEncoderForward(.3, 225);
-                idle();
+                sleep(1000);
                 jewelHit.setPosition(0);
-                coolEncoderForward(-.3, 1000);
-
-
+                sleep(1000);
+                coolEncoderForward(.3, 200);
             }
-            else {
-                coolEncoderForward(-.3, 225);
-                idle();
 
-                coolEncoderForward(-.3, 600);
-                jewelHit.setPosition(0);
-            }
-            sleep(1000);
-            coolEncoderForward(-.3, 775);
-            idle();
-            sleep(1000);
-            rightEncoder(-.3, 1900);
-            coolEncoderForward(-.3, 300);
-            sleep(1000);
-            manipServo.setPosition(0);
-            sleep(1000);
-            manipulator.setPower(-1);
-            /*
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
-                // Found an instance of the template.
+                int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+                VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+
+                parameters.vuforiaLicenseKey = "ATW/8fr/////AAAAGZ5Fjme7F0bTj0e+AOR2QIAOmUyzJb0YwYzAFqJZ9s/Mn3mkJq6MvoHNP03tdbewGWZg7BNT4+3qq8AydmSrU5Gbsvd35P3vIf1lJ36C9drgbusNC+rtTTW9lt6rGarj9kvrotz5c6CR2frUiNaxHK3JA6xEjyjGo8jvSgQ3YB03yW5rBdAAxRyKj/Ij30RL6ohnIyKDi03LvDBJiOlTMW3DvXnSgAU+D7TLEokjbjon1U3IS/zjGldbPi2Cv7D5Q98oIlTSfOxJpIgJ9kceLNAqoOQziy3CXc0FUeY8fTQ3/QKOKbF9brRCLoEAn9FmMc2m/MmMlwrImvoLyGvcQWcTabM1zxZXnXX4Q4+AUZaB";
+
+                parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+                this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+
+                VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+                VuforiaTrackable relicTemplate = relicTrackables.get(0);
+                relicTemplate.setName("relicVuMarkTemplate");
+
+                relicTrackables.activate();
+
+                RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+                while (vuMark == RelicRecoveryVuMark.UNKNOWN && opModeIsActive()) {
+
+                    telemetry.addData("VuMark", "not visible");
+                    telemetry.update();
+
+                    vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+                }
+
+
                 telemetry.addData("VuMark", "%s visible", vuMark);
-                if (vuMark == RelicRecoveryVuMark.LEFT) {
-                    sleep(1000);
-                    coolEncoderForward(.3, 800);
-                    idle();
-                    sleep(1000);
-                    turnLeft();
-                    coolEncoderForward(-.3, 300);
-                    sleep(1000);
-                    manipServo.setPosition(1);
-                    sleep(1000);
-                    manipulator.setPower(-1);
+                telemetry.update();
+
+                sleep(1500);
+
+                switch(vuMark) {
+                    case LEFT : sleep(1000);
+                        coolEncoderForward(.3, 2100);
+                        idle();
+                        sleep(1000);
+                        turnLeft();
+                        coolEncoderForward(-.3, 400);
+                        sleep(1000);
+                        manipServo.setPosition(1);
+                        sleep(1000);
+                        manipulator.setPower(-1);
+                        break;
+
+                    case RIGHT : sleep(1000);
+                        coolEncoderForward(.3, 850);
+                        idle();
+                        sleep(1000);
+                        turnLeft();
+                        coolEncoderForward(-.3, 400);
+                        sleep(1000);
+                        manipServo.setPosition(1);
+                        sleep(1000);
+                        manipulator.setPower(-1);
+                        break;
+
+                    case CENTER : sleep(1000);
+                        coolEncoderForward(.3, 1500);
+                        idle();
+                        sleep(1000);
+                        turnLeft();
+                        coolEncoderForward(-.3, 400);
+                        sleep(1000);
+                        manipServo.setPosition(1);
+                        sleep(1000);
+                        manipulator.setPower(-1);
+
                 }
-                if (vuMark == RelicRecoveryVuMark.CENTER) {
-                    sleep(1000);
-                    coolEncoderForward(.3, 750);
-                    idle();
-                    sleep(1000);
-                    turnLeft();
-                    coolEncoderForward(-.3, 300);
-                    sleep(1000);
-                    manipServo.setPosition(1);
-                    sleep(1000);
-                    manipulator.setPower(-1);
-                }
-                if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                    sleep(1000);
-                    coolEncoderForward(.3, 1000);
-                    idle();
-                    sleep(1000);
-                    turnLeft();
-                    coolEncoderForward(-.3, 400);
-                    sleep(1000);
-                    manipServo.setPosition(1);
-                    sleep(1000);
-                    manipulator.setPower(-1);
-                }
-            }*/
+
+            telemetry.addData("done reading vuforia", vuMark);
+            telemetry.update();
             manipulator.setPower(-1);
             sleep(3000);
             coolEncoderForward(.4, 300);
@@ -205,13 +254,13 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             coolEncoderForward(-.4, 325);
             manipulator.setPower(0);
             coolEncoderForward(.4, 150);
-            sleep(20000);
-
+            sleep(1000);
 
             telemetry.addLine().addData(">", "Done");
             telemetry.update();
         }
-    }
+
+
 
     public void encoderReset() {
         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -232,8 +281,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             motorFR.setPower(speed);
             motorBL.setPower(speed);
             motorBR.setPower(speed);
-            telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
-            telemetry.update();
+
         }
         motorFL.setPower(0);
         motorFR.setPower(0);
@@ -249,8 +297,8 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             motorFR.setPower(-speed);
             motorBL.setPower(-speed);
             motorBR.setPower(speed);
-            telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
-            telemetry.update();
+            //telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
+            //telemetry.update();
         }
         motorFL.setPower(0);
         motorFR.setPower(0);
@@ -265,8 +313,8 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             motorFR.setPower(.5);
             motorBL.setPower(-.5);
             motorBR.setPower(.5);
-            telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
-            telemetry.update();
+            //telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
+            //telemetry.update();
         }
         motorFL.setPower(0);
         motorFR.setPower(0);

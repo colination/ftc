@@ -90,7 +90,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
         telemetry.addLine().addData(">", "MAKE SURE YOU LOAD ME WITH A GLYPH" );
         telemetry.update();
         waitForStart();
-        /*
+
         VuforiaLocalizer vuforia;
 
 
@@ -104,19 +104,15 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
 
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTrackables.activate();*/
+        relicTrackables.activate();
 
         while (opModeIsActive()) {//distnce 1600
-
-
             // Display the current value
             telemetry.addLine().addData("Servo Position", "%5.2f", jewelHit.getPosition());
             telemetry.addLine().addData(">", "Press Stop to end test.");
             telemetry.update();
 
             // Set the servo to the new position and pause;
-
-
             manipServo.setPosition(0);
             sleep(1000);
             jewelHit.setPosition(.7);
@@ -126,25 +122,26 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
             sleep(1000);
             idle();
             telemetry.addLine().addData("Color", sensorColor.red());
+            telemetry.addLine().addData("blue", sensorColor.blue());
             telemetry.update();
-            sleep(3000);
+            sleep(2000);
 
             telemetry.update();
 
-
-            if(sensorColor.red() > 15) {
-                coolEncoderForward(-.3, 225);
+            if(sensorColor.red() > sensorColor.blue()) {
+                coolEncoderForward(-.3, 240);
                 idle();
                 jewelHit.setPosition(0);
-                coolEncoderForward(.3, 1000);
+                coolEncoderForward(.3, 700);
             }
             else {
-                coolEncoderForward(.3, 225);
+                coolEncoderForward(.3, 240);
                 idle();
                 jewelHit.setPosition(0);
-                coolEncoderForward(.3, 600);
+                coolEncoderForward(.3, 250);
             }
-            sleep(1000);
+            //coolEncoderForward(.3, 1350);
+            /*sleep(1000);
             coolEncoderForward(.3, 500);
             idle();
             sleep(1000);
@@ -154,20 +151,26 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
             sleep(1000);
             manipServo.setPosition(0);
             sleep(1000);
-            manipulator.setPower(-1);
-            /*
+            manipulator.setPower(-1);*/
+            idle();
+            sleep(5000);
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            telemetry.addData("reading vuforia", vuMark);
+            telemetry.update();
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 // Found an instance of the template.
                 telemetry.addData("VuMark", "%s visible", vuMark);
+                telemetry.update();
                 if (vuMark == RelicRecoveryVuMark.LEFT) {
                     sleep(1000);
-                    coolEncoderForward(.3, 800);
+                    coolEncoderForward(.3, 500);
                     idle();
                     sleep(1000);
-                    turnLeft();
-                    coolEncoderForward(-.3, 300);
+                    rightEncoder(-.3, 1950);
+                    turnAround();
+                    coolEncoderForward(-.3, 1000);
+                    coolEncoderForward(-.3, 200);
                     sleep(1000);
                     manipServo.setPosition(1);
                     sleep(1000);
@@ -175,11 +178,13 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
                 }
                 if (vuMark == RelicRecoveryVuMark.CENTER) {
                     sleep(1000);
-                    coolEncoderForward(.3, 750);
+                    coolEncoderForward(.3,500);
                     idle();
                     sleep(1000);
-                    turnLeft();
-                    coolEncoderForward(-.3, 300);
+                    rightEncoder(-.3, 1750);
+                    turnAround();
+                    coolEncoderForward(-.3, 1000);
+                    coolEncoderForward(-.3, 200);
                     sleep(1000);
                     manipServo.setPosition(1);
                     sleep(1000);
@@ -187,84 +192,31 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
                 }
                 if (vuMark == RelicRecoveryVuMark.RIGHT) {
                     sleep(1000);
-                    coolEncoderForward(.3, 1000);
+                    coolEncoderForward(.3, 500);
                     idle();
                     sleep(1000);
-                    turnLeft();
-                    coolEncoderForward(-.3, 400);
+                    rightEncoder(-.3, 1550);
+                    turnAround();
+                    coolEncoderForward(-.3, 1000);
+                    coolEncoderForward(-.3, 200);
                     sleep(1000);
                     manipServo.setPosition(1);
                     sleep(1000);
                     manipulator.setPower(-1);
                 }
-            }*/
+            }
+            telemetry.addData("done reading vuforia", vuMark);
+            telemetry.update();
             manipulator.setPower(-1);
             sleep(3000);
             coolEncoderForward(.4, 300);
             sleep(500);
             coolEncoderForward(-.4, 325);
-
             manipulator.setPower(0);
             coolEncoderForward(.4, 150);
             sleep(20000);
-
-
             telemetry.addLine().addData(">", "Done");
             telemetry.update();
-
-            // {Signal done;
-            // open jewel servo
-
-            /*jewelHit.setPosition(0.5); // value of servo to be open
-
-            // move robot sideways until it senses the jewel
-            while (jewelColor.red() > 10 && jewelColor.red() < 25) {
-
-                motorPower(0.5); // strafe
-            }
-
-            motorStop();
-
-            // color sense one jewel and knock off the opposite color
-            if (jewelColor.red() < 10) // blue value
-            {
-                motorEncoder(0.5, 20, 20, 20, 20);
-            } else {
-                motorEncoder(0.5, -20, -20, -20, -20);
-            }
-
-            // put arm back in
-            jewelHit.setPosition(0);
-
-            // move towards glyphCode until the glyphCode is visible and scan glyphCode
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-
-            while (vuMark == RelicRecoveryVuMark.UNKNOWN) {
-                motorEncoder(0.5, 5, 5, 5, 5);
-            }
-
-            motorStop();
-
-            // get to the square based on the distance values
-            switch (vuMark) {
-                case LEFT:
-                    motorEncoder(0.5, -14, 14, 14, -14);
-                case CENTER:
-                    motorEncoder(0.5, -22.5, 22.5, 22.5, -22.5);
-                case RIGHT:
-                    motorEncoder(0.5, -30.4, 30.4, 30.4, -30.4);
-            }
-
-            // move forward
-            motorEncoder(0.5, 24, 24, 24, 24); // measure distance later based on encoder tickets or use time value
-
-
-            // place glyph in correct section
-            // figure out time value needed for one block to pass through manipulator
-            manipMove(1);
-
-            // turn off manipulator
-            manipMove(0);*/
         }
     }
 
@@ -315,7 +267,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
 
     public void turnAround() {
         encoderReset();
-        while ((Math.abs(motorFR.getCurrentPosition()) < 2800) && (opModeIsActive())) {//clockwise
+        while ((Math.abs(motorFR.getCurrentPosition()) < 2900) && (opModeIsActive())) {//clockwise
             motorFL.setPower(.5);
             motorFR.setPower(-.5);
             motorBL.setPower(.5);

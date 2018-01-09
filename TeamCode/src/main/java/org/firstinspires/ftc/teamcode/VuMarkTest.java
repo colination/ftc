@@ -38,10 +38,22 @@ public class VuMarkTest extends LinearOpModeCamera {
             sleep(1000);
 
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+<<<<<<< HEAD
 
             sleep(1000);
 
             while (vuMark == RelicRecoveryVuMark.UNKNOWN & opModeIsActive())  {
+=======
+            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+
+                /* Found an instance of the template. In the actual game, you will probably
+                 * loop until this condition occurs, then move on to act accordingly depending
+                 * on which VuMark was visible. */
+                telemetry.addData("VuMark", "%s visible", vuMark);
+
+            }
+            else {
+>>>>>>> ff40bc8a4453c9793faaa45787bbb162eb313b14
                 telemetry.addData("VuMark", "not visible");
 
             }

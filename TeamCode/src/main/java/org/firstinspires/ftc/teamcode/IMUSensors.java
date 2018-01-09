@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -54,18 +54,18 @@ import java.util.Locale;
  *
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
-/*@Autonomous(name = "Sensor: BNO055 IMU", group = "Sensor")
-//@Disabled                            // Comment this out to add to the opmode list
+@Autonomous(name = "Sensor: BNO055 IMU", group = "Sensor")
+@Disabled                            // Comment this out to add to the opmode list
 public class IMUSensors extends LinearOpMode {
     //----------------------------------------------------------------------------------------------
     // State
     //----------------------------------------------------------------------------------------------
 
     // The IMU sensor object
-    BNO055IMU IMU;
-    public IMU (BNO055IMU imu) {
+    BNO055IMU imu;
+    /*public IMU (BNO055IMU imu) {
         IMU = imu;
-    }
+    }*/
 
     // State used for updating telemetry
     Orientation angles;
@@ -75,7 +75,7 @@ public class IMUSensors extends LinearOpMode {
     // Main logic
     //----------------------------------------------------------------------------------------------
 
-    public void initIMU(HardwareMap map) {
+    public void runOpMode() {
 
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
@@ -93,7 +93,7 @@ public class IMUSensors extends LinearOpMode {
         // and named "imu".
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-    }
+
         // Set up our telemetry dashboard
         //composeTelemetry();
 
@@ -102,18 +102,26 @@ public class IMUSensors extends LinearOpMode {
 
         // Start the logging of measured acceleration
         //imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
-/*
+
         // Loop and update the dashboard
-        while (opModeIsActive()) {
+        /*while (opModeIsActive()) {
             telemetry.update();
-        }
-    */
+            composeTelemetry();
+            Double.parseDouble(telemetry.addData("roll", new Func<String>() {
+                @Override public String value() {
+                    return formatAngle(angles.angleUnit, angles.secondAngle);
+                }
+            }));
+        }*/
+    }
+
 
     //----------------------------------------------------------------------------------------------
     // Telemetry Configuration
     //----------------------------------------------------------------------------------------------
 
- /*   void composeTelemetry() {
+
+    void composeTelemetry() {
 
         // At the beginning of each telemetry update, grab a bunch of data
         // from the IMU that we will then display in separate lines.
@@ -152,7 +160,7 @@ public class IMUSensors extends LinearOpMode {
                 })
             .addData("pitch", new Func<String>() {
                 @Override public String value() {
-                    return formatAngle(angles.angleUnit, angles.thirdAngle);
+                    return formatAngle(angles.angleUnit, angles.thirdAngle);//parseDouble
                     }
                 });
 
@@ -183,4 +191,4 @@ public class IMUSensors extends LinearOpMode {
     String formatDegrees(double degrees){
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
-}*/
+}

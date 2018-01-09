@@ -46,7 +46,21 @@ public class OfficialTeleOp extends LinearOpMode {
     // LIFT
     DcMotor lift;
 
+
+
+    // MANIPULATOR VEX MOTORS
+    DcMotor frontLeft;
+    DcMotor frontRight;
+    DcMotor backLeft;
+    DcMotor backRight;
+
+    // RELIC ARM
+    DcMotor relicArm;
+    Servo relicClaw;
+    Servo relicWrist;
+
     // COLOR SENSOR FOR AUTO
+
 
     public double fLPower = 0.0;
     public double bLPower = 0.0;
@@ -69,7 +83,13 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
 
         lift = hardwareMap.get(DcMotor.class, "lift");
+<<<<<<< HEAD
 
+=======
+        relicClaw = hardwareMap.get(Servo.class, "relicClaw");
+        relicWrist = hardwareMap.get(Servo.class, "relicWrist");
+        relicArm = hardwareMap.get(DcMotor.class, "relicArm");
+>>>>>>> ff40bc8a4453c9793faaa45787bbb162eb313b14
         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
 
         collectLeft = hardwareMap.get(DcMotor.class, "collectLeft");
@@ -95,6 +115,13 @@ public class OfficialTeleOp extends LinearOpMode {
         collectLeft.setDirection(DcMotor.Direction.FORWARD);
         collectRight.setDirection(DcMotor.Direction.FORWARD);
 
+<<<<<<< HEAD
+=======
+        manipulator.setDirection(DcMotor.Direction.FORWARD);
+        relicArm.setDirection(DcMotor.Direction.FORWARD);
+
+        jewelColor = hardwareMap.get(ColorSensor.class, "jewelColor");
+>>>>>>> ff40bc8a4453c9793faaa45787bbb162eb313b14
 
         // Set all motors to zero power
         motorFL.setPower(fLPower);
@@ -202,6 +229,27 @@ public class OfficialTeleOp extends LinearOpMode {
             else {
                 lift.setPower(0);
 
+            }
+            //RELIC CLAW
+            if (gamepad2.x){
+                relicClaw.setPosition(0);
+            }
+            if (gamepad2.y){
+                relicClaw.setPosition(.5);
+            }
+            //RELIC ARM
+            if (gamepad2.left_stick_y > stickCenterThreshold) {
+                relicArm.setPower(gamepad2.left_stick_y/4);
+            }
+            else {
+                relicArm.setPower(0);
+            }
+            //RELIC WRIST
+            if (gamepad2.a) {
+                relicWrist.setPosition(.5);
+            }
+            if (gamepad2.b) {
+                relicWrist.setPosition(.25);
             }
 
         }
