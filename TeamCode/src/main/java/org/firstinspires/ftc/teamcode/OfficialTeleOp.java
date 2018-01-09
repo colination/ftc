@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -21,10 +22,8 @@ public class OfficialTeleOp extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     //Manip servo
-    //Servo manipServo;
 
     //MANIPILATOR SERVO
-    Servo manipServo;
     Servo jewelHit;
 
 
@@ -35,7 +34,10 @@ public class OfficialTeleOp extends LinearOpMode {
     DcMotor motorBR;
 
     // MANIPULATOR
-    DcMotor manipulator;
+    CRServo manipFR;
+    CRServo manipFL;
+    CRServo manipBR;
+    CRServo manipBL;
 
     // COLLECTION (OMNI WHEELS)
     DcMotor collectLeft;
@@ -45,7 +47,6 @@ public class OfficialTeleOp extends LinearOpMode {
     DcMotor lift;
 
     // COLOR SENSOR FOR AUTO
-    ColorSensor jewelColor;
 
     public double fLPower = 0.0;
     public double bLPower = 0.0;
@@ -67,34 +68,33 @@ public class OfficialTeleOp extends LinearOpMode {
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
 
-        manipServo = hardwareMap.get(Servo.class, "manipServo");
-
         lift = hardwareMap.get(DcMotor.class, "lift");
 
-        manipServo = hardwareMap.get(Servo.class, "manipServo");
         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
 
         collectLeft = hardwareMap.get(DcMotor.class, "collectLeft");
         collectRight = hardwareMap.get(DcMotor.class, "collectRight");
 
-        manipulator = hardwareMap.get(DcMotor.class, "manipulator");
-
-        manipServo.setDirection(Servo.Direction.FORWARD);
-
+        manipFR = hardwareMap.get(CRServo.class, "manipFR");
+        manipFL = hardwareMap.get(CRServo.class, "manipFL");
+        manipBR = hardwareMap.get(CRServo.class, "manipBR");
+        manipBL = hardwareMap.get(CRServo.class, "manipBL");
 
         motorFL.setDirection(DcMotor.Direction.FORWARD);
         motorBL.setDirection(DcMotor.Direction.FORWARD);
         motorFR.setDirection(DcMotor.Direction.REVERSE);
         motorBR.setDirection(DcMotor.Direction.REVERSE);
 
+        manipBR.setDirection(CRServo.Direction.FORWARD);
+        manipBL.setDirection(CRServo.Direction.FORWARD);
+        manipFR.setDirection(CRServo.Direction.FORWARD);
+        manipFL.setDirection(CRServo.Direction.FORWARD);
+
         lift.setDirection(DcMotor.Direction.REVERSE);
 
         collectLeft.setDirection(DcMotor.Direction.FORWARD);
         collectRight.setDirection(DcMotor.Direction.FORWARD);
 
-        manipulator.setDirection(DcMotor.Direction.FORWARD);
-
-        jewelColor = hardwareMap.get(ColorSensor.class, "jewelColor");
 
         // Set all motors to zero power
         motorFL.setPower(fLPower);
@@ -109,7 +109,6 @@ public class OfficialTeleOp extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            jewelColor.enableLed(false);
 
             // BASE : Gamepad 1, Joysticks
             double stickLX = valueConvert(gamepad1.left_stick_x);
@@ -137,9 +136,8 @@ public class OfficialTeleOp extends LinearOpMode {
             // Moving Forwards
             if (gamepad1.left_trigger >= .5) {
                 collectLeft.setPower(1);
-            } else {
-                collectLeft.setPower(0);
             }
+                collectLeft.setPower(0);
 
             if (gamepad1.right_trigger >= .5) {
                 collectRight.setPower(-1);
@@ -163,40 +161,55 @@ public class OfficialTeleOp extends LinearOpMode {
             }
 
 
-            // MANIPULATOR : Gamepad 2, Right Joystick
-            if (Math.abs(stickRY2) >= stickPushSmall)
-                manipulator.setPower(gamepad2.right_stick_y);
-            else {
-                manipulator.setPower(0);
+            // MANIPULATOR : Gamepad 2, A, B, X, Y.
+            if (gamepad2.a) {
+                manipFL.setPower(.8);
+                manipFR.setPower(.8);
+            } else if (gamepad2.a && gamepad2.x) {
+                manipFL.setPower(.8);
+                manipFR.setPower(.8);
+                manipBR.setPower(.8);
+                manipBL.setPower(.8);
+            }
+            else
+            {
+                manipFL.setPower(0);
+                manipFR.setPower(0);
+                manipBR.setPower(0);
+                manipBL.setPower(0);
             }
 
-
+            if (gamepad2.b) {
+                manipBR.setPower(-.8);
+                manipBL.setPower(-.8);
+            } else if (gamepad2.b && gamepad2.y) {
+                manipBR.setPower(-.8);
+                manipBL.setPower(-.8);
+                manipFR.setPower(-.8);
+                manipFL.setPower(-.8);
+            }
+            if (gamepad2.x) {
+                manipBR.setPower(.8);
+                manipBL.setPower(.8);
+            }
+            if (gamepad2.y) {
+                manipFR.setPower(-.8);
+                manipFL.setPower(-.8);
+            }
             // LIFT CODE : Gamepad 2, Left Joystick
             if (Math.abs(stickLY2) >= stickPushSmall)
                 lift.setPower(gamepad2.left_stick_y);
             else {
                 lift.setPower(0);
-            }
 
-            //MANIPULATOR SERVO
-            if (gamepad2.right_bumper) {
-                manipServo.setPosition(0);
             }
-
-            else {
-                manipServo.setPosition(.7);
-            }
-
 
         }
-
     }
-
-
     public double valueConvert(double controllerValue) {//note: this needs to be reversed larger coefficient for higher motor value
 
         if(Math.abs(controllerValue) <= .03){
-            return 0;
+             return 0;
         }
         if(Math.abs(controllerValue) > .03 && Math.abs(controllerValue) <= .6){
             if (controllerValue < 0) {
@@ -259,8 +272,6 @@ public class OfficialTeleOp extends LinearOpMode {
     }
 
 }
-
-
             /*telemetry.addLine().addData("", (Math.abs(motorFR.getCurrentPosition() )));
             telemetry.update();
             telemetry.addLine().addData("", (Math.abs(motorFL.getCurrentPosition() )));
