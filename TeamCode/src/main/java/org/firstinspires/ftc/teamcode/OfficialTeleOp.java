@@ -53,11 +53,11 @@ public class OfficialTeleOp extends LinearOpMode {
     DcMotor frontRight;
     DcMotor backLeft;
     DcMotor backRight;
-
+    /*
     // RELIC ARM
     DcMotor relicArm;
     Servo relicClaw;
-    Servo relicWrist;
+    Servo relicWrist;*/
 
     // COLOR SENSOR FOR AUTO
 
@@ -83,13 +83,11 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
 
         lift = hardwareMap.get(DcMotor.class, "lift");
-<<<<<<< HEAD
 
-=======
-        relicClaw = hardwareMap.get(Servo.class, "relicClaw");
+
+        /*relicClaw = hardwareMap.get(Servo.class, "relicClaw");
         relicWrist = hardwareMap.get(Servo.class, "relicWrist");
-        relicArm = hardwareMap.get(DcMotor.class, "relicArm");
->>>>>>> ff40bc8a4453c9793faaa45787bbb162eb313b14
+        relicArm = hardwareMap.get(DcMotor.class, "relicArm");*/
         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
 
         collectLeft = hardwareMap.get(DcMotor.class, "collectLeft");
@@ -115,13 +113,11 @@ public class OfficialTeleOp extends LinearOpMode {
         collectLeft.setDirection(DcMotor.Direction.FORWARD);
         collectRight.setDirection(DcMotor.Direction.FORWARD);
 
-<<<<<<< HEAD
-=======
-        manipulator.setDirection(DcMotor.Direction.FORWARD);
-        relicArm.setDirection(DcMotor.Direction.FORWARD);
 
-        jewelColor = hardwareMap.get(ColorSensor.class, "jewelColor");
->>>>>>> ff40bc8a4453c9793faaa45787bbb162eb313b14
+        //relicArm.setDirection(DcMotor.Direction.FORWARD);
+
+
+
 
         // Set all motors to zero power
         motorFL.setPower(fLPower);
@@ -174,16 +170,18 @@ public class OfficialTeleOp extends LinearOpMode {
             collectLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             collectRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-            // Moving Backwards
+
             if ((gamepad1.left_bumper)) {
-                collectLeft.setPower(-1);
-            } else {
+                collectLeft.setPower(1);
+            }
+            else {
                 collectLeft.setPower(0);
             }
 
             if ((gamepad1.right_bumper)) {
                 collectRight.setPower(1);
-            } else {
+            }
+            else {
                 collectRight.setPower(0);
             }
 
@@ -230,7 +228,7 @@ public class OfficialTeleOp extends LinearOpMode {
                 lift.setPower(0);
 
             }
-            //RELIC CLAW
+            /*//RELIC CLAW
             if (gamepad2.x){
                 relicClaw.setPosition(0);
             }
@@ -250,7 +248,7 @@ public class OfficialTeleOp extends LinearOpMode {
             }
             if (gamepad2.b) {
                 relicWrist.setPosition(.25);
-            }
+            }*/
 
         }
     }
