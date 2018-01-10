@@ -39,9 +39,17 @@ public class VuMarkTest extends LinearOpModeCamera {
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
+<<<<<<< HEAD
         sleep(1000);
 
         while (vuMark == RelicRecoveryVuMark.UNKNOWN & opModeIsActive()) {
+=======
+
+        sleep(1000);
+
+        while (vuMark == RelicRecoveryVuMark.UNKNOWN & opModeIsActive()) {
+
+>>>>>>> d9afb6c57bdeb7e5b678a567d3a2b12cf759d796
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 /* Found an instance of the template. In the actual game, you will probably
@@ -50,6 +58,10 @@ public class VuMarkTest extends LinearOpModeCamera {
                 telemetry.addData("VuMark", "%s visible", vuMark);
 
             } else {
+<<<<<<< HEAD
+=======
+
+>>>>>>> d9afb6c57bdeb7e5b678a567d3a2b12cf759d796
                 telemetry.addData("VuMark", "not visible");
 
             }
@@ -67,3 +79,4 @@ public class VuMarkTest extends LinearOpModeCamera {
 }
 
 
+}
