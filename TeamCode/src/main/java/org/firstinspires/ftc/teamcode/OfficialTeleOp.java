@@ -47,7 +47,6 @@ public class OfficialTeleOp extends LinearOpMode {
     DcMotor lift;
 
 
-
     // MANIPULATOR VEX MOTORS
     DcMotor frontLeft;
     DcMotor frontRight;
@@ -55,9 +54,9 @@ public class OfficialTeleOp extends LinearOpMode {
     DcMotor backRight;
 
     // RELIC ARM
-    DcMotor relicArm;
-    Servo relicClaw;
-    Servo relicWrist;
+    //DcMotor relicArm;
+    //Servo relicClaw;
+    //Servo relicWrist;
 
     // COLOR SENSOR FOR AUTO
 
@@ -83,13 +82,10 @@ public class OfficialTeleOp extends LinearOpMode {
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
 
         lift = hardwareMap.get(DcMotor.class, "lift");
-<<<<<<< HEAD
 
-=======
-        relicClaw = hardwareMap.get(Servo.class, "relicClaw");
-        relicWrist = hardwareMap.get(Servo.class, "relicWrist");
-        relicArm = hardwareMap.get(DcMotor.class, "relicArm");
->>>>>>> ff40bc8a4453c9793faaa45787bbb162eb313b14
+        //relicClaw = hardwareMap.get(Servo.class, "relicClaw");
+        //relicWrist = hardwareMap.get(Servo.class, "relicWrist");
+        //relicArm = hardwareMap.get(DcMotor.class, "relicArm");
         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
 
         collectLeft = hardwareMap.get(DcMotor.class, "collectLeft");
@@ -115,13 +111,8 @@ public class OfficialTeleOp extends LinearOpMode {
         collectLeft.setDirection(DcMotor.Direction.FORWARD);
         collectRight.setDirection(DcMotor.Direction.FORWARD);
 
-<<<<<<< HEAD
-=======
-        manipulator.setDirection(DcMotor.Direction.FORWARD);
-        relicArm.setDirection(DcMotor.Direction.FORWARD);
+        //relicArm.setDirection(DcMotor.Direction.FORWARD);
 
-        jewelColor = hardwareMap.get(ColorSensor.class, "jewelColor");
->>>>>>> ff40bc8a4453c9793faaa45787bbb162eb313b14
 
         // Set all motors to zero power
         motorFL.setPower(fLPower);
@@ -153,30 +144,33 @@ public class OfficialTeleOp extends LinearOpMode {
             navSetPower();
 
 
-            jewelHit.setPosition(.45);
-
-
             double stickLY2 = gamepad2.left_stick_y;
             double stickRY2 = gamepad2.right_stick_y;
 
             // COLLECTION : Left and Right Trigger
             // Moving Forwards
-            if (gamepad1.left_trigger >= .5) {
-                collectLeft.setPower(1);
+            if (collectLeft.getPower() == 0) {
+                if (gamepad1.left_trigger >= .1) {
+                    collectLeft.setPower(-1);
+                }
+                else{
+                    collectLeft.setPower(0);
+                }
             }
-                collectLeft.setPower(0);
 
-            if (gamepad1.right_trigger >= .5) {
-                collectRight.setPower(-1);
-            } else {
-                collectRight.setPower(0);
+            if (collectRight.getPower() == 0) {
+                if (gamepad1.right_trigger >= .1) {
+                    collectRight.setPower(-1);
+                } else {
+                    collectRight.setPower(0);
+                }
             }
             collectLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             collectRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
             // Moving Backwards
             if ((gamepad1.left_bumper)) {
-                collectLeft.setPower(-1);
+                collectLeft.setPower(1);
             } else {
                 collectLeft.setPower(0);
             }
@@ -195,11 +189,9 @@ public class OfficialTeleOp extends LinearOpMode {
             } else if (gamepad2.a && gamepad2.x) {
                 manipFL.setPower(.8);
                 manipFR.setPower(.8);
-                manipBR.setPower(.8);
+                manipBR.setPower(-.8);
                 manipBL.setPower(.8);
-            }
-            else
-            {
+            } else {
                 manipFL.setPower(0);
                 manipFR.setPower(0);
                 manipBR.setPower(0);
@@ -207,16 +199,16 @@ public class OfficialTeleOp extends LinearOpMode {
             }
 
             if (gamepad2.b) {
-                manipBR.setPower(-.8);
+                manipBR.setPower(.8);
                 manipBL.setPower(-.8);
             } else if (gamepad2.b && gamepad2.y) {
-                manipBR.setPower(-.8);
+                manipBR.setPower(.8);
                 manipBL.setPower(-.8);
                 manipFR.setPower(-.8);
                 manipFL.setPower(-.8);
             }
             if (gamepad2.x) {
-                manipBR.setPower(.8);
+                manipBR.setPower(-.8);
                 manipBL.setPower(.8);
             }
             if (gamepad2.y) {
@@ -231,7 +223,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
             }
             //RELIC CLAW
-            if (gamepad2.x){
+            /*if (gamepad2.x){
                 relicClaw.setPosition(0);
             }
             if (gamepad2.y){
@@ -251,7 +243,7 @@ public class OfficialTeleOp extends LinearOpMode {
             if (gamepad2.b) {
                 relicWrist.setPosition(.25);
             }
-
+                */
         }
     }
     public double valueConvert(double controllerValue) {//note: this needs to be reversed larger coefficient for higher motor value
