@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -19,7 +18,7 @@ import for_camera_opmodes.LinearOpModeCamera;
 
 @Autonomous
 
-public class RedSideCamera extends LinearOpModeCamera {
+public class blueSideCamera extends LinearOpModeCamera {
 
     //static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int    CYCLE_MS    =   5000;     // period of each cycle
@@ -49,8 +48,6 @@ public class RedSideCamera extends LinearOpModeCamera {
     CRServo manipFR;
     CRServo manipBL;
     CRServo manipBR;
-
-    ElapsedTime time;
 
     VuforiaLocalizer vuforia;
 
@@ -157,25 +154,25 @@ public class RedSideCamera extends LinearOpModeCamera {
 
         sleep(1000);
 
-        if (left) {
-            coolEncoderForward(-.5, 225);
+        if (!left) {
+            coolEncoderForward(.5, 225);
             idle();
             jewelHit.setPosition(0);
-            coolEncoderForward(.3, 700);
+            coolEncoderForward(-.3, 700);
 
-        } else if (!left){
-            coolEncoderForward(.3, 225);
+        } else if (left){
+            coolEncoderForward(-.3, 225);
             sleep(1000);
             jewelHit.setPosition(0);
             sleep(1000);
-            coolEncoderForward(.3, 250);
+            coolEncoderForward(-.3, 250);
         }
 
         telemetry.addData("end of camera code", "");
         telemetry.update();
         sleep(1000);
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        /*int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
         parameters.vuforiaLicenseKey = "ATW/8fr/////AAAAGZ5Fjme7F0bTj0e+AOR2QIAOmUyzJb0YwYzAFqJZ9s/Mn3mkJq6MvoHNP03tdbewGWZg7BNT4+3qq8AydmSrU5Gbsvd35P3vIf1lJ36C9drgbusNC+rtTTW9lt6rGarj9kvrotz5c6CR2frUiNaxHK3JA6xEjyjGo8jvSgQ3YB03yW5rBdAAxRyKj/Ij30RL6ohnIyKDi03LvDBJiOlTMW3DvXnSgAU+D7TLEokjbjon1U3IS/zjGldbPi2Cv7D5Q98oIlTSfOxJpIgJ9kceLNAqoOQziy3CXc0FUeY8fTQ3/QKOKbF9brRCLoEAn9FmMc2m/MmMlwrImvoLyGvcQWcTabM1zxZXnXX4Q4+AUZaB";
@@ -190,8 +187,7 @@ public class RedSideCamera extends LinearOpModeCamera {
         relicTrackables.activate();
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        time.reset();
-        while (vuMark == RelicRecoveryVuMark.UNKNOWN && opModeIsActive() && time.seconds() < 3) {
+        while (vuMark == RelicRecoveryVuMark.UNKNOWN && opModeIsActive()) {
 
             telemetry.addData("VuMark", "not visible");
             telemetry.update();
@@ -202,11 +198,13 @@ public class RedSideCamera extends LinearOpModeCamera {
         telemetry.addData("VuMark", "%s visible", vuMark);
         telemetry.update();
 
+        vuMark = RelicRecoveryVuMark.CENTER;
+        sleep(1500);
 
         switch(vuMark) {
             case LEFT :
                 sleep(1000);
-                coolEncoderForward(.3, 2100);
+                coolEncoderForward(-.3, 850);
                 idle();
                 sleep(1000);
                 turnLeft();
@@ -215,9 +213,10 @@ public class RedSideCamera extends LinearOpModeCamera {
                 manipPower(0.8);
                 break;
 
+
             case RIGHT :
                 sleep(1000);
-                coolEncoderForward(.3, 850);
+                coolEncoderForward(-.3, 2100);
                 idle();
                 sleep(1000);
                 turnLeft();
@@ -228,7 +227,7 @@ public class RedSideCamera extends LinearOpModeCamera {
 
             case CENTER :
                 sleep(1000);
-                coolEncoderForward(.3, 1500);
+                coolEncoderForward(-.3, 1500);
                 idle();
                 sleep(1000);
                 turnLeft();
@@ -236,23 +235,19 @@ public class RedSideCamera extends LinearOpModeCamera {
                 sleep(1000);
                 manipPower(0.8);
                 break;
+        } */
 
-            default :
-                sleep(1000);
-                coolEncoderForward(.3, 1500);
-                idle();
-                sleep(1000);
-                turnLeft();
-                coolEncoderForward(-.3, 400);
-                sleep(1000);
-                manipPower(0.8);
-                telemetry.addData("defaultCenter", "");
-                telemetry.update();
-                break;
-        }
 
+        coolEncoderForward(-.3, 1500);
+        idle();
+        sleep(1000);
+        turnLeft();
+        coolEncoderForward(-.3, 400);
+        sleep(1000);
+        manipPower(0.8);
+        sleep(1500);
         manipPower(-0.8);
-        sleep(3500);
+        sleep(2500);
         coolEncoderForward(.4, 300);
         sleep(500);
         coolEncoderForward(-.4, 325);

@@ -19,7 +19,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 
 @Autonomous
-//@Disabled
+@Disabled
 public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
 
     //static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle

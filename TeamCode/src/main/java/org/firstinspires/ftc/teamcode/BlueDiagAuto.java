@@ -19,7 +19,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 
 @Autonomous
-//@Disabled
+@Disabled
 public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
 
     //static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
@@ -155,8 +155,8 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             manipServo.setPosition(0);
             sleep(1000);
             manipulator.setPower(-1);
-            /*
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+            /*RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 // Found an instance of the template.
@@ -197,7 +197,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
                     sleep(1000);
                     manipulator.setPower(-1);
                 }
-            }*/
+            } */
             manipulator.setPower(-1);
             sleep(3000);
             coolEncoderForward(.4, 300);

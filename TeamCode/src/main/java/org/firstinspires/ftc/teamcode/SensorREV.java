@@ -129,6 +129,8 @@ public class SensorREV extends LinearOpMode {
             while (jewelHit.getPosition() == .5)
             {
                 telemetry.addData("redValue", sensorColor.red());
+
+
             }
             if (sensorColor.red() >= 30)
             {
