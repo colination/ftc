@@ -244,8 +244,8 @@ public class OfficialTeleOp extends LinearOpMode {
                 lift.setPower(gamepad2.left_stick_y);
             else {
                 lift.setPower(0);
-
             }
+            lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 /*<<<<<<< HEAD
             //RELIC CLAW
             /*if (gamepad2.x){
