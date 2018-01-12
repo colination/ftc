@@ -50,13 +50,10 @@ public class OfficialTeleOp extends LinearOpMode {
     //DcMotor relicArm;
     //Servo relicClaw;
     //Servo relicWrist;
-<<<<<<< HEAD
-=======
-=======
+
     DcMotor relicArm;
     Servo relicClaw;
-    Servo relicWrist;*/
->>>>>>> 5626441b665b87b29c1d5d798bd62b34247e6f2c
+    Servo relicWrist;
 
     // COLOR SENSOR FOR AUTO
 
@@ -83,26 +80,21 @@ public class OfficialTeleOp extends LinearOpMode {
 
         lift = hardwareMap.get(DcMotor.class, "lift");
 
-<<<<<<< HEAD
                 //relicClaw = hardwareMap.get(Servo.class, "relicClaw");
                 //relicWrist = hardwareMap.get(Servo.class, "relicWrist");
                 //relicArm = hardwareMap.get(DcMotor.class, "relicArm");
-=======
+
 
         //relicClaw = hardwareMap.get(Servo.class, "relicClaw");
         //relicWrist = hardwareMap.get(Servo.class, "relicWrist");
         //relicArm = hardwareMap.get(DcMotor.class, "relicArm");
 
->>>>>>> 5626441b665b87b29c1d5d798bd62b34247e6f2c
 
         /*relicClaw = hardwareMap.get(Servo.class, "relicClaw");
         relicWrist = hardwareMap.get(Servo.class, "relicWrist");
         relicArm = hardwareMap.get(DcMotor.class, "relicArm");*/
-<<<<<<< HEAD
-=======
 
->>>>>>> 5626441b665b87b29c1d5d798bd62b34247e6f2c
-        jewelHit = hardwareMap.get(Servo.class, "jewelHit");
+         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
 
         collectLeft = hardwareMap.get(DcMotor.class, "collectLeft");
         collectRight = hardwareMap.get(DcMotor.class, "collectRight");
@@ -127,23 +119,15 @@ public class OfficialTeleOp extends LinearOpMode {
         collectLeft.setDirection(DcMotor.Direction.FORWARD);
         collectRight.setDirection(DcMotor.Direction.FORWARD);
 
-<<<<<<< HEAD
+                //relicArm.setDirection(DcMotor.Direction.FORWARD);
+
                 //relicArm.setDirection(DcMotor.Direction.FORWARD);
 
         //relicArm.setDirection(DcMotor.Direction.FORWARD);
 
-=======
-        //relicArm.setDirection(DcMotor.Direction.FORWARD);
-
-
 
         //relicArm.setDirection(DcMotor.Direction.FORWARD);
 
-
-
-
-
->>>>>>> 5626441b665b87b29c1d5d798bd62b34247e6f2c
         // Set all motors to zero power
         motorFL.setPower(fLPower);
         motorFR.setPower(fRPower);
@@ -156,14 +140,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-<<<<<<< HEAD
             jewelHit.setPosition(0);
-            
-=======
-            jewelHit.setPosition(.45);
-
-
->>>>>>> 5626441b665b87b29c1d5d798bd62b34247e6f2c
             // BASE : Gamepad 1, Joysticks
             double stickLX = valueConvert(gamepad1.left_stick_x);
             double stickLY = valueConvert(gamepad1.left_stick_y);
@@ -206,15 +183,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
             if ((gamepad1.left_bumper)) {
                 collectLeft.setPower(1);
-<<<<<<< HEAD
-            }
-            else{
-=======
-
-            }
-            else {
-
->>>>>>> 5626441b665b87b29c1d5d798bd62b34247e6f2c
+            } else {
                 collectLeft.setPower(0);
             }
 
@@ -265,7 +234,6 @@ public class OfficialTeleOp extends LinearOpMode {
                 lift.setPower(0);
 
             }
-<<<<<<< HEAD
             //RELIC CLAW
             /*if (gamepad2.x){
 =======
@@ -302,14 +270,9 @@ public class OfficialTeleOp extends LinearOpMode {
 
             }
             */
-=======
-            }
-                */
-
-            }
-
->>>>>>> 5626441b665b87b29c1d5d798bd62b34247e6f2c
         }
+    }
+
 
     public double valueConvert(double controllerValue) {//note: this needs to be reversed larger coefficient for higher motor value
 
