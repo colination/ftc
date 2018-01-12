@@ -154,13 +154,13 @@ public class BlueDiagCamera extends LinearOpModeCamera {
 
         sleep(1000);
 
-        if (!left) {
+        if (left) {
             coolEncoderForward(.5, 225);
             idle();
             jewelHit.setPosition(0);
             coolEncoderForward(-.3, 700);
 
-        } else if (left){
+        } else if (!left){
             coolEncoderForward(-.3, 225);
             sleep(1000);
             jewelHit.setPosition(0);
@@ -237,8 +237,26 @@ public class BlueDiagCamera extends LinearOpModeCamera {
                 manipPower(-0.8);
                 break;
         } */
-
         sleep(1000);
+        coolEncoderForward(-.3, 775);
+        idle();
+        sleep(1000);
+        rightEncoder(-.3, 1900);
+        coolEncoderForward(-.3, 550);
+        sleep(1000);
+        manipPower(-0.8);
+        sleep(1000);
+
+
+
+        sleep(3000);
+        coolEncoderForward(.4, 300);
+        sleep(500);
+        coolEncoderForward(-.4, 325);
+        manipPower(0);
+        coolEncoderForward(.4, 150);
+        sleep(20000);
+        /*sleep(1000);
         coolEncoderForward(-.3, 750);
         idle();
         sleep(1000);
@@ -257,7 +275,7 @@ public class BlueDiagCamera extends LinearOpModeCamera {
         sleep(1000);
 
         telemetry.addLine().addData(">", "Done");
-        telemetry.update();
+        telemetry.update();*/
     }
 
 
@@ -322,7 +340,7 @@ public class BlueDiagCamera extends LinearOpModeCamera {
 
     public void manipPower(double power) {
         manipBL.setPower(power);
-        manipBR.setPower(power);
+        manipBR.setPower(-power);
         manipFR.setPower(power);
         manipFL.setPower(power);
     }
