@@ -21,7 +21,6 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    //Manip servo
 
     //MANIPILATOR SERVO
     Servo jewelHit;
@@ -47,22 +46,10 @@ public class OfficialTeleOp extends LinearOpMode {
     DcMotor lift;
 
 
-    // MANIPULATOR VEX MOTORS
-    DcMotor frontLeft;
-    DcMotor frontRight;
-    DcMotor backLeft;
-    DcMotor backRight;
-    /*
     // RELIC ARM
-<<<<<<< HEAD
     //DcMotor relicArm;
     //Servo relicClaw;
     //Servo relicWrist;
-=======
-    DcMotor relicArm;
-    Servo relicClaw;
-    Servo relicWrist;*/
->>>>>>> d9afb6c57bdeb7e5b678a567d3a2b12cf759d796
 
     // COLOR SENSOR FOR AUTO
 
@@ -89,16 +76,13 @@ public class OfficialTeleOp extends LinearOpMode {
 
         lift = hardwareMap.get(DcMotor.class, "lift");
 
-<<<<<<< HEAD
-        //relicClaw = hardwareMap.get(Servo.class, "relicClaw");
-        //relicWrist = hardwareMap.get(Servo.class, "relicWrist");
-        //relicArm = hardwareMap.get(DcMotor.class, "relicArm");
-=======
+                //relicClaw = hardwareMap.get(Servo.class, "relicClaw");
+                //relicWrist = hardwareMap.get(Servo.class, "relicWrist");
+                //relicArm = hardwareMap.get(DcMotor.class, "relicArm");
 
         /*relicClaw = hardwareMap.get(Servo.class, "relicClaw");
         relicWrist = hardwareMap.get(Servo.class, "relicWrist");
         relicArm = hardwareMap.get(DcMotor.class, "relicArm");*/
->>>>>>> d9afb6c57bdeb7e5b678a567d3a2b12cf759d796
         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
 
         collectLeft = hardwareMap.get(DcMotor.class, "collectLeft");
@@ -124,16 +108,9 @@ public class OfficialTeleOp extends LinearOpMode {
         collectLeft.setDirection(DcMotor.Direction.FORWARD);
         collectRight.setDirection(DcMotor.Direction.FORWARD);
 
-<<<<<<< HEAD
-        //relicArm.setDirection(DcMotor.Direction.FORWARD);
-
-=======
+                //relicArm.setDirection(DcMotor.Direction.FORWARD);
 
         //relicArm.setDirection(DcMotor.Direction.FORWARD);
-
-
-
->>>>>>> d9afb6c57bdeb7e5b678a567d3a2b12cf759d796
 
         // Set all motors to zero power
         motorFL.setPower(fLPower);
@@ -147,8 +124,8 @@ public class OfficialTeleOp extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
-
+            jewelHit.setPosition(0);
+            
             // BASE : Gamepad 1, Joysticks
             double stickLX = valueConvert(gamepad1.left_stick_x);
             double stickLY = valueConvert(gamepad1.left_stick_y);
@@ -173,8 +150,7 @@ public class OfficialTeleOp extends LinearOpMode {
             if (collectLeft.getPower() == 0) {
                 if (gamepad1.left_trigger >= .1) {
                     collectLeft.setPower(-1);
-                }
-                else{
+                } else {
                     collectLeft.setPower(0);
                 }
             }
@@ -192,19 +168,14 @@ public class OfficialTeleOp extends LinearOpMode {
 
             if ((gamepad1.left_bumper)) {
                 collectLeft.setPower(1);
-<<<<<<< HEAD
-            } else {
-=======
             }
-            else {
->>>>>>> d9afb6c57bdeb7e5b678a567d3a2b12cf759d796
+            else{
                 collectLeft.setPower(0);
             }
 
             if ((gamepad1.right_bumper)) {
                 collectRight.setPower(1);
-            }
-            else {
+            } else {
                 collectRight.setPower(0);
             }
 
@@ -249,23 +220,21 @@ public class OfficialTeleOp extends LinearOpMode {
                 lift.setPower(0);
 
             }
-<<<<<<< HEAD
             //RELIC CLAW
             /*if (gamepad2.x){
 =======
-            /*//RELIC CLAW
-            if (gamepad2.x){
->>>>>>> d9afb6c57bdeb7e5b678a567d3a2b12cf759d796
+            /*
+            RELIC CLAW
+            if (gamepad2.x) {
                 relicClaw.setPosition(0);
             }
-            if (gamepad2.y){
+            if (gamepad2.y) {
                 relicClaw.setPosition(.5);
             }
             //RELIC ARM
             if (gamepad2.left_stick_y > stickCenterThreshold) {
-                relicArm.setPower(gamepad2.left_stick_y/4);
-            }
-            else {
+                relicArm.setPower(gamepad2.left_stick_y / 4);
+            } else {
                 relicArm.setPower(0);
             }
             //RELIC WRIST
@@ -274,13 +243,9 @@ public class OfficialTeleOp extends LinearOpMode {
             }
             if (gamepad2.b) {
                 relicWrist.setPosition(.25);
-<<<<<<< HEAD
-            }
-                */
-=======
-            }*/
 
->>>>>>> d9afb6c57bdeb7e5b678a567d3a2b12cf759d796
+            }
+            */
         }
     }
     public double valueConvert(double controllerValue) {//note: this needs to be reversed larger coefficient for higher motor value
