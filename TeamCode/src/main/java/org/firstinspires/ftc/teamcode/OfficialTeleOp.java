@@ -21,7 +21,6 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    //Manip servo
 
     //MANIPILATOR SERVO
     Servo jewelHit;
@@ -47,21 +46,15 @@ public class OfficialTeleOp extends LinearOpMode {
     DcMotor lift;
 
 
-    // MANIPULATOR VEX MOTORS
-    DcMotor frontLeft;
-    DcMotor frontRight;
-    DcMotor backLeft;
-    DcMotor backRight;
-    /*
     // RELIC ARM
-<<<<<<< HEAD
     //DcMotor relicArm;
     //Servo relicClaw;
     //Servo relicWrist;
-=======
+/*
     DcMotor relicArm;
     Servo relicClaw;
     Servo relicWrist;*/
+
 
     // COLOR SENSOR FOR AUTO
 
@@ -89,9 +82,15 @@ public class OfficialTeleOp extends LinearOpMode {
         lift = hardwareMap.get(DcMotor.class, "lift");
 
 
+                //relicClaw = hardwareMap.get(Servo.class, "relicClaw");
+                //relicWrist = hardwareMap.get(Servo.class, "relicWrist");
+                //relicArm = hardwareMap.get(DcMotor.class, "relicArm");
+
+
         //relicClaw = hardwareMap.get(Servo.class, "relicClaw");
         //relicWrist = hardwareMap.get(Servo.class, "relicWrist");
         //relicArm = hardwareMap.get(DcMotor.class, "relicArm");
+
 
 
         /*relicClaw = hardwareMap.get(Servo.class, "relicClaw");
@@ -123,6 +122,12 @@ public class OfficialTeleOp extends LinearOpMode {
         collectLeft.setDirection(DcMotor.Direction.FORWARD);
         collectRight.setDirection(DcMotor.Direction.FORWARD);
 
+
+                //relicArm.setDirection(DcMotor.Direction.FORWARD);
+
+        //relicArm.setDirection(DcMotor.Direction.FORWARD);
+
+
         //relicArm.setDirection(DcMotor.Direction.FORWARD);
 
 
@@ -145,6 +150,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
             jewelHit.setPosition(.45);
 
 
@@ -172,8 +178,7 @@ public class OfficialTeleOp extends LinearOpMode {
             if (collectLeft.getPower() == 0) {
                 if (gamepad1.left_trigger >= .1) {
                     collectLeft.setPower(-1);
-                }
-                else{
+                } else {
                     collectLeft.setPower(0);
                 }
             }
@@ -192,16 +197,15 @@ public class OfficialTeleOp extends LinearOpMode {
             if ((gamepad1.left_bumper)) {
                 collectLeft.setPower(1);
 
-            }
-            else {
+
+            } else {
 
                 collectLeft.setPower(0);
             }
 
             if ((gamepad1.right_bumper)) {
                 collectRight.setPower(1);
-            }
-            else {
+            } else {
                 collectRight.setPower(0);
             }
 
@@ -245,7 +249,17 @@ public class OfficialTeleOp extends LinearOpMode {
             else {
                 lift.setPower(0);
             }
+
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+            //RELIC CLAW
+            /*if (gamepad2.x){
+=======
+            /*
+            RELIC CLAW
+            if (gamepad2.x) {
+=======
+>>>>>>> 7667b8317b9d76aa5961d810434992251eba4b8d
 /*<<<<<<< HEAD
             //RELIC CLAW
             /*if (gamepad2.x){
@@ -253,16 +267,16 @@ public class OfficialTeleOp extends LinearOpMode {
             //RELIC CLAW
             /*if (gamepad2.x){
 
+>>>>>>> 5626441b665b87b29c1d5d798bd62b34247e6f2c
                 relicClaw.setPosition(0);
             }
-            if (gamepad2.y){
+            if (gamepad2.y) {
                 relicClaw.setPosition(.5);
             }
             //RELIC ARM
             if (gamepad2.left_stick_y > stickCenterThreshold) {
-                relicArm.setPower(gamepad2.left_stick_y/4);
-            }
-            else {
+                relicArm.setPower(gamepad2.left_stick_y / 4);
+            } else {
                 relicArm.setPower(0);
             }
             //RELIC WRIST
@@ -271,12 +285,17 @@ public class OfficialTeleOp extends LinearOpMode {
             }
             if (gamepad2.b) {
                 relicWrist.setPosition(.25);
-            }
-                */
+<<<<<<< HEAD
 
             }
+            */
 
         }
+
+            }
+
+
+
 
     public double valueConvert(double controllerValue) {//note: this needs to be reversed larger coefficient for higher motor value
 
