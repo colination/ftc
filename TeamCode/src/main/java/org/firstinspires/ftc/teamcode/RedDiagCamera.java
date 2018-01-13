@@ -30,7 +30,7 @@ public class RedDiagCamera extends LinearOpModeCamera {
     static final double     WHEEL_DIAMETER_INCHES   = 5.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    ElapsedTime time;
+    ElapsedTime time = new ElapsedTime();
     DcMotor motorFR;
     DcMotor motorFL;
     DcMotor motorBR;
@@ -189,7 +189,7 @@ public class RedDiagCamera extends LinearOpModeCamera {
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         time.reset();
-        while (vuMark == RelicRecoveryVuMark.UNKNOWN && opModeIsActive() && (time.seconds() < 3)) {
+        while ((vuMark == RelicRecoveryVuMark.UNKNOWN) && (opModeIsActive()) && (time.seconds() < 4)) {
 
             telemetry.addData("VuMark", "not visible");
             telemetry.update();
@@ -210,8 +210,8 @@ public class RedDiagCamera extends LinearOpModeCamera {
                 sleep(1000);
                 rightEncoder(-.3, 1950);
                 turnAround();
-                coolEncoderForward(-.3, 1000);
-                coolEncoderForward(-.3, 200);
+                coolEncoderForward(-.3, 850);
+
                 sleep(1000);
                 manipPower(-0.8);
                 break;
@@ -223,8 +223,8 @@ public class RedDiagCamera extends LinearOpModeCamera {
                 sleep(1000);
                 rightEncoder(-.3, 1550);
                 turnAround();
-                coolEncoderForward(-.3, 1000);
-                coolEncoderForward(-.3, 200);
+                coolEncoderForward(-.3, 850);
+
                 sleep(1000);
                 manipulator.setPower(-0.8);
                 break;
@@ -236,21 +236,21 @@ public class RedDiagCamera extends LinearOpModeCamera {
                 sleep(1000);
                 rightEncoder(-.3, 1750);
                 turnAround();
-                coolEncoderForward(-.3, 1000);
-                coolEncoderForward(-.3, 200);
+                coolEncoderForward(-.3, 850);
+
                 sleep(1000);
                 manipPower(-0.8);
                 break;
 
             default :
                 sleep(1000);
-                coolEncoderForward(.3,500);
+                coolEncoderForward(.3, 500);
                 idle();
                 sleep(1000);
                 rightEncoder(-.3, 1750);
                 turnAround();
-                coolEncoderForward(-.3, 1000);
-                coolEncoderForward(-.3, 200);
+                coolEncoderForward(-.3, 850);
+
                 sleep(1000);
                 manipPower(-0.8);
                 telemetry.addData("defaultCenter", "");
@@ -258,7 +258,7 @@ public class RedDiagCamera extends LinearOpModeCamera {
                 break;
         }
 
-        manipPower(-0.8);
+        manipPower(0.8);
         sleep(3500);
         coolEncoderForward(.4, 300);
         sleep(500);
@@ -333,7 +333,7 @@ public class RedDiagCamera extends LinearOpModeCamera {
 
     public void manipPower(double power) {
         manipBL.setPower(power);
-        manipBR.setPower(power);
+        manipBR.setPower(-power);
         manipFR.setPower(power);
         manipFL.setPower(power);
     }

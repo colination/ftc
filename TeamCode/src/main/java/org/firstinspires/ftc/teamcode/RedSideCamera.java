@@ -50,7 +50,7 @@ public class RedSideCamera extends LinearOpModeCamera {
     CRServo manipBL;
     CRServo manipBR;
 
-    ElapsedTime time;
+    ElapsedTime time = new ElapsedTime();
 
     VuforiaLocalizer vuforia;
 
@@ -175,29 +175,47 @@ public class RedSideCamera extends LinearOpModeCamera {
         telemetry.update();
         sleep(1000);
 
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        telemetry.addData("hehe", "");
+        telemetry.update();
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        telemetry.addData("f", "");
+        telemetry.update();
 
         parameters.vuforiaLicenseKey = "ATW/8fr/////AAAAGZ5Fjme7F0bTj0e+AOR2QIAOmUyzJb0YwYzAFqJZ9s/Mn3mkJq6MvoHNP03tdbewGWZg7BNT4+3qq8AydmSrU5Gbsvd35P3vIf1lJ36C9drgbusNC+rtTTW9lt6rGarj9kvrotz5c6CR2frUiNaxHK3JA6xEjyjGo8jvSgQ3YB03yW5rBdAAxRyKj/Ij30RL6ohnIyKDi03LvDBJiOlTMW3DvXnSgAU+D7TLEokjbjon1U3IS/zjGldbPi2Cv7D5Q98oIlTSfOxJpIgJ9kceLNAqoOQziy3CXc0FUeY8fTQ3/QKOKbF9brRCLoEAn9FmMc2m/MmMlwrImvoLyGvcQWcTabM1zxZXnXX4Q4+AUZaB";
-
+        telemetry.addData("m", "");
+        telemetry.update();
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        telemetry.addData("l", "");
+        telemetry.update();
 
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate");
+        telemetry.addData("lol", "");
+        telemetry.update();
 
         relicTrackables.activate();
+        telemetry.addData("software", "");
+        telemetry.update();
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        telemetry.addData("xd", "");
+        telemetry.update();
         time.reset();
-        while (vuMark == RelicRecoveryVuMark.UNKNOWN && opModeIsActive() && time.seconds() < 3) {
+        telemetry.addData("tim", "");
+        telemetry.update();
+        while ((vuMark == RelicRecoveryVuMark.UNKNOWN) && (opModeIsActive()) && (time.seconds() < 4)) {
 
             telemetry.addData("VuMark", "not visible");
             telemetry.update();
 
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
         }
+        telemetry.addData("wtf", "");
+        telemetry.update();
 
         telemetry.addData("VuMark", "%s visible", vuMark);
         telemetry.update();
@@ -212,7 +230,7 @@ public class RedSideCamera extends LinearOpModeCamera {
                 turnLeft();
                 coolEncoderForward(-.3, 400);
                 sleep(1000);
-                manipPower(0.8);
+                manipPower(-0.8);
                 break;
 
             case RIGHT :
@@ -223,7 +241,7 @@ public class RedSideCamera extends LinearOpModeCamera {
                 turnLeft();
                 coolEncoderForward(-.3, 400);
                 sleep(1000);
-                manipPower(0.8);
+                manipPower(-0.8);
                 break;
 
             case CENTER :
@@ -234,7 +252,7 @@ public class RedSideCamera extends LinearOpModeCamera {
                 turnLeft();
                 coolEncoderForward(-.3, 400);
                 sleep(1000);
-                manipPower(0.8);
+                manipPower(-0.8);
                 break;
 
             default :
@@ -245,13 +263,13 @@ public class RedSideCamera extends LinearOpModeCamera {
                 turnLeft();
                 coolEncoderForward(-.3, 400);
                 sleep(1000);
-                manipPower(0.8);
+                manipPower(-0.8);
                 telemetry.addData("defaultCenter", "");
                 telemetry.update();
                 break;
         }
 
-        manipPower(-0.8);
+        manipPower(0.8);
         sleep(3500);
         coolEncoderForward(.4, 300);
         sleep(500);
@@ -326,7 +344,7 @@ public class RedSideCamera extends LinearOpModeCamera {
 
     public void manipPower(double power) {
         manipBL.setPower(power);
-        manipBR.setPower(power);
+        manipBR.setPower(-power);
         manipFR.setPower(power);
         manipFL.setPower(power);
     }
