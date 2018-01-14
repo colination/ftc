@@ -154,13 +154,13 @@ public class blueSideCamera extends LinearOpModeCamera {
 
         sleep(1000);
 
-        if (!left) {
+        if (left) {
             coolEncoderForward(.5, 225);
             idle();
             jewelHit.setPosition(0);
             coolEncoderForward(-.3, 700);
 
-        } else if (left){
+        } else if (!left){
             coolEncoderForward(-.3, 225);
             sleep(1000);
             jewelHit.setPosition(0);
