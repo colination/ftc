@@ -274,7 +274,7 @@ public class OfficialTeleOp extends LinearOpMode {
             */
         }
     }
-    public double valueConvert(double controllerValue) {//note: this needs to be reversed larger coefficient for higher motor value
+    public double valueConvert(double controllerValue) {
 
         if(Math.abs(controllerValue) <= .03){
              return 0;
