@@ -64,6 +64,7 @@ public class OfficialTeleOp extends LinearOpMode {
     public double bRPower = 0.0;
 
     private double speed = .5;
+    private double jewelPosition = .4;
     private double stickCenterThreshold = .1;
     private double stickPushSmall = .2;
     private double stickPushLarge = .8;
@@ -142,7 +143,12 @@ public class OfficialTeleOp extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             jewelHit.setPosition(0);
-            jewelHit.setPosition(.45);
+            jewelHit.setPosition(jewelPosition);
+            //in case servo falls
+            if (gamepad2.a && gamepad2.x)
+            {
+                jewelPosition = .35;
+            }
             // BASE : Gamepad 1, Joysticks
             double stickLX = valueConvert(gamepad1.left_stick_x);
             double stickLY = valueConvert(gamepad1.left_stick_y);
