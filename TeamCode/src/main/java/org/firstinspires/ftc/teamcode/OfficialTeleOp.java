@@ -142,7 +142,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            jewelHit.setPosition(0);
+
             jewelHit.setPosition(jewelPosition);
             //in case servo falls
             if (gamepad2.a && gamepad2.x)
