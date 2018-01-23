@@ -81,18 +81,10 @@ public class OfficialTeleOp extends LinearOpMode {
 
         lift = hardwareMap.get(DcMotor.class, "lift");
 
-        //relicClaw = hardwareMap.get(Servo.class, "relicClaw");
-        //relicWrist = hardwareMap.get(Servo.class, "relicWrist");
-        //relicArm = hardwareMap.get(DcMotor.class, "relicArm");
 
-
-        //relicClaw = hardwareMap.get(Servo.class, "relicClaw");
-        //relicWrist = hardwareMap.get(Servo.class, "relicWrist");
-        //relicArm = hardwareMap.get(DcMotor.class, "relicArm");
-
-        /*relicClaw = hardwareMap.get(Servo.class, "relicClaw");
+        relicClaw = hardwareMap.get(Servo.class, "relicClaw");
         relicWrist = hardwareMap.get(Servo.class, "relicWrist");
-        relicArm = hardwareMap.get(DcMotor.class, "relicArm");*/
+        relicArm = hardwareMap.get(DcMotor.class, "relicArm");
 
 
         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
@@ -120,14 +112,8 @@ public class OfficialTeleOp extends LinearOpMode {
 
         collectLeft.setDirection(DcMotor.Direction.FORWARD);
         collectRight.setDirection(DcMotor.Direction.FORWARD);
-        //relicArm.setDirection(DcMotor.Direction.FORWARD);
+        relicArm.setDirection(DcMotor.Direction.FORWARD);
 
-        //relicArm.setDirection(DcMotor.Direction.FORWARD);
-
-        //relicArm.setDirection(DcMotor.Direction.FORWARD);
-
-
-        //relicArm.setDirection(DcMotor.Direction.FORWARD);
 
 
         // Set all motors to zero power
@@ -147,7 +133,7 @@ public class OfficialTeleOp extends LinearOpMode {
             //in case servo falls
             if (gamepad2.a && gamepad2.x)
             {
-                jewelPosition = .35;
+                jewelPosition = .40;
             }
             // BASE : Gamepad 1, Joysticks
             double stickLX = valueConvert(gamepad1.left_stick_x);
@@ -241,22 +227,11 @@ public class OfficialTeleOp extends LinearOpMode {
                 lift.setPower(0);
             }
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            //RELIC CLAW
-            /*if (gamepad2.x){
-=======
-            /*
-            RELIC CLAW
-            if (gamepad2.x) {
-=======
->>>>>>> 7667b8317b9d76aa5961d810434992251eba4b8d
-/*<<<<<<< HEAD
-            //RELIC CLAW
-            /*if (gamepad2.x){
-=======
-            //RELIC CLAW
-            /*if (gamepad2.x){
 
->>>>>>> 5626441b665b87b29c1d5d798bd62b34247e6f2c
+            //RELIC CLAW
+            if (gamepad2.x){
+
+
                 relicClaw.setPosition(0);
             }
             if (gamepad2.y) {
@@ -274,10 +249,10 @@ public class OfficialTeleOp extends LinearOpMode {
             }
             if (gamepad2.b) {
                 relicWrist.setPosition(.25);
-<<<<<<< HEAD
+
 
             }
-            */
+
         }
     }
     public double valueConvert(double controllerValue) {
