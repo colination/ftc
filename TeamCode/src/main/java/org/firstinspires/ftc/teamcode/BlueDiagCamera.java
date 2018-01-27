@@ -28,6 +28,8 @@ public class BlueDiagCamera extends LinearOpModeCamera {
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 5.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final int vuforiaDist = 500;
+    static final int vuforiaBack = 900;
 
 
     DcMotor motorFR;
@@ -158,23 +160,26 @@ public class BlueDiagCamera extends LinearOpModeCamera {
             coolEncoderForward(.5, 225);
             idle();
             jewelHit.setPosition(0);
-            coolEncoderForward(-.3, 700);
+            coolEncoderForward(-.5, 225);
+            //coolEncoderForward(-.3, 700);
 
         } else if (!left){
             coolEncoderForward(-.3, 225);
-            sleep(1000);
+            //sleep(1000);
             jewelHit.setPosition(0);
-            sleep(1000);
-            coolEncoderForward(-.3, 250);
+            //sleep(1000);
+            coolEncoderForward(.5, 225);
+            //coolEncoderForward(-.3, 250);
         }
 
         telemetry.addData("end of camera code", "");
         telemetry.update();
-        sleep(1000);
+
+        coolEncoderForward(.1, vuforiaDist);
 
 
 
-        /*int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
         parameters.vuforiaLicenseKey = "ATW/8fr/////AAAAGZ5Fjme7F0bTj0e+AOR2QIAOmUyzJb0YwYzAFqJZ9s/Mn3mkJq6MvoHNP03tdbewGWZg7BNT4+3qq8AydmSrU5Gbsvd35P3vIf1lJ36C9drgbusNC+rtTTW9lt6rGarj9kvrotz5c6CR2frUiNaxHK3JA6xEjyjGo8jvSgQ3YB03yW5rBdAAxRyKj/Ij30RL6ohnIyKDi03LvDBJiOlTMW3DvXnSgAU+D7TLEokjbjon1U3IS/zjGldbPi2Cv7D5Q98oIlTSfOxJpIgJ9kceLNAqoOQziy3CXc0FUeY8fTQ3/QKOKbF9brRCLoEAn9FmMc2m/MmMlwrImvoLyGvcQWcTabM1zxZXnXX4Q4+AUZaB";
@@ -199,28 +204,28 @@ public class BlueDiagCamera extends LinearOpModeCamera {
 
         telemetry.addData("VuMark", "%s visible", vuMark);
         telemetry.update();
-
-        vuMark = RelicRecoveryVuMark.CENTER;
+        coolEncoderForward(-1, vuforiaBack);
+        //vuMark = RelicRecoveryVuMark.CENTER;
         sleep(1500);
 
         switch(vuMark) {
             case LEFT :
                 sleep(1000);
-                coolEncoderForward(-.3, 800);
+                coolEncoderForward(-.3,1100);
                 idle();
                 sleep(1000);
-                turnLeft();
-                coolEncoderForward(-.3, 300);
+                rightEncoder(-.5, 1550);
+                coolEncoderForward(-.3, 400);
                 sleep(1000);
                 manipPower(-0.8);
                 break;
 
             case RIGHT :
                 sleep(1000);
-                coolEncoderForward(-.3, 1000);
+                coolEncoderForward(-.3,1100);
                 idle();
                 sleep(1000);
-                turnLeft();
+                rightEncoder(-.5, 1950);
                 coolEncoderForward(-.3, 400);
                 sleep(1000);
                 manipPower(-0.8);
@@ -228,24 +233,24 @@ public class BlueDiagCamera extends LinearOpModeCamera {
 
             case CENTER :
                 sleep(1000);
-                coolEncoderForward(-.3, 750);
+                coolEncoderForward(-.3,1100);
                 idle();
                 sleep(1000);
-                turnLeft();
-                coolEncoderForward(-.3, 300);
+                rightEncoder(-.5, 1750);
+                coolEncoderForward(-.3, 400);
                 sleep(1000);
                 manipPower(-0.8);
                 break;
-        } */
-        sleep(1000);
+        }
+        /*sleep(1000);
         coolEncoderForward(-.3, 775);
         idle();
         sleep(1000);
         rightEncoder(-.3, 1900);
         coolEncoderForward(-.3, 550);
-        sleep(1000);
+        sleep(1000);*/
         manipPower(-0.8);
-        sleep(1000);
+        //sleep(1000);
 
 
 
