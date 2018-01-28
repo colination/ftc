@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
@@ -28,14 +29,18 @@ public class BlueDiagCamera extends LinearOpModeCamera {
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 5.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final int vuforiaDist = 500;
-    static final int vuforiaBack = 900;
+    static final int vuforiaDist = 300;
+    static final int vuforiaBack = 1400;
+    static final double ejectBlock = 0.7;
+    static final double moveSpeed = .6;
+    static final int pushBlock = 400;
 
 
     DcMotor motorFR;
     DcMotor motorFL;
     DcMotor motorBR;
     DcMotor motorBL;
+    ElapsedTime time = new ElapsedTime();
 
     DcMotor collectLeft;
     DcMotor collectRight;
@@ -50,6 +55,7 @@ public class BlueDiagCamera extends LinearOpModeCamera {
     CRServo manipFR;
     CRServo manipBL;
     CRServo manipBR;
+
 
     VuforiaLocalizer vuforia;
 
@@ -157,25 +163,26 @@ public class BlueDiagCamera extends LinearOpModeCamera {
         sleep(1000);
 
         if (left) {
-            coolEncoderForward(.5, 225);
+            coolEncoderForward(.2, 225);
             idle();
             jewelHit.setPosition(0);
-            coolEncoderForward(-.5, 225);
+            coolEncoderForward(-.2, 225);
             //coolEncoderForward(-.3, 700);
 
         } else if (!left){
-            coolEncoderForward(-.3, 225);
+            coolEncoderForward(-.2, 225);
             //sleep(1000);
             jewelHit.setPosition(0);
             //sleep(1000);
-            coolEncoderForward(.5, 225);
+            coolEncoderForward(.2, 225);
             //coolEncoderForward(-.3, 250);
         }
 
         telemetry.addData("end of camera code", "");
         telemetry.update();
 
-        coolEncoderForward(.1, vuforiaDist);
+        coolEncoderForward(moveSpeed, vuforiaDist);
+        idle();
 
 
 
@@ -194,7 +201,8 @@ public class BlueDiagCamera extends LinearOpModeCamera {
         relicTrackables.activate();
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        while (vuMark == RelicRecoveryVuMark.UNKNOWN && opModeIsActive()) {
+        time.reset();
+        while ((vuMark == RelicRecoveryVuMark.UNKNOWN) && (opModeIsActive()) && (time.seconds() < 4)) {
 
             telemetry.addData("VuMark", "not visible");
             telemetry.update();
@@ -202,44 +210,60 @@ public class BlueDiagCamera extends LinearOpModeCamera {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
         }
 
+
         telemetry.addData("VuMark", "%s visible", vuMark);
         telemetry.update();
+        coolEncoderForward(1, 100);
+        coolEncoderForward(-1, 100);
         coolEncoderForward(-1, vuforiaBack);
         //vuMark = RelicRecoveryVuMark.CENTER;
-        sleep(1500);
+
 
         switch(vuMark) {
             case LEFT :
                 sleep(1000);
-                coolEncoderForward(-.3,1100);
+                coolEncoderForward(moveSpeed, 1100);
                 idle();
                 sleep(1000);
-                rightEncoder(-.5, 1550);
-                coolEncoderForward(-.3, 400);
+                rightEncoder(-moveSpeed, 1500);
+                coolEncoderForward(-moveSpeed, pushBlock);
                 sleep(1000);
-                manipPower(-0.8);
+                manipPower(-ejectBlock);
                 break;
 
             case RIGHT :
                 sleep(1000);
-                coolEncoderForward(-.3,1100);
+                coolEncoderForward(-moveSpeed,1100);
                 idle();
                 sleep(1000);
-                rightEncoder(-.5, 1950);
-                coolEncoderForward(-.3, 400);
+                rightEncoder(-moveSpeed, 1700);
+                coolEncoderForward(-moveSpeed, pushBlock);
                 sleep(1000);
-                manipPower(-0.8);
+                manipPower(ejectBlock);
                 break;
 
             case CENTER :
                 sleep(1000);
-                coolEncoderForward(-.3,1100);
+                coolEncoderForward(-moveSpeed, 1100);
                 idle();
                 sleep(1000);
-                rightEncoder(-.5, 1750);
-                coolEncoderForward(-.3, 400);
+                rightEncoder(-moveSpeed, 1600);//prev 1750 prev 1650 keeping 100 spread
+                coolEncoderForward(-moveSpeed, pushBlock);
                 sleep(1000);
-                manipPower(-0.8);
+                manipPower(-ejectBlock);
+                break;
+
+            default:
+                sleep(1000);
+                telemetry.addData("defaultCenter", "");
+                telemetry.update();
+                coolEncoderForward(-moveSpeed, 1100);
+                idle();
+                sleep(1000);
+                rightEncoder(-moveSpeed, 1600);
+                coolEncoderForward(-moveSpeed, pushBlock);
+                sleep(1000);
+                manipPower(-ejectBlock);
                 break;
         }
         /*sleep(1000);
@@ -249,17 +273,19 @@ public class BlueDiagCamera extends LinearOpModeCamera {
         rightEncoder(-.3, 1900);
         coolEncoderForward(-.3, 550);
         sleep(1000);*/
-        manipPower(-0.8);
+        //manipPower(-ejectBlock);
         //sleep(1000);
 
 
 
         sleep(3000);
-        coolEncoderForward(.4, 300);
+        coolEncoderForward(moveSpeed, 300);
         sleep(500);
-        coolEncoderForward(-.4, 325);
+        coolEncoderForward(-moveSpeed, 325);
+        manipPower(-.6);
+        coolEncoderForward(moveSpeed, 150);
         manipPower(0);
-        coolEncoderForward(.4, 150);
+        idle();
         sleep(20000);
         /*sleep(1000);
         coolEncoderForward(-.3, 750);
@@ -344,10 +370,10 @@ public class BlueDiagCamera extends LinearOpModeCamera {
     }
 
     public void manipPower(double power) {
-        manipBL.setPower(power);
-        manipBR.setPower(-power);
+        manipBL.setPower(-power);
+        manipBR.setPower(power);
         manipFR.setPower(power);
-        manipFL.setPower(power);
+        manipFL.setPower(-power);
     }
 
 

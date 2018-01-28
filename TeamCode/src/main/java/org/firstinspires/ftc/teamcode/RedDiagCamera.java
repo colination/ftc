@@ -213,7 +213,7 @@ public class RedDiagCamera extends LinearOpModeCamera {
                 coolEncoderForward(-.3, 850);
 
                 sleep(1000);
-                manipPower(-0.8);
+                manipPower(-0.7);
                 break;
 
             case RIGHT :
@@ -252,7 +252,7 @@ public class RedDiagCamera extends LinearOpModeCamera {
                 coolEncoderForward(-.3, 850);
 
                 sleep(1000);
-                manipPower(-0.8);
+                manipPower(-0.7);
                 telemetry.addData("defaultCenter", "");
                 telemetry.update();
                 break;
