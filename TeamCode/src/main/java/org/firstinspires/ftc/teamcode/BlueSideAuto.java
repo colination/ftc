@@ -112,7 +112,8 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
             telemetry.addLine().addData(">", "Press Stop to end test.");
             telemetry.update();
 
-            // Set the servo to the new position and pause;
+            // Set the servo to
+            // the new position and pause;
 
 
             manipServo.setPosition(.7);

@@ -123,54 +123,54 @@ public class blueSideCamera extends LinearOpModeCamera {
             Bitmap rgbJewel;
             rgbJewel = convertYuvImageToRgb(yuvImage, width, height, 1);
 
-            for (int x = 0; x < (rgbJewel.getWidth() * .5); x++) {
-                for (int y = 0; y < (int) (.33 * rgbJewel.getHeight()); y++) {
+            for (int x = 0; x < (rgbJewel.getWidth() * .4); x++) {
+                for (int y = 0; y < (int) (.4 * rgbJewel.getHeight()); y++) {
                     int pixel = rgbJewel.getPixel(x, y);
                     redValueRight += red(pixel);
                 }
             }
 
-            for (int x = (int) (rgbJewel.getWidth() * .5); x < rgbJewel.getWidth(); x++) {
-                for (int y = 0; y < (int) (.33 * rgbJewel.getHeight()); y++) {
+            for (int x = (int) (rgbJewel.getWidth() * .6); x < rgbJewel.getWidth(); x++) {
+                for (int y = 0; y < (int) (.4 * rgbJewel.getHeight()); y++) {
                     int pixel = rgbJewel.getPixel(x, y);
                     redValueLeft += red(pixel);
+
                 }
+
+                sleep(1000);
+
+                left = redValueLeft > redValueRight;
+
+                telemetry.addData("Is Jewel Red on the Left?", left);
+
+                telemetry.addData("numPics: ", numPics);
+
+                telemetry.addData("redLeft to redRight: ", redValueLeft + "    " + redValueRight);
+
+                telemetry.update();
             }
 
+            stopCamera();
+
             sleep(1000);
 
-            left = redValueLeft > redValueRight;
+            if (left) {
+                coolEncoderForward(.5, 225);
+                idle();
+                jewelHit.setPosition(0);
+                coolEncoderForward(-.3, 700);
 
-            telemetry.addData("Is Jewel Red on the Left?", left);
+            } else if (!left) {
+                coolEncoderForward(-.3, 225);
+                sleep(1000);
+                jewelHit.setPosition(0);
+                sleep(1000);
+                coolEncoderForward(-.3, 250);
+            }
 
-            telemetry.addData("numPics: ", numPics);
-
-            telemetry.addData("redLeft to redRight: ", redValueLeft + "    " + redValueRight);
-
+            telemetry.addData("end of camera code", "");
             telemetry.update();
-        }
-
-        stopCamera();
-
-        sleep(1000);
-
-        if (left) {
-            coolEncoderForward(.5, 225);
-            idle();
-            jewelHit.setPosition(0);
-            coolEncoderForward(-.3, 700);
-
-        } else if (!left){
-            coolEncoderForward(-.3, 225);
             sleep(1000);
-            jewelHit.setPosition(0);
-            sleep(1000);
-            coolEncoderForward(-.3, 250);
-        }
-
-        telemetry.addData("end of camera code", "");
-        telemetry.update();
-        sleep(1000);
 
         /*int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -238,25 +238,26 @@ public class blueSideCamera extends LinearOpModeCamera {
         } */
 
 
-        coolEncoderForward(-.3, 1500);
-        idle();
-        sleep(1000);
-        turnLeft();
-        coolEncoderForward(-.3, 400);
-        sleep(1000);
-        manipPower(0.8);
-        sleep(1500);
-        manipPower(-0.8);
-        sleep(2500);
-        coolEncoderForward(.4, 300);
-        sleep(500);
-        coolEncoderForward(-.4, 325);
-        manipPower(0);
-        coolEncoderForward(.4, 150);
-        sleep(1000);
+            coolEncoderForward(-.3, 1500);
+            idle();
+            sleep(1000);
+            turnLeft();
+            coolEncoderForward(-.3, 400);
+            sleep(1000);
+            manipPower(0.8);
+            sleep(1500);
+            manipPower(-0.8);
+            sleep(2500);
+            coolEncoderForward(.4, 300);
+            sleep(500);
+            coolEncoderForward(-.4, 325);
+            manipPower(0);
+            coolEncoderForward(.4, 150);
+            sleep(1000);
 
-        telemetry.addLine().addData(">", "Done");
-        telemetry.update();
+            telemetry.addLine().addData(">", "Done");
+            telemetry.update();
+        }
     }
 
 
