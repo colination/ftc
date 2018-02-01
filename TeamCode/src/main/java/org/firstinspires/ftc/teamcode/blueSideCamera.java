@@ -124,14 +124,14 @@ public class blueSideCamera extends LinearOpModeCamera {
             rgbJewel = convertYuvImageToRgb(yuvImage, width, height, 1);
 
             for (int x = 0; x < (rgbJewel.getWidth() * .4); x++) {
-                for (int y = 0; y < (int) (.4 * rgbJewel.getHeight()); y++) {
+                for (int y = 0; y < (int) (.33 * rgbJewel.getHeight()); y++) {
                     int pixel = rgbJewel.getPixel(x, y);
                     redValueRight += red(pixel);
                 }
             }
 
             for (int x = (int) (rgbJewel.getWidth() * .6); x < rgbJewel.getWidth(); x++) {
-                for (int y = 0; y < (int) (.4 * rgbJewel.getHeight()); y++) {
+                for (int y = 0; y < (int) (.33 * rgbJewel.getHeight()); y++) {
                     int pixel = rgbJewel.getPixel(x, y);
                     redValueLeft += red(pixel);
 

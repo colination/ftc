@@ -58,7 +58,7 @@ public class OfficialTeleOp extends LinearOpMode {
     public double bRPower = 0.0;
 
     private double speed = .5;
-    private double jewelPosition = .4;
+    private double jewelPosition = .10;
     private double stickCenterThreshold = .1;
     private double stickPushSmall = .2;
     private double stickPushLarge = .8;
@@ -127,7 +127,7 @@ public class OfficialTeleOp extends LinearOpMode {
             //in case servo falls
             if (gamepad2.a && gamepad2.x)
             {
-                jewelPosition = .40;
+                jewelPosition = .15;
             }
             // BASE : Gamepad 1, Joysticks
             double stickLX = valueConvert(gamepad1.left_stick_x);
