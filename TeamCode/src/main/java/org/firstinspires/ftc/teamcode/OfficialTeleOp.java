@@ -58,7 +58,7 @@ public class OfficialTeleOp extends LinearOpMode {
     public double bRPower = 0.0;
 
     private double speed = .5;
-    private double jewelPosition = .10;
+    private double jewelPosition = .35;
     private double stickCenterThreshold = .1;
     private double stickPushSmall = .2;
     private double stickPushLarge = .8;
@@ -184,10 +184,10 @@ public class OfficialTeleOp extends LinearOpMode {
             // MANIPULATOR : Gamepad 2, A, B, X, Y.
             if (gamepad2.a) {
                 manipFL.setPower(.8);
-                manipFR.setPower(.8);
+                manipFR.setPower(-.8);
             } else if (gamepad2.a && gamepad2.x) {
                 manipFL.setPower(.8);
-                manipFR.setPower(.8);
+                manipFR.setPower(-.8);
                 manipBR.setPower(-.8);
                 manipBL.setPower(.8);
             } else {
@@ -203,7 +203,7 @@ public class OfficialTeleOp extends LinearOpMode {
             } else if (gamepad2.b && gamepad2.y) {
                 manipBR.setPower(.8);
                 manipBL.setPower(-.8);
-                manipFR.setPower(-.8);
+                manipFR.setPower(.8);
                 manipFL.setPower(-.8);
             }
             if (gamepad2.x) {
@@ -211,7 +211,7 @@ public class OfficialTeleOp extends LinearOpMode {
                 manipBL.setPower(.8);
             }
             if (gamepad2.y) {
-                manipFR.setPower(-.8);
+                manipFR.setPower(.8);
                 manipFL.setPower(-.8);
             }
             // LIFT CODE : Gamepad 2, Left Joystick
