@@ -124,18 +124,20 @@ public class blueSideCamera extends LinearOpModeCamera {
             rgbJewel = convertYuvImageToRgb(yuvImage, width, height, 1);
 
             for (int x = 0; x < (rgbJewel.getWidth() * .4); x++) {
-                for (int y = 0; y < (int) (.33 * rgbJewel.getHeight()); y++) {
+                for (int y = 0; y < (int) (.5 * rgbJewel.getHeight()); y++) {
                     int pixel = rgbJewel.getPixel(x, y);
                     redValueRight += red(pixel);
                 }
             }
 
             for (int x = (int) (rgbJewel.getWidth() * .6); x < rgbJewel.getWidth(); x++) {
-                for (int y = 0; y < (int) (.33 * rgbJewel.getHeight()); y++) {
+                for (int y = 0; y < (int) (.5 * rgbJewel.getHeight()); y++) {
                     int pixel = rgbJewel.getPixel(x, y);
                     redValueLeft += red(pixel);
 
                 }
+
+            }
 
                 sleep(1000);
 
@@ -148,31 +150,48 @@ public class blueSideCamera extends LinearOpModeCamera {
                 telemetry.addData("redLeft to redRight: ", redValueLeft + "    " + redValueRight);
 
                 telemetry.update();
-            }
 
-            stopCamera();
 
+        }
+
+        telemetry.addData("leaves if loop", "");
+
+        telemetry.update();
+
+        stopCamera();
+
+        sleep(1000);
+
+        if (left) {
+            coolEncoderForward(.5, 225);
+            idle();
+            jewelHit.setPosition(0);
+            coolEncoderForward(-.3, 700);
+
+        } else if (!left) {
+            coolEncoderForward(-.3, 225);
             sleep(1000);
-
-            if (left) {
-                coolEncoderForward(.5, 225);
-                idle();
-                jewelHit.setPosition(0);
-                coolEncoderForward(-.3, 700);
-
-            } else if (!left) {
-                coolEncoderForward(-.3, 225);
-                sleep(1000);
-                jewelHit.setPosition(0);
-                sleep(1000);
-                coolEncoderForward(-.3, 250);
-            }
-
-            telemetry.addData("end of camera code", "");
-            telemetry.update();
+            jewelHit.setPosition(0);
             sleep(1000);
+            coolEncoderForward(-.3, 250);
+        }
 
-        /*int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        telemetry.addData("end of camera code", "");
+        telemetry.update();
+        sleep(1000);
+
+        coolEncoderForward(-.3, 2100);
+        idle();
+        sleep(1000);
+        turnLeft();
+        coolEncoderForward(-.3, 400);
+        sleep(1000);
+        manipPower(0.8);
+
+
+    }
+
+       /* int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
         parameters.vuforiaLicenseKey = "ATW/8fr/////AAAAGZ5Fjme7F0bTj0e+AOR2QIAOmUyzJb0YwYzAFqJZ9s/Mn3mkJq6MvoHNP03tdbewGWZg7BNT4+3qq8AydmSrU5Gbsvd35P3vIf1lJ36C9drgbusNC+rtTTW9lt6rGarj9kvrotz5c6CR2frUiNaxHK3JA6xEjyjGo8jvSgQ3YB03yW5rBdAAxRyKj/Ij30RL6ohnIyKDi03LvDBJiOlTMW3DvXnSgAU+D7TLEokjbjon1U3IS/zjGldbPi2Cv7D5Q98oIlTSfOxJpIgJ9kceLNAqoOQziy3CXc0FUeY8fTQ3/QKOKbF9brRCLoEAn9FmMc2m/MmMlwrImvoLyGvcQWcTabM1zxZXnXX4Q4+AUZaB";
@@ -235,7 +254,7 @@ public class blueSideCamera extends LinearOpModeCamera {
                 sleep(1000);
                 manipPower(0.8);
                 break;
-        } */
+        }
 
 
             coolEncoderForward(-.3, 1500);
@@ -257,8 +276,8 @@ public class blueSideCamera extends LinearOpModeCamera {
 
             telemetry.addLine().addData(">", "Done");
             telemetry.update();
-        }
-    }
+       } */
+
 
 
 
