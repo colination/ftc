@@ -30,6 +30,8 @@ public class RedSideAuto extends LinearOpMode {
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 5.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double ejectBlock = 0.7;
+    static final double moveSpeed = .6;
 
     // Define class members
     //double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
@@ -38,6 +40,7 @@ public class RedSideAuto extends LinearOpMode {
     DcMotor motorFL;
     DcMotor motorBR;
     DcMotor motorBL;
+    ElapsedTime time = new ElapsedTime();
 
     DcMotor collectLeft;
     DcMotor collectRight;

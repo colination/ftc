@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -30,6 +31,10 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 5.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double ejectBlock = 0.7;
+    static final double moveSpeed = .6;
+    static final int pushBlock = 400;
+    static final int cryptoDist = 1500;
 
     // Define class members
     //double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
@@ -38,6 +43,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
     DcMotor motorFL;
     DcMotor motorBR;
     DcMotor motorBL;
+    ElapsedTime time = new ElapsedTime();
 
     DcMotor collectLeft;
     DcMotor collectRight;
@@ -48,7 +54,12 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
     DcMotor lift;
 
     Servo jewelHit;
-    Servo manipServo;
+
+    CRServo manipFL;
+    CRServo manipFR;
+    CRServo manipBL;
+    CRServo manipBR;
+
 
     VuforiaLocalizer vuforia;
 
@@ -56,7 +67,11 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
     @Override
     public void runOpMode() {
         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
-        manipServo = hardwareMap.get(Servo.class, "manipServo");
+
+        manipBL = hardwareMap.get(CRServo.class, "manipBL");
+        manipBR = hardwareMap.get(CRServo.class, "manipBR");
+        manipFL = hardwareMap.get(CRServo.class, "manipBL");
+        manipFR = hardwareMap.get(CRServo.class, "manipFR");
         motorFL = hardwareMap.get(DcMotor.class, "motorFL");
         motorBL = hardwareMap.get(DcMotor.class, "motorBL");
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
@@ -106,6 +121,21 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTrackables.activate();
         */
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+
+        parameters.vuforiaLicenseKey = "ATW/8fr/////AAAAGZ5Fjme7F0bTj0e+AOR2QIAOmUyzJb0YwYzAFqJZ9s/Mn3mkJq6MvoHNP03tdbewGWZg7BNT4+3qq8AydmSrU5Gbsvd35P3vIf1lJ36C9drgbusNC+rtTTW9lt6rGarj9kvrotz5c6CR2frUiNaxHK3JA6xEjyjGo8jvSgQ3YB03yW5rBdAAxRyKj/Ij30RL6ohnIyKDi03LvDBJiOlTMW3DvXnSgAU+D7TLEokjbjon1U3IS/zjGldbPi2Cv7D5Q98oIlTSfOxJpIgJ9kceLNAqoOQziy3CXc0FUeY8fTQ3/QKOKbF9brRCLoEAn9FmMc2m/MmMlwrImvoLyGvcQWcTabM1zxZXnXX4Q4+AUZaB";
+
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+
+        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        VuforiaTrackable relicTemplate = relicTrackables.get(0);
+        relicTemplate.setName("relicVuMarkTemplate");
+
+        relicTrackables.activate();
+
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         while (opModeIsActive()) {//distnce 1600
 
 
@@ -115,8 +145,6 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             telemetry.update();
 
             // Set the servo to the new position and pause;
-            manipServo.setPosition(.7);
-            sleep(1000);
             jewelHit.setPosition(0);
             sleep(500);
             idle();
@@ -127,34 +155,32 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             telemetry.update();
             sleep(3000);
 
-            telemetry.update();
-
 
             if(sensorColor.red() > sensorColor.blue()) {
-                coolEncoderForward(.3, 225);
+                coolEncoderForward(moveSpeed, 225);
                 idle();
+                coolEncoderForward(-moveSpeed, 225);
                 jewelHit.setPosition(0);
-                coolEncoderForward(-.3, 1000);
+                //coolEncoderForward(-moveSpeed, cryptoDist);
 
 
             }
             else {
-                coolEncoderForward(-.3, 225);
+                coolEncoderForward(-moveSpeed, 225);
                 idle();
-
-                coolEncoderForward(-.3, 600);
+                coolEncoderForward(moveSpeed, 225);
                 jewelHit.setPosition(0);
+                //coolEncoderForward(-moveSpeed, cryptoDist);
             }
-            sleep(1000);
-            coolEncoderForward(-.3, 775);
-            idle();
+
+            /*idle();
             sleep(1000);
             rightEncoder(-.3, 1900);
             coolEncoderForward(-.3, 300);
             sleep(1000);
             manipServo.setPosition(0);
             sleep(1000);
-            manipulator.setPower(-1);
+            manipulator.setPower(-1);*/
 
             /*RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
@@ -198,12 +224,60 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
                     manipulator.setPower(-1);
                 }
             } */
-            manipulator.setPower(-1);
+
+            switch(vuMark) {
+                case LEFT :
+                    sleep(1000);
+                    coolEncoderForward(-moveSpeed, cryptoDist);
+                    idle();
+                    sleep(1000);
+                    rightEncoder(-moveSpeed, 1500);
+                    coolEncoderForward(-moveSpeed, pushBlock);
+                    sleep(1000);
+                    manipPower(-ejectBlock);
+                    break;
+
+                case RIGHT :
+                    sleep(1000);
+                    coolEncoderForward(-moveSpeed, cryptoDist);
+                    idle();
+                    sleep(1000);
+                    rightEncoder(-moveSpeed, 1700);
+                    coolEncoderForward(-moveSpeed, pushBlock);
+                    sleep(1000);
+                    manipPower(-ejectBlock);
+                    break;
+
+                case CENTER :
+                    sleep(1000);
+                    coolEncoderForward(-moveSpeed, cryptoDist);
+                    idle();
+                    sleep(1000);
+                    rightEncoder(-moveSpeed, 1600);//prev 1750 prev 1650 keeping 100 spread
+                    coolEncoderForward(-moveSpeed, pushBlock);
+                    sleep(1000);
+                    manipPower(-ejectBlock);
+                    break;
+
+                default:
+                    sleep(1000);
+                    telemetry.addData("defaultCenter", "");
+                    telemetry.update();
+                    coolEncoderForward(-moveSpeed, cryptoDist);
+                    idle();
+                    sleep(1000);
+                    rightEncoder(-moveSpeed, 1600);
+                    coolEncoderForward(-moveSpeed, pushBlock);
+                    sleep(1000);
+                    manipPower(-ejectBlock);
+                    break;
+            }
+
             sleep(3000);
             coolEncoderForward(.4, 300);
             sleep(500);
             coolEncoderForward(-.4, 325);
-            manipulator.setPower(0);
+            manipPower(0);
             coolEncoderForward(.4, 150);
             sleep(20000);
 
@@ -211,6 +285,13 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             telemetry.addLine().addData(">", "Done");
             telemetry.update();
         }
+    }
+
+    public void manipPower(double power) {
+        manipBL.setPower(-power);
+        manipBR.setPower(power);
+        manipFR.setPower(power);
+        manipFL.setPower(-power);
     }
 
     public void encoderReset() {
