@@ -130,29 +130,19 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
             jewelHit.setPosition(.84);
             sleep(1000);
             idle();
-            telemetry.addLine().addData("Color", sensorColor.red());
+            telemetry.addLine().addData("red Color", sensorColor.red());
             telemetry.update();
-            sleep(3000);
-
-            telemetry.update();
-
-
+            sleep(2000);
             if(sensorColor.red() > sensorColor.blue()) {
-                coolEncoderForward(.3, 225);
+                coolEncoderForward(moveSpeed, 225);
                 idle();
-
-
-                idle();
-
-                coolEncoderForward(-.3, 225);
+                coolEncoderForward(-moveSpeed, 225);
                 jewelHit.setPosition(0);
             }
             else {
-                coolEncoderForward(-.3, 225);
+                coolEncoderForward(-moveSpeed, 225);
                 idle();
-
-                //sleep(1000);
-                coolEncoderForward(.3, 225);
+                coolEncoderForward(moveSpeed, 225);
                 jewelHit.setPosition(0);
             }
             /*
@@ -169,7 +159,7 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
             sleep(5000);
 
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            telemetry.addData("reading vuforia", vuMark);
+            telemetry.addData("read vuforia", vuMark);
             telemetry.update();
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
@@ -178,15 +168,13 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
 
                 switch(vuMark) {
                     case LEFT : sleep(1000);
-                        coolEncoderForward(-.3, 2100);
+                        coolEncoderForward(-moveSpeed, 2100);
                         idle();
                         sleep(1000);
                         turnLeft();
-
-                        coolEncoderForward(-.3, 400);
+                        coolEncoderForward(-moveSpeed, 400);
                         sleep(1000);
-                        sleep(1000);
-                        manipPower(-.6);
+                        manipPower(-ejectBlock);
                         break;
 
                     case RIGHT : sleep(1000);
