@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -19,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 
 @Autonomous
-@Disabled
+//@Disabled
 public class RedSideAuto extends LinearOpMode {
 
     //static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
@@ -51,7 +52,10 @@ public class RedSideAuto extends LinearOpMode {
     DcMotor lift;
 
     Servo jewelHit;
-    Servo manipServo;
+    CRServo manipFL;
+    CRServo manipFR;
+    CRServo manipBL;
+    CRServo manipBR;
 
     VuforiaLocalizer vuforia;
 
@@ -59,7 +63,11 @@ public class RedSideAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
-        manipServo = hardwareMap.get(Servo.class, "manipServo");
+        manipBL = hardwareMap.get(CRServo.class, "manipBL");
+        manipBR = hardwareMap.get(CRServo.class, "manipBR");
+        manipFL = hardwareMap.get(CRServo.class, "manipBL");
+        manipFR = hardwareMap.get(CRServo.class, "manipFR");
+        motorFL = hardwareMap.get(DcMotor.class, "motorFL");
         motorFL = hardwareMap.get(DcMotor.class, "motorFL");
         motorBL = hardwareMap.get(DcMotor.class, "motorBL");
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
@@ -96,19 +104,20 @@ public class RedSideAuto extends LinearOpMode {
         VuforiaLocalizer vuforia;
 
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
-        parameters.vuforiaLicenseKey = "ATW/8fr/////AAAAGZ5Fjme7F0bTj0e+AOR2QIAOmUyzJb0YwYzAFqJZ9s/Mn3mkJq6MvoHNP03tdbewGWZg7BNT4+3qq8AydmSrU5Gbsvd35P3vIf1lJ36C9drgbusNC+rtTTW9lt6rGarj9kvrotz5c6CR2frUiNaxHK3JA6xEjyjGo8jvSgQ3YB03yW5rBdAAxRyKj/Ij30RL6ohnIyKDi03LvDBJiOlTMW3DvXnSgAU+D7TLEokjbjon1U3IS/zjGldbPi2Cv7D5Q98oIlTSfOxJpIgJ9kceLNAqoOQziy3CXc0FUeY8fTQ3/QKOKbF9brRCLoEAn9FmMc2m/MmMlwrImvoLyGvcQWcTabM1zxZXnXX4Q4+AUZaB";
-
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTrackables.activate();
 
         while (opModeIsActive()) {//distnce 1600
+            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+            VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+
+            parameters.vuforiaLicenseKey = "ATW/8fr/////AAAAGZ5Fjme7F0bTj0e+AOR2QIAOmUyzJb0YwYzAFqJZ9s/Mn3mkJq6MvoHNP03tdbewGWZg7BNT4+3qq8AydmSrU5Gbsvd35P3vIf1lJ36C9drgbusNC+rtTTW9lt6rGarj9kvrotz5c6CR2frUiNaxHK3JA6xEjyjGo8jvSgQ3YB03yW5rBdAAxRyKj/Ij30RL6ohnIyKDi03LvDBJiOlTMW3DvXnSgAU+D7TLEokjbjon1U3IS/zjGldbPi2Cv7D5Q98oIlTSfOxJpIgJ9kceLNAqoOQziy3CXc0FUeY8fTQ3/QKOKbF9brRCLoEAn9FmMc2m/MmMlwrImvoLyGvcQWcTabM1zxZXnXX4Q4+AUZaB";
+
+            parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+            this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+
+            VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+            VuforiaTrackable relicTemplate = relicTrackables.get(0);
+            relicTrackables.activate();
 
 
             // Display the current value
@@ -130,7 +139,7 @@ public class RedSideAuto extends LinearOpMode {
 
             // Set jewel starting position
 
-            manipServo.setPosition(.7);
+
             jewelHit.setPosition(0);
 
             idle();
@@ -165,21 +174,20 @@ public class RedSideAuto extends LinearOpMode {
                 coolEncoderForward(.3, 600);
             }*/
             if (sensorColor.red() > sensorColor.blue()) {
-                coolEncoderForward(-.5, 225);
+                coolEncoderForward(-moveSpeed, 225);
                 idle();
                 jewelHit.setPosition(0);
 
 
-                coolEncoderForward(.3, 700);
+                coolEncoderForward(moveSpeed, 225);
 
 
             } else {
-                coolEncoderForward(.3, 225);
-                sleep(1000);
-                jewelHit.setPosition(0);
-                sleep(1000);
+                coolEncoderForward(moveSpeed, 225);
+                idle();
 
-                coolEncoderForward(.3, 250);
+                coolEncoderForward(-moveSpeed, 225);
+                jewelHit.setPosition(0);
             }
 
             /*coolEncoderForward(.3, 1000); //11 17 25
@@ -196,7 +204,7 @@ public class RedSideAuto extends LinearOpMode {
             sleep(500);
             manipulator.setPower(-1);*/
             idle();
-            sleep(5000);
+
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             telemetry.addData("reading vuforia", vuMark);
             telemetry.update();
@@ -212,11 +220,11 @@ public class RedSideAuto extends LinearOpMode {
                         idle();
                         sleep(1000);
                         turnLeft();
+
                         coolEncoderForward(-.3, 400);
                         sleep(1000);
-                        manipServo.setPosition(1);
                         sleep(1000);
-                        manipulator.setPower(-1);
+                        manipPower(-.6);
                         break;
 
                     case RIGHT : sleep(1000);
@@ -226,9 +234,8 @@ public class RedSideAuto extends LinearOpMode {
                         turnLeft();
                         coolEncoderForward(-.3, 400);
                         sleep(1000);
-                        manipServo.setPosition(1);
                         sleep(1000);
-                        manipulator.setPower(-1);
+                        manipPower(-.6);
                         break;
 
                     case CENTER : sleep(1000);
@@ -238,9 +245,20 @@ public class RedSideAuto extends LinearOpMode {
                         turnLeft();
                         coolEncoderForward(-.3, 400);
                         sleep(1000);
-                        manipServo.setPosition(1);
                         sleep(1000);
-                        manipulator.setPower(-1);
+                        manipPower(-.6);
+                    default :
+                        //sleep(1000);
+                        coolEncoderForward(.3, 1500);
+                        idle();
+                        //sleep(1000);
+                        turnLeft();
+                        coolEncoderForward(-.3, 400);
+                        //sleep(1000);
+                        manipPower(-0.6);
+                        telemetry.addData("defaultCenter", "");
+                        telemetry.update();
+                        break;
 
 
                 }
@@ -285,18 +303,24 @@ public class RedSideAuto extends LinearOpMode {
 
             telemetry.addData("done reading vuforia", vuMark);
             telemetry.update();
-            manipulator.setPower(-1);
             sleep(3000);
             coolEncoderForward(.4, 300);
             sleep(500);
             coolEncoderForward(-.4, 325);
-            manipulator.setPower(0);
+            manipPower(0);
             coolEncoderForward(.4, 150);
             sleep(20000);
 
             telemetry.addLine().addData(">", "Done");
             telemetry.update();
         }
+    }
+
+    public void manipPower(double power) {
+        manipBL.setPower(-power);
+        manipBR.setPower(power);
+        manipFR.setPower(power);
+        manipFL.setPower(-power);
     }
 
 
