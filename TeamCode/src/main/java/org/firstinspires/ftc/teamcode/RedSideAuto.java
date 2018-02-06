@@ -177,15 +177,12 @@ public class RedSideAuto extends LinearOpMode {
                 coolEncoderForward(-moveSpeed, 225);
                 idle();
                 jewelHit.setPosition(0);
-
-
                 coolEncoderForward(moveSpeed, 225);
 
 
             } else {
                 coolEncoderForward(moveSpeed, 225);
                 idle();
-
                 coolEncoderForward(-moveSpeed, 225);
                 jewelHit.setPosition(0);
             }
@@ -216,30 +213,30 @@ public class RedSideAuto extends LinearOpMode {
 
                 switch(vuMark) {
                     case LEFT : sleep(1000);
-                        coolEncoderForward(.3, 2100);
+                        coolEncoderForward(moveSpeed, 2100);
                         idle();
                         sleep(1000);
                         turnLeft();
 
-                        coolEncoderForward(-.3, 400);
+                        coolEncoderForward(-moveSpeed, 400);
                         sleep(1000);
                         sleep(1000);
                         manipPower(-.6);
                         break;
 
                     case RIGHT : sleep(1000);
-                        coolEncoderForward(.3, 850);
+                        coolEncoderForward(moveSpeed, 850);
                         idle();
                         sleep(1000);
                         turnLeft();
-                        coolEncoderForward(-.3, 400);
+                        coolEncoderForward(-moveSpeed, 400);
                         sleep(1000);
                         sleep(1000);
                         manipPower(-.6);
                         break;
 
                     case CENTER : sleep(1000);
-                        coolEncoderForward(.3, 1500);
+                        coolEncoderForward(moveSpeed, 1500);
                         idle();
                         sleep(1000);
                         turnLeft();

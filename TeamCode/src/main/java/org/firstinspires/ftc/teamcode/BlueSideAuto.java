@@ -178,34 +178,34 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
                         break;
 
                     case RIGHT : sleep(1000);
-                        coolEncoderForward(-.3, 850);
+                        coolEncoderForward(-moveSpeed, 850);
                         idle();
                         sleep(1000);
                         turnLeft();
-                        coolEncoderForward(-.3, 400);
+                        coolEncoderForward(-moveSpeed, 400);
                         sleep(1000);
                         sleep(1000);
-                        manipPower(-.6);
+                        manipPower(-ejectBlock);
                         break;
 
                     case CENTER : sleep(1000);
-                        coolEncoderForward(-.3, 1500);
+                        coolEncoderForward(-moveSpeed, 1500);
                         idle();
                         sleep(1000);
                         turnLeft();
                         coolEncoderForward(-.3, 400);
                         sleep(1000);
                         sleep(1000);
-                        manipPower(-.6);
+                        manipPower(-ejectBlock);
                     default :
                         //sleep(1000);
-                        coolEncoderForward(-.3, 1500);
+                        coolEncoderForward(-moveSpeed, 1500);
                         idle();
                         //sleep(1000);
                         turnLeft();
-                        coolEncoderForward(-.3, 400);
+                        coolEncoderForward(-moveSpeed, 400);
                         //sleep(1000);
-                        manipPower(-0.6);
+                        manipPower(-ejectBlock);
                         telemetry.addData("defaultCenter", "");
                         telemetry.update();
                         break;
@@ -256,11 +256,11 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
             telemetry.addData("done reading vuforia", vuMark);
             telemetry.update();
             sleep(3000);
-            coolEncoderForward(.4, 300);
+            coolEncoderForward(moveSpeed, 300);
             sleep(500);
-            coolEncoderForward(-.4, 325);
+            coolEncoderForward(-moveSpeed, 325);
             manipPower(0);
-            coolEncoderForward(.4, 150);
+            coolEncoderForward(moveSpeed, 150);
             sleep(20000);
 
 
