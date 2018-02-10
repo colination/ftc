@@ -29,12 +29,23 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import static android.R.attr.angle;
 
 /**
  * This OpMode scans a single servo back and forwards until Stop is pressed.
@@ -70,6 +81,12 @@ public class servoMTest extends LinearOpMode {
     DcMotor motorFL;
     DcMotor motorBR;
     DcMotor motorBL;
+    BNO055IMU imu;
+
+    CRServo manipFL;
+    CRServo manipFR;
+    CRServo manipBL;
+    CRServo manipBR;
 
     DcMotor collectLeft;
     DcMotor collectRight;
@@ -83,42 +100,55 @@ public class servoMTest extends LinearOpMode {
     Servo manipServo;
 
 
+
+
     @Override
     public void runOpMode() {
-
+        // need to test if robot can get onto platform may want to get robot variable distances
         // Connect to servo (Assume PushBot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
-        manipServo = hardwareMap.get(Servo.class, "manipServo");
+
         motorFL = hardwareMap.get(DcMotor.class, "motorFL");
         motorBL = hardwareMap.get(DcMotor.class, "motorBL");
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
-        sensorColor = hardwareMap.get(ColorSensor.class, "jewelColor");
-        manipulator = hardwareMap.dcMotor.get("manipulator");
+
+        manipBL = hardwareMap.get(CRServo.class, "manipBL");
+        manipBR = hardwareMap.get(CRServo.class, "manipBR");
+        manipFL = hardwareMap.get(CRServo.class, "manipBL");
+        manipFR = hardwareMap.get(CRServo.class, "manipFR");
 
         motorFL.setDirection(DcMotor.Direction.REVERSE);
         motorBL.setDirection(DcMotor.Direction.REVERSE);
-
 
         motorFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-
-
         motorFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-
-
         collectLeft = hardwareMap.dcMotor.get("collectLeft");
         collectRight = hardwareMap.dcMotor.get("collectRight");
 
         lift = hardwareMap.dcMotor.get("lift");
+
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        //parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+
+
 
         // Wait for the start button
         // Wait for the start button
@@ -128,16 +158,64 @@ public class servoMTest extends LinearOpMode {
 
 
         // Scan servo till stop pressed.
-        while(opModeIsActive()){//1cm = 17 ticks forward
+        while(opModeIsActive()){//1cm = 17 ticks forward'
+            manipFL.setPower(-.6);
+            sleep(2000);
+            manipFR.setPower(-.6);
+            sleep(2000);
+            manipBL.setPower(-.6);
+            sleep(2000);
+            manipFR.setPower(-.6);
+            sleep(5000);
+
+
+            jewelHit.setPosition(0);
+            sleep(2000);
+            jewelHit.setPosition(.92);
+            sleep(2000);
+            jewelHit.setPosition(0);
+            sleep(2000);
+            jewelHit.setPosition(.92);
+            sleep(2000);
+            jewelHit.setPosition(.0);
 
             // Display the current value
-            telemetry.addLine().addData("Servo Position", "%5.2f", jewelHit.getPosition());
+
+            manipPower(-.6);
+            sleep(10000);
+
+            /*while (firstAngle() < 90)
+            {
+                telemetry.addData(">", "%5.2f", firstAngle() );
+                telemetry.addLine().addData("third", "%5.2f", thirdAngle());
+
+
+                telemetry.update();
+                motorFL.setPower(.3);
+                motorFR.setPower(-.3);
+                motorBL.setPower(.3);
+                motorBR.setPower(-.3);
+
+            }*/
+            /*telemetry.addLine().addData("Robot", "%5.2f", getAngle());
             telemetry.addLine().addData(">", "Press Stop to end test." );
             telemetry.update();
 
+            sleep(3000);
+            telemetry.addLine().addData(">", "%5.2f", getAngle() );
+            telemetry.update();
+            sleep(3000);
+
+            telemetry.addLine().addData(">", "%5.2f", getAngle() );
+            telemetry.update();
+            sleep(3000);*/
+
             // Set the servo to the new position and pause;
-            coolEncoderForward(.3, 100);
+            manipServo.setPosition(.7);
+            sleep(6000);
+            turnAround();
             sleep(1000);
+            turnAround();
             jewelHit.setPosition(0);
             sleep(1000);
             idle();
@@ -176,6 +254,29 @@ public class servoMTest extends LinearOpMode {
 
         // Signal done;
 
+    }
+
+
+    public void manipPower(double power) {
+        manipBL.setPower(-power);
+        manipBR.setPower(power);
+        manipFR.setPower(power);
+        manipFL.setPower(-power);
+    }
+
+    public double secondAngle() {
+        Orientation angles = imu.getAngularOrientation();
+        return angles.secondAngle;
+    }
+
+    public double firstAngle() {
+        Orientation angles = imu.getAngularOrientation();
+        return  angles.firstAngle;
+    }
+
+    public double thirdAngle() {
+        Orientation angles = imu.getAngularOrientation();
+        return  angles.thirdAngle;
     }
 
     public void encoderReset() {
@@ -269,7 +370,7 @@ public class servoMTest extends LinearOpMode {
 
     public void turnAround() {
         encoderReset();
-        while ((Math.abs(motorFR.getCurrentPosition()) < 2700) && (opModeIsActive())) {//clockwise
+        while ((Math.abs(motorFR.getCurrentPosition()) < 2800) && (opModeIsActive())) {//clockwise
             motorFL.setPower(.5);
             motorFR.setPower(-.5);
             motorBL.setPower(.5);

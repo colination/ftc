@@ -35,7 +35,10 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
     static final double ejectBlock = 0.7;
     static final double moveSpeed = .6;
     static final int pushBlock = 400;
+    //
     static final int cryptoDist = 1500;
+    static final int cryptoInt = 200;
+    static final int cryptoMid = 1600;
 
     // Define class members
     //double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
@@ -49,7 +52,6 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
     DcMotor collectLeft;
     DcMotor collectRight;
 
-    DcMotor manipulator;
 
     ColorSensor sensorColor;
     DcMotor lift;
@@ -78,7 +80,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
         sensorColor = hardwareMap.get(ColorSensor.class, "jewelColor");
-        manipulator = hardwareMap.dcMotor.get("manipulator");
+
 
         motorFL.setDirection(DcMotor.Direction.REVERSE);
         motorBL.setDirection(DcMotor.Direction.REVERSE);
@@ -148,28 +150,25 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
 
             sleep(500);
             idle();
-            jewelHit.setPosition(.84);
-            sleep(1000);
+            jewelHit.setPosition(.98);
+            sleep(2500);
             idle();
-            telemetry.addLine().addData("Color", sensorColor.red());
+            telemetry.addLine().addData("red", sensorColor.red());
             telemetry.addLine().addData("blue", sensorColor.blue());
             telemetry.update();
-            sleep(2000);
 
-            telemetry.update();
-
-            if(sensorColor.red() > sensorColor.blue()) {
-                coolEncoderForward(-.3, 225);
+            if(sensorColor.red() > sensorColor.blue() + sensorColor.blue() * .4) {
+                coolEncoderForward(-moveSpeed, 235);
                 idle();
 
-                coolEncoderForward(.3, 225);
+                coolEncoderForward(moveSpeed, 235);
                 jewelHit.setPosition(0);
             }
             else {
-                coolEncoderForward(.3, 225);
+                coolEncoderForward(moveSpeed, 235);
                 idle();
 
-                coolEncoderForward(-.3, 225);
+                coolEncoderForward(-moveSpeed, 235);
                 jewelHit.setPosition(0);
             }
             //coolEncoderForward(.3, 1350);
@@ -185,7 +184,8 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
             sleep(1000);
             manipulator.setPower(-1);*/
             idle();
-            sleep(5000);
+            sleep(3000);
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
             //RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             telemetry.addData("read vuforia", vuMark);
             telemetry.update();
@@ -240,54 +240,54 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
             switch(vuMark) {
                 case LEFT :
                     sleep(1000);
-                    coolEncoderForward(.3, 500);
+                    coolEncoderForward(moveSpeed, cryptoDist);
                     idle();
                     sleep(1000);
-                    rightEncoder(-.3, 1950);
+                    rightEncoder(-moveSpeed, cryptoMid + cryptoInt);
                     turnAround();
-                    coolEncoderForward(-.3, 850);
+                    coolEncoderForward(-moveSpeed, 850);
 
                     sleep(1000);
-                    manipPower(-0.6);
+                    manipPower(-ejectBlock);
                     break;
 
                 case RIGHT :
                     sleep(1000);
-                    coolEncoderForward(.3, 500);
+                    coolEncoderForward(moveSpeed, cryptoDist);
                     idle();
                     sleep(1000);
-                    rightEncoder(-.3, 1550);
+                    rightEncoder(-moveSpeed, cryptoMid - cryptoInt);
                     turnAround();
-                    coolEncoderForward(-.3, 850);
+                    coolEncoderForward(-moveSpeed, 850);
 
                     sleep(1000);
-                    manipulator.setPower(-0.8);
+                    manipPower(ejectBlock);
                     break;
 
                 case CENTER :
                     sleep(1000);
-                    coolEncoderForward(.3,500);
+                    coolEncoderForward(moveSpeed,cryptoDist);
                     idle();
                     sleep(1000);
-                    rightEncoder(-.3, 1750);
+                    rightEncoder(-moveSpeed, cryptoMid);
                     turnAround();
-                    coolEncoderForward(-.3, 850);
+                    coolEncoderForward(-moveSpeed, 850);
 
                     sleep(1000);
-                    manipPower(-0.6);
+                    manipPower(-ejectBlock);
                     break;
 
                 default :
                     sleep(1000);
-                    coolEncoderForward(.3, 500);
+                    coolEncoderForward(moveSpeed, cryptoDist);
                     idle();
                     sleep(1000);
-                    rightEncoder(-.3, 1750);
+                    rightEncoder(-moveSpeed, cryptoMid);
                     turnAround();
-                    coolEncoderForward(-.3, 850);
+                    coolEncoderForward(-moveSpeed, 850);
 
                     sleep(1000);
-                    manipPower(-0.6);
+                    manipPower(-ejectBlock);
                     telemetry.addData("defaultCenter", "");
                     telemetry.update();
                     break;
@@ -296,11 +296,11 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
             telemetry.update();
 
             sleep(3000);
-            coolEncoderForward(.4, 300);
+            coolEncoderForward(moveSpeed, 300);
             sleep(500);
-            coolEncoderForward(-.4, 325);
+            coolEncoderForward(-moveSpeed, 325);
             manipPower(0);
-            coolEncoderForward(.4, 150);
+            coolEncoderForward(moveSpeed, 150);
             sleep(20000);
             telemetry.addLine().addData(">", "Done");
             telemetry.update();
@@ -333,8 +333,8 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
             motorFR.setPower(speed);
             motorBL.setPower(speed);
             motorBR.setPower(speed);
-            telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
-            telemetry.update();
+            //telemetry.addData("Encoder", (Math.abs(motorFR.getCurrentPosition())));
+            //telemetry.update();
         }
         motorFL.setPower(0);
         motorFR.setPower(0);

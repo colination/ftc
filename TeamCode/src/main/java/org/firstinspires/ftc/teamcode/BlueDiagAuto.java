@@ -20,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 
 @Autonomous
-@Disabled
+//@Disabled
 public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
 
     //static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
@@ -34,7 +34,10 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
     static final double ejectBlock = 0.7;
     static final double moveSpeed = .6;
     static final int pushBlock = 400;
+    //
     static final int cryptoDist = 1500;
+    static final int cryptoInt = 200;
+    static final int cryptoMid = 1600;
 
     // Define class members
     //double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
@@ -48,7 +51,6 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
     DcMotor collectLeft;
     DcMotor collectRight;
 
-    DcMotor manipulator;
 
     ColorSensor sensorColor;
     DcMotor lift;
@@ -77,7 +79,6 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
         sensorColor = hardwareMap.get(ColorSensor.class, "jewelColor");
-        manipulator = hardwareMap.dcMotor.get("manipulator");
 
         motorFL.setDirection(DcMotor.Direction.REVERSE);
         motorBL.setDirection(DcMotor.Direction.REVERSE);
@@ -149,27 +150,28 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             jewelHit.setPosition(0);
             sleep(500);
             idle();
-            jewelHit.setPosition(.84);
-            sleep(1000);
+            jewelHit.setPosition(.98);
+            sleep(2000);
             idle();
-            telemetry.addLine().addData("Color", sensorColor.red());
+            telemetry.addLine().addData("red", sensorColor.red());
+            telemetry.addLine().addData("blue", sensorColor.blue());
             telemetry.update();
-            sleep(3000);
+            sleep(2000);
 
 
-            if(sensorColor.red() > sensorColor.blue()) {
-                coolEncoderForward(moveSpeed, 225);
+            if(sensorColor.red() > sensorColor.blue() + sensorColor.blue() * .4) {
+                coolEncoderForward(moveSpeed, 235);
                 idle();
-                coolEncoderForward(-moveSpeed, 225);
+                coolEncoderForward(-moveSpeed, 235);
                 jewelHit.setPosition(0);
                 //coolEncoderForward(-moveSpeed, cryptoDist);
 
 
             }
             else {
-                coolEncoderForward(-moveSpeed, 225);
+                coolEncoderForward(-moveSpeed, 235);
                 idle();
-                coolEncoderForward(moveSpeed, 225);
+                coolEncoderForward(moveSpeed, 235);
                 jewelHit.setPosition(0);
                 //coolEncoderForward(-moveSpeed, cryptoDist);
             }
@@ -232,7 +234,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
                     coolEncoderForward(-moveSpeed, cryptoDist);
                     idle();
                     sleep(1000);
-                    rightEncoder(-moveSpeed, 1500);
+                    rightEncoder(-moveSpeed, cryptoMid - cryptoInt);
                     coolEncoderForward(-moveSpeed, pushBlock);
                     sleep(1000);
                     manipPower(-ejectBlock);
@@ -243,7 +245,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
                     coolEncoderForward(-moveSpeed, cryptoDist);
                     idle();
                     sleep(1000);
-                    rightEncoder(-moveSpeed, 1700);
+                    rightEncoder(-moveSpeed, cryptoMid + cryptoInt);
                     coolEncoderForward(-moveSpeed, pushBlock);
                     sleep(1000);
                     manipPower(-ejectBlock);
@@ -254,7 +256,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
                     coolEncoderForward(-moveSpeed, cryptoDist);
                     idle();
                     sleep(1000);
-                    rightEncoder(-moveSpeed, 1600);//prev 1750 prev 1650 keeping 100 spread
+                    rightEncoder(-moveSpeed, cryptoMid);//prev 1750 prev 1650 keeping 100 spread
                     coolEncoderForward(-moveSpeed, pushBlock);
                     sleep(1000);
                     manipPower(-ejectBlock);
@@ -267,7 +269,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
                     coolEncoderForward(-moveSpeed, cryptoDist);
                     idle();
                     sleep(1000);
-                    rightEncoder(-moveSpeed, 1600);
+                    rightEncoder(-moveSpeed, cryptoMid);
                     coolEncoderForward(-moveSpeed, pushBlock);
                     sleep(1000);
                     manipPower(-ejectBlock);

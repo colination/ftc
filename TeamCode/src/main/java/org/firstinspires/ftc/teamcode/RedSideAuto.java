@@ -33,6 +33,9 @@ public class RedSideAuto extends LinearOpMode {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double ejectBlock = 0.7;
     static final double moveSpeed = .6;
+    static final int cryptoInt = 600;
+    static final int cryptoMid = 3100;
+
 
     // Define class members
     //double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
@@ -46,7 +49,7 @@ public class RedSideAuto extends LinearOpMode {
     DcMotor collectLeft;
     DcMotor collectRight;
 
-    DcMotor manipulator;
+
 
     ColorSensor sensorColor;
     DcMotor lift;
@@ -73,7 +76,7 @@ public class RedSideAuto extends LinearOpMode {
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
         sensorColor = hardwareMap.get(ColorSensor.class, "jewelColor");
-        manipulator = hardwareMap.dcMotor.get("manipulator");
+
 
         motorFL.setDirection(DcMotor.Direction.REVERSE);
         motorBL.setDirection(DcMotor.Direction.REVERSE);
@@ -145,17 +148,13 @@ public class RedSideAuto extends LinearOpMode {
             idle();
             sleep(1000);
 
-            jewelHit.setPosition(.84);
-            sleep(1000);
+            jewelHit.setPosition(.98);
+            sleep(2000);
 
 
-            telemetry.addLine().addData("Colorrb", sensorColor.red());
+            telemetry.addLine().addData("red", sensorColor.red());
             telemetry.addLine().addData("blue", sensorColor.blue());
             telemetry.update();
-            sleep(3000);
-
-            telemetry.update();
-
 
             /*if (sensorColor.red() > 15) {
                 coolEncoderForward(-.5, 225);
@@ -173,17 +172,18 @@ public class RedSideAuto extends LinearOpMode {
 
                 coolEncoderForward(.3, 600);
             }*/
-            if (sensorColor.red() > sensorColor.blue()) {
-                coolEncoderForward(-moveSpeed, 225);
+            if (sensorColor.red() > sensorColor.blue() + sensorColor.blue() * .4) {
+                coolEncoderForward(-moveSpeed, 250);
+                idle();
+
+                coolEncoderForward(moveSpeed, 250);
                 idle();
                 jewelHit.setPosition(0);
-                coolEncoderForward(moveSpeed, 225);
-
 
             } else {
-                coolEncoderForward(moveSpeed, 225);
+                coolEncoderForward(moveSpeed, 250);
                 idle();
-                coolEncoderForward(-moveSpeed, 225);
+                coolEncoderForward(-moveSpeed, 250);
                 jewelHit.setPosition(0);
             }
 
@@ -206,14 +206,13 @@ public class RedSideAuto extends LinearOpMode {
             telemetry.addData("reading vuforia", vuMark);
             telemetry.update();
 
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
                 // Found an instance of the template.
                 telemetry.addData("VuMark", "%s visible", vuMark);
 
                 switch(vuMark) {
                     case LEFT : sleep(1000);
-                        coolEncoderForward(moveSpeed, 2100);
+                        coolEncoderForward(moveSpeed, cryptoMid + cryptoInt);
                         idle();
                         sleep(1000);
                         turnLeft();
@@ -225,7 +224,7 @@ public class RedSideAuto extends LinearOpMode {
                         break;
 
                     case RIGHT : sleep(1000);
-                        coolEncoderForward(moveSpeed, 850);
+                        coolEncoderForward(moveSpeed, cryptoMid - cryptoInt);//850 300 point spread now// 1100 400 spread
                         idle();
                         sleep(1000);
                         turnLeft();
@@ -236,7 +235,7 @@ public class RedSideAuto extends LinearOpMode {
                         break;
 
                     case CENTER : sleep(1000);
-                        coolEncoderForward(moveSpeed, 1500);
+                        coolEncoderForward(moveSpeed, cryptoMid);
                         idle();
                         sleep(1000);
                         turnLeft();
@@ -246,7 +245,7 @@ public class RedSideAuto extends LinearOpMode {
                         manipPower(-.6);
                     default :
                         //sleep(1000);
-                        coolEncoderForward(.3, 1500);
+                        coolEncoderForward(moveSpeed, cryptoMid);
                         idle();
                         //sleep(1000);
                         turnLeft();
@@ -296,16 +295,16 @@ public class RedSideAuto extends LinearOpMode {
                     sleep(1000);
                     manipulator.setPower(-1);
                 } */
-            }
+
 
             telemetry.addData("done reading vuforia", vuMark);
             telemetry.update();
             sleep(3000);
-            coolEncoderForward(.4, 300);
+            coolEncoderForward(moveSpeed, 300);
             sleep(500);
-            coolEncoderForward(-.4, 325);
+            coolEncoderForward(-moveSpeed, 325);
             manipPower(0);
-            coolEncoderForward(.4, 150);
+            coolEncoderForward(moveSpeed, 150);
             sleep(20000);
 
             telemetry.addLine().addData(">", "Done");
@@ -368,7 +367,7 @@ public class RedSideAuto extends LinearOpMode {
 
     public void turnLeft() {
         encoderReset();
-        while ((Math.abs(motorFR.getCurrentPosition()) < 1350) && (opModeIsActive())) {//clockwise
+        while ((Math.abs(motorFR.getCurrentPosition()) < 1600) && (opModeIsActive())) {//clockwise previously 1350 1400
             motorFL.setPower(-.5);
             motorFR.setPower(.5);
             motorBL.setPower(-.5);

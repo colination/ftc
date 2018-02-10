@@ -34,6 +34,9 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
 
     static final double ejectBlock = 0.7;
     static final double moveSpeed = .6;
+    static final int cryptoMid = 3100;
+    static final int cryptoInt = 600;
+
     // Define class members
     //double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     //boolean rampUp = true;
@@ -46,7 +49,7 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
     DcMotor collectLeft;
     DcMotor collectRight;
 
-    DcMotor manipulator;
+
 
     ColorSensor sensorColor;
     DcMotor lift;
@@ -73,7 +76,7 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
         motorFR = hardwareMap.get(DcMotor.class, "motorFR");
         motorBR = hardwareMap.get(DcMotor.class, "motorBR");
         sensorColor = hardwareMap.get(ColorSensor.class, "jewelColor");
-        manipulator = hardwareMap.dcMotor.get("manipulator");
+
 
         motorFL.setDirection(DcMotor.Direction.REVERSE);
         motorBL.setDirection(DcMotor.Direction.REVERSE);
@@ -127,22 +130,24 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
             jewelHit.setPosition(0);
             sleep(500);
             idle();
-            jewelHit.setPosition(.84);
-            sleep(1000);
+            jewelHit.setPosition(.98);
+            sleep(2000);
             idle();
             telemetry.addLine().addData("red Color", sensorColor.red());
+            telemetry.addLine().addData("blue", sensorColor.blue());
+
             telemetry.update();
             sleep(2000);
-            if(sensorColor.red() > sensorColor.blue()) {
-                coolEncoderForward(moveSpeed, 225);
+            if(sensorColor.red() > sensorColor.blue() + sensorColor.blue() * .4) {
+                coolEncoderForward(moveSpeed, 250);
                 idle();
-                coolEncoderForward(-moveSpeed, 225);
+                coolEncoderForward(-moveSpeed, 250);
                 jewelHit.setPosition(0);
             }
             else {
-                coolEncoderForward(-moveSpeed, 225);
+                coolEncoderForward(-moveSpeed, 250);
                 idle();
-                coolEncoderForward(moveSpeed, 225);
+                coolEncoderForward(moveSpeed, 250);
                 jewelHit.setPosition(0);
             }
             /*
@@ -161,14 +166,14 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             telemetry.addData("read vuforia", vuMark);
             telemetry.update();
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+
 
                 // Found an instance of the template.
                 telemetry.addData("VuMark", "%s visible", vuMark);
 
                 switch(vuMark) {
                     case LEFT : sleep(1000);
-                        coolEncoderForward(-moveSpeed, 2100);
+                        coolEncoderForward(-moveSpeed, cryptoMid - cryptoInt);
                         idle();
                         sleep(1000);
                         turnLeft();
@@ -178,7 +183,7 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
                         break;
 
                     case RIGHT : sleep(1000);
-                        coolEncoderForward(-moveSpeed, 850);
+                        coolEncoderForward(-moveSpeed, cryptoMid + cryptoInt);
                         idle();
                         sleep(1000);
                         turnLeft();
@@ -189,7 +194,7 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
                         break;
 
                     case CENTER : sleep(1000);
-                        coolEncoderForward(-moveSpeed, 1500);
+                        coolEncoderForward(-moveSpeed, cryptoMid);
                         idle();
                         sleep(1000);
                         turnLeft();
@@ -199,7 +204,7 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
                         manipPower(-ejectBlock);
                     default :
                         //sleep(1000);
-                        coolEncoderForward(-moveSpeed, 1500);
+                        coolEncoderForward(-moveSpeed, cryptoMid);
                         idle();
                         //sleep(1000);
                         turnLeft();
@@ -252,7 +257,7 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
                     sleep(1000);
                     manipulator.setPower(-1);
                 }*/
-            }
+
             telemetry.addData("done reading vuforia", vuMark);
             telemetry.update();
             sleep(3000);
