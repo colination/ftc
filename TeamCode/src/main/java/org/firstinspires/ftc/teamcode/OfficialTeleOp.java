@@ -222,12 +222,12 @@ public class OfficialTeleOp extends LinearOpMode {
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             //RELIC CLAW
-            if (gamepad2.x) {
+            if (gamepad1.x) {
 
                 relicClaw.setPosition(0);
             }
-            if (gamepad2.y) {
-                relicClaw.setPosition(.5);
+            if (gamepad1.y) {
+                relicClaw.setPosition(.8);
             }
             //RELIC ARM
             if (gamepad2.left_stick_y > stickCenterThreshold) {
