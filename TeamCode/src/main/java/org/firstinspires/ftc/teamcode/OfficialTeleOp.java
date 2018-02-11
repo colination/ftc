@@ -110,7 +110,6 @@ public class OfficialTeleOp extends LinearOpMode {
         //relicArm.setDirection(DcMotor.Direction.FORWARD);
 
 
-
         // Set all motors to zero power
         motorFL.setPower(fLPower);
         motorFR.setPower(fRPower);
@@ -126,8 +125,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
             jewelHit.setPosition(jewelPosition);
             //in case servo falls
-            if (gamepad2.a && gamepad2.x)
-            {
+            if (gamepad2.a && gamepad2.x) {
                 jewelPosition = .15;
             }
             // BASE : Gamepad 1, Joysticks
@@ -224,7 +222,7 @@ public class OfficialTeleOp extends LinearOpMode {
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             //RELIC CLAW
-            if (gamepad2.x){
+            if (gamepad2.x) {
 
                 relicClaw.setPosition(0);
             }
@@ -244,8 +242,10 @@ public class OfficialTeleOp extends LinearOpMode {
             if (gamepad1.b) {
                 relicWrist.setPosition(.25);
             }
-
         }
+    }
+
+
     public double valueConvert(double controllerValue) {
 
         if(Math.abs(controllerValue) <= .03){
