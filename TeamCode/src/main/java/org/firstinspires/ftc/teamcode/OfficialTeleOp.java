@@ -230,18 +230,30 @@ public class OfficialTeleOp extends LinearOpMode {
                 relicClaw.setPosition(.8);
             }
             //RELIC ARM
-            if (gamepad2.left_stick_y > stickCenterThreshold) {
-                relicArm.setPower(gamepad2.left_stick_y / 4);
+            if (Math.abs(gamepad2.right_stick_y) > stickCenterThreshold) {
+                relicArm.setPower(gamepad2.right_stick_y);
             } else {
                 relicArm.setPower(0);
             }
             //RELIC WRIST
             if (gamepad1.a) {
-                relicWrist.setPower(0);
+                relicWrist.setPower(.5);
+                telemetry.addData("relic wrist power", relicWrist.getPower());
+                telemetry.update();
             }
             if (gamepad1.b) {
-                relicWrist.setPower(.5);
+                relicWrist.setPower(-.5);
+                telemetry.addData("relic wrist power", relicWrist.getPower());
+                telemetry.update();
             }
+            if(!gamepad1.a && !gamepad1.b) {
+                relicWrist.setPower(0);
+                telemetry.addData("relic wrist power", relicWrist.getPower());
+                telemetry.update();
+            }
+            telemetry.addData("relic wrist power", relicWrist.getPower());
+            telemetry.update();
+
         }
     }
 
