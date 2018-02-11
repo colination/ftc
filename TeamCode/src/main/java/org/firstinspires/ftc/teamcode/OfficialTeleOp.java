@@ -47,9 +47,10 @@ public class OfficialTeleOp extends LinearOpMode {
 
 
     // RELIC ARM
-    //DcMotor relicArm;
+    DcMotor relicArm;
     Servo relicClaw;
     Servo relicWrist;
+
 
 
     public double fLPower = 0.0;
@@ -78,7 +79,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
         relicClaw = hardwareMap.get(Servo.class, "relicClaw");
         relicWrist = hardwareMap.get(Servo.class, "relicWrist");
-        //relicArm = hardwareMap.get(DcMotor.class, "relicArm");
+        relicArm = hardwareMap.get(DcMotor.class, "relicArm");
 
 
         jewelHit = hardwareMap.get(Servo.class, "jewelHit");
@@ -231,10 +232,10 @@ public class OfficialTeleOp extends LinearOpMode {
                 relicClaw.setPosition(.5);
             }
             //RELIC ARM
-            /*if (gamepad2.left_stick_y > stickCenterThreshold) {
+            if (gamepad2.left_stick_y > stickCenterThreshold) {
                 relicArm.setPower(gamepad2.left_stick_y / 4);
             } else {
-                relicArm.setPower(0);*/
+                relicArm.setPower(0);
             }
             //RELIC WRIST
             if (gamepad1.a) {
