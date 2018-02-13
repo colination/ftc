@@ -38,7 +38,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
     //
     static final int cryptoDist = 1500;
     static final int cryptoInt = 200;
-    static final int cryptoMid = 1600;
+    static final int cryptoMid = 1500;
 
     // Define class members
     //double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
@@ -150,7 +150,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
 
             sleep(500);
             idle();
-            jewelHit.setPosition(.98);
+            jewelHit.setPosition(.99);
             sleep(2500);
             idle();
             telemetry.addLine().addData("red", sensorColor.red());
@@ -245,7 +245,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
                     sleep(1000);
                     rightEncoder(-moveSpeed, cryptoMid + cryptoInt);
                     turnAround();
-                    coolEncoderForward(-moveSpeed, 850);
+                    coolEncoderForward(-moveSpeed, 500);
 
                     sleep(1000);
                     manipPower(-ejectBlock);
@@ -258,7 +258,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
                     sleep(1000);
                     rightEncoder(-moveSpeed, cryptoMid - cryptoInt);
                     turnAround();
-                    coolEncoderForward(-moveSpeed, 850);
+                    coolEncoderForward(-moveSpeed, 500);
 
                     sleep(1000);
                     manipPower(ejectBlock);
@@ -271,7 +271,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
                     sleep(1000);
                     rightEncoder(-moveSpeed, cryptoMid);
                     turnAround();
-                    coolEncoderForward(-moveSpeed, 850);
+                    coolEncoderForward(-moveSpeed, 500);
 
                     sleep(1000);
                     manipPower(-ejectBlock);

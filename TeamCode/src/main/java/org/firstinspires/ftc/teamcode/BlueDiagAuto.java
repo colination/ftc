@@ -150,7 +150,7 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
             jewelHit.setPosition(0);
             sleep(500);
             idle();
-            jewelHit.setPosition(.98);
+            jewelHit.setPosition(.99);
             sleep(2000);
             idle();
             telemetry.addLine().addData("red", sensorColor.red());

@@ -59,7 +59,7 @@ public class OfficialTeleOp extends LinearOpMode {
     public double bRPower = 0.0;
 
     private double speed = .5;
-    private double jewelPosition = .55;
+    private double jewelPosition = .48;
     private double stickCenterThreshold = .1;
     private double stickPushSmall = .2;
     private double stickPushLarge = .8;
@@ -103,11 +103,13 @@ public class OfficialTeleOp extends LinearOpMode {
         manipFR.setDirection(CRServo.Direction.FORWARD);
         manipFL.setDirection(CRServo.Direction.FORWARD);
 
+        relicArm.setDirection(DcMotor.Direction.REVERSE);
+
         lift.setDirection(DcMotor.Direction.REVERSE);
 
         collectLeft.setDirection(DcMotor.Direction.FORWARD);
         collectRight.setDirection(DcMotor.Direction.FORWARD);
-        //relicArm.setDirection(DcMotor.Direction.FORWARD);
+
 
 
         // Set all motors to zero power
@@ -126,7 +128,7 @@ public class OfficialTeleOp extends LinearOpMode {
             jewelHit.setPosition(jewelPosition);
             //in case servo falls
             if (gamepad2.a && gamepad2.x) {
-                jewelPosition = .25;
+                jewelPosition = .35;
             }
             // BASE : Gamepad 1, Joysticks
             double stickLX = valueConvert(gamepad1.left_stick_x);
@@ -260,18 +262,18 @@ public class OfficialTeleOp extends LinearOpMode {
 
     public double valueConvert(double controllerValue) {
 
-        if(Math.abs(controllerValue) <= .03){
+        if(Math.abs(controllerValue) <= .01){
              return 0;
         }
-        if(Math.abs(controllerValue) > .03 && Math.abs(controllerValue) <= .6){
+        if(Math.abs(controllerValue) > .01 && Math.abs(controllerValue) <= .7){
             if (controllerValue < 0) {
-                return (1/4 * controllerValue - .02);
+                return (1/8 * controllerValue);
             }
             else {
-                return (1/4 * controllerValue + .02);
+                return (1/8 * controllerValue);
             }
         }
-        if(Math.abs(controllerValue) > .6 && Math.abs(controllerValue) <= .95){
+        if(Math.abs(controllerValue) > .7 && Math.abs(controllerValue) <= .95){
             if (controllerValue < 0) {
                 return (2/3 * controllerValue - .15);
             }

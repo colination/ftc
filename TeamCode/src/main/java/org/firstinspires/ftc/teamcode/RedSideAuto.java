@@ -148,7 +148,7 @@ public class RedSideAuto extends LinearOpMode {
             idle();
             sleep(1000);
 
-            jewelHit.setPosition(.98);
+            jewelHit.setPosition(.99);
             sleep(2000);
 
 
