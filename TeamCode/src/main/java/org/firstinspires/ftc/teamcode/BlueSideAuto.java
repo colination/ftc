@@ -139,15 +139,15 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
             telemetry.update();
             sleep(2000);
             if(sensorColor.red() > sensorColor.blue() + sensorColor.blue() * .4) {
-                coolEncoderForward(moveSpeed, 250);
+                coolEncoderForward(moveSpeed, 240);
                 idle();
-                coolEncoderForward(-moveSpeed, 250);
+                coolEncoderForward(-moveSpeed, 240);
                 jewelHit.setPosition(0);
             }
             else {
-                coolEncoderForward(-moveSpeed, 250);
+                coolEncoderForward(-moveSpeed, 240);
                 idle();
-                coolEncoderForward(moveSpeed, 250);
+                coolEncoderForward(moveSpeed, 240);
                 jewelHit.setPosition(0);
             }
             /*
@@ -161,7 +161,7 @@ public class BlueSideAuto extends LinearOpMode {//STILL RED SIDE AUTO
             manipServo.setPosition(0);
             sleep(1000);*/
             idle();
-            sleep(5000);
+            sleep(4000);
 
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             telemetry.addData("read vuforia", vuMark);

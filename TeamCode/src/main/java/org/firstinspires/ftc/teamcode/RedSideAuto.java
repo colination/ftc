@@ -173,17 +173,17 @@ public class RedSideAuto extends LinearOpMode {
                 coolEncoderForward(.3, 600);
             }*/
             if (sensorColor.red() > sensorColor.blue() + sensorColor.blue() * .4) {
-                coolEncoderForward(-moveSpeed, 250);
+                coolEncoderForward(-moveSpeed, 240);
                 idle();
 
-                coolEncoderForward(moveSpeed, 250);
+                coolEncoderForward(moveSpeed, 240);
                 idle();
                 jewelHit.setPosition(0);
 
             } else {
-                coolEncoderForward(moveSpeed, 250);
+                coolEncoderForward(moveSpeed, 240);
                 idle();
-                coolEncoderForward(-moveSpeed, 250);
+                coolEncoderForward(-moveSpeed, 240);
                 jewelHit.setPosition(0);
             }
 

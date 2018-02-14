@@ -160,18 +160,18 @@ public class BlueDiagAuto extends LinearOpMode {//STILL RED SIDE AUTO
 
 
             if(sensorColor.red() > sensorColor.blue() + sensorColor.blue() * .4) {
-                coolEncoderForward(moveSpeed, 235);
+                coolEncoderForward(moveSpeed, 240);
                 idle();
-                coolEncoderForward(-moveSpeed, 235);
+                coolEncoderForward(-moveSpeed, 240);
                 jewelHit.setPosition(0);
                 //coolEncoderForward(-moveSpeed, cryptoDist);
 
 
             }
             else {
-                coolEncoderForward(-moveSpeed, 235);
+                coolEncoderForward(-moveSpeed, 240);
                 idle();
-                coolEncoderForward(moveSpeed, 235);
+                coolEncoderForward(moveSpeed, 240);
                 jewelHit.setPosition(0);
                 //coolEncoderForward(-moveSpeed, cryptoDist);
             }

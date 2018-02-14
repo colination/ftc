@@ -59,7 +59,7 @@ public class OfficialTeleOp extends LinearOpMode {
     public double bRPower = 0.0;
 
     private double speed = .5;
-    private double jewelPosition = .48;
+    private double jewelPosition = .49;
     private double stickCenterThreshold = .1;
     private double stickPushSmall = .2;
     private double stickPushLarge = .8;

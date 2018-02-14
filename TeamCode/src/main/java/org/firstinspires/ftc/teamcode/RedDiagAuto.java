@@ -158,17 +158,17 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
             telemetry.update();
 
             if(sensorColor.red() > sensorColor.blue() + sensorColor.blue() * .4) {
-                coolEncoderForward(-moveSpeed, 235);
+                coolEncoderForward(-moveSpeed, 240);
                 idle();
 
-                coolEncoderForward(moveSpeed, 235);
+                coolEncoderForward(moveSpeed, 240);
                 jewelHit.setPosition(0);
             }
             else {
-                coolEncoderForward(moveSpeed, 235);
+                coolEncoderForward(moveSpeed, 240);
                 idle();
 
-                coolEncoderForward(-moveSpeed, 235);
+                coolEncoderForward(-moveSpeed, 240);
                 jewelHit.setPosition(0);
             }
             //coolEncoderForward(.3, 1350);
