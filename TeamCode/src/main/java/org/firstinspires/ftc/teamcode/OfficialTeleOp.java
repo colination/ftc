@@ -128,7 +128,7 @@ public class OfficialTeleOp extends LinearOpMode {
             jewelHit.setPosition(jewelPosition);
             //in case servo falls
             if (gamepad2.a && gamepad2.x) {
-                jewelPosition = .35;
+                jewelPosition = .45;
             }
             // BASE : Gamepad 1, Joysticks
             double stickLX = valueConvert(gamepad1.left_stick_x);
@@ -198,10 +198,10 @@ public class OfficialTeleOp extends LinearOpMode {
                 manipBL.setPower(0);
             }
 
-            if (gamepad2.b) {
+            if (gamepad2.y) {
                 manipBR.setPower(.8);
                 manipBL.setPower(-.8);
-            } else if (gamepad2.b && gamepad2.y) {
+            } else if (gamepad2.y && gamepad2.b) {
                 manipBR.setPower(.8);
                 manipBL.setPower(-.8);
                 manipFR.setPower(.8);
@@ -211,7 +211,7 @@ public class OfficialTeleOp extends LinearOpMode {
                 manipBR.setPower(-.8);
                 manipBL.setPower(.8);
             }
-            if (gamepad2.y) {
+            if (gamepad2.b) {
                 manipFR.setPower(.8);
                 manipFL.setPower(-.8);
             }
@@ -265,15 +265,10 @@ public class OfficialTeleOp extends LinearOpMode {
         if(Math.abs(controllerValue) <= .01){
              return 0;
         }
-        if(Math.abs(controllerValue) > .01 && Math.abs(controllerValue) <= .7){
-            if (controllerValue < 0) {
-                return (1/8 * controllerValue);
-            }
-            else {
-                return (1/8 * controllerValue);
-            }
+        if(Math.abs(controllerValue) > .01 && Math.abs(controllerValue) <= .2){
+                return (1/3 * controllerValue);
         }
-        if(Math.abs(controllerValue) > .7 && Math.abs(controllerValue) <= .95){
+        if(Math.abs(controllerValue) > .2 && Math.abs(controllerValue) <= .95){
             if (controllerValue < 0) {
                 return (2/3 * controllerValue - .15);
             }

@@ -162,6 +162,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
                 idle();
 
                 coolEncoderForward(moveSpeed, 240);
+                idle();
                 jewelHit.setPosition(0);
             }
             else {
@@ -169,6 +170,7 @@ public class RedDiagAuto extends LinearOpMode {//STILL RED SIDE
                 idle();
 
                 coolEncoderForward(-moveSpeed, 240);
+                idle();
                 jewelHit.setPosition(0);
             }
             //coolEncoderForward(.3, 1350);
